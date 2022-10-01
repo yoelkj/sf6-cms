@@ -1,0 +1,17 @@
+<div class="list-group">
+    {% for product in products %}
+        {% set translation = product.translation %}
+        <a role="option" class="list-group-item list-group-item-action"
+            href="{{path('app_product', {slug: translation.slug})}}">
+            
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="px-1">{{ translation.name }}</span>
+                </div>
+                <em>{{ product.weightGrammage|round(1, 'floor') }}g</em>
+            </div>
+        </a>
+    {% else %}
+        <div class="list-group-item" role="option" aria-disabled="true">No results found!</div>
+    {% endfor %}
+</div>

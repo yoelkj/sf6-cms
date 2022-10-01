@@ -1,0 +1,12 @@
+<div class="shortcuts my-3">
+
+    <a href="{{path('app_catalog', {slug: 'productos-y-marcas', brand: 'all'})}}">
+        <h5 class="border rounded-pill px-3 py-1">
+            {{'All products'|trans}}
+        </h5>
+    </a>
+
+    {% for row in products %}
+        {{ include('page/_productsLine.html.twig', {data: row.data, title: row.title}) }}
+    {% endfor %}
+</div>

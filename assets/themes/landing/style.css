@@ -1,0 +1,33 @@
+@import '~bootstrap';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '~@fontsource/roboto-condensed';
+
+.main-wrapper {
+    height: 100vh;  
+}
+
+.section {
+    height: 100%;  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.half {
+    width: 100%;
+    margin: 15px 0;
+}
+
+#present-countries img{
+    width: 60%;
+}
+
+#present-countries a{
+    text-decoration:none;
+}
+
+#present-countries h2, #present-countries a{ 
+    color: #fcfcfc;
+    font-size: 1.2em;
+}

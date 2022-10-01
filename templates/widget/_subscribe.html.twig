@@ -1,0 +1,27 @@
+<div class="primary_color">
+<div class="container subscribe py-5" >
+
+    {{ component('flashmsg') }}
+
+    <div class="subscribe-child m-0 m-md-3 m-sm-2 py-1 py-md-5 py-sm-2" >  
+        <form action="{{path('app_proccess_form')}}" method="POST" class="subscribe-form py-1 py-md-5 py-sm-2 px-1 px-md-5 px-xs-2 rounded" action="" style="background-color: {{obj_widget.bgColor}}">
+            <div class="row">
+
+                <div class="col-md-4" style="color:{{obj_widget.textColor}}">
+                    {{obj_widget.getTranslateBody|raw}}
+                </div>
+
+                <div class="col-md-8">
+                    <div class="input-group mb-3">
+                        <input id="email" name="email" type="email" class="form-control" placeholder="{{'Please enter an email'|trans}}" aria-label="Recipient's username" aria-describedby="button-subscriber">
+                        <input name="proccess" type="hidden" value="subscriber">
+                        <button class="btn btn-light btn-outline-secondary border-0 border-start-1" type="submit" id="button-subscriber">{{'Subscribe'|trans|upper}}</button>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+</div>

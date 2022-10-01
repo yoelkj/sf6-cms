@@ -1,0 +1,49 @@
+{# max-h-100px" #}
+{% set gallery = obj_widget.gallery %}
+{% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
+
+<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      {% for image in images %}
+      {% set lpi = loop.index - 1 %}
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{lpi}}" {{(lpi == 0) ? ' class="active" aria-current="true" ': '' }} aria-label="Slide {{lpi}}"></button>
+      {% endfor %}
+    </div>
+
+    <div class="carousel-inner">
+
+      {% for image in images %}
+
+      {% set lpi = loop.index - 1 %}
+      {#style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));"#}
+      <div class="carousel-item {{(lpi == 0 ? 'active' : '')}}" style="background-color: #000">
+        
+        <img class="d-block w-100 opacity-50" src="{{image.getImageUrl()}}">
+        
+        <div class="container">
+          <div class="carousel-caption text-center">
+            
+            <div data-aos="fade-up" data-aos-duration="3000" data-aos-delay="100">
+              {{image.body|raw}}
+            </div>
+
+            {% if image.link %} 
+              <p data-aos="fade-up" data-aos-delay="250"><a class="btn btn-lg btn-light" href="{{image.link}}">{{'View more'|trans}}</a></p>
+            {% endif %}
+          </div>
+        </div>
+        
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>

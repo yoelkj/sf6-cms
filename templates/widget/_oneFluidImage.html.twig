@@ -1,0 +1,38 @@
+{% set translation = obj_widget.getTranslation %}
+<div class="container">
+    <div class="row my-3">
+        <div class="col-md text-center"><h2>{{translation.name}}</h2></div>
+    </div>
+    <div class="row">
+        {% if translation %}
+            
+            {% if  (translation.getBodyImageUrl is null and obj_widget.bgImageUrl)  %}
+                
+            <div class="col-md py-3" style="
+                background-image: url('{{obj_widget.bgImageUrl}}');
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                min-height:250px;">
+                
+                <br>                        
+            </div>
+
+            {% else %}
+
+                {% if translation.getBodyImageUrl %}
+
+                    <div class="col-md py-3">
+                        <img class="img-fluid w-100" src="{{translation.getBodyImageUrl}}">
+                    </div>
+
+                {% endif %}
+
+            {% endif %}
+            
+        {% else %}
+            <div class="alert alert-warning">No translation available</div>
+        {% endif %}
+    </div>
+</div>
+</div>

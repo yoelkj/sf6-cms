@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{obj_row_translation.name}}{% endblock %}
+{% block meta %}
+    <meta name="description" content="{{(obj_row_translation.body)|striptags|slice(0, 400) }}">            
+{% endblock %}
+
+{% block body %}
+
+<div id="productPage" style="margin-top: 10em;">
+
+    <div class="container my-5">
+
+        <div class="row justify-content-md-end">    
+            
+            <div class="col-md-9">
+            <div class="row justify-content-md-end">
+            
+                {% set gallery = obj_row.gallery %}
+                
+                {% if gallery %}
+                    
+                    {% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
+                    
+                    {% if images|length == 1 %}
+
+                        <div class="col-md-5">
+                            {% for image in images %}
+                            <div class="item">
+                                <img class="d-block w-100" src="{{image.getImageUrl()}}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    
+                    {% elseif images|length > 1 %}
+
+                        <div class="col-md-5">
+
+                            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+                                <div class="carousel-indicators">
+                                    {% for image in images %}
+                                        {% set lpi = loop.index - 1 %}
+                                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{lpi}}" {{(lpi == 0) ? ' class="active" aria-current="true" ' : ''}} aria-label="Slide {{loop.index - 1}}"></button>
+                                    {% endfor %}                            
+                                </div>
+                                <div class="carousel-inner">
+                                    {% for image in images %}
+
+                                    {% set lpi = loop.index - 1 %}
+                                    <div class="carousel-item {{  (lpi == 0) ? 'active':''}}">
+                                        <img class="d-block w-100" src="{{image.getImageUrl()}}">
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        
+                        </div>
+
+                    {% endif %}
+                    
+                
+                {% endif %}
+
+                <div class="col-md-7">
+                    <div>
+                        <h1 class="border-bottom">{{obj_row_translation.name}}</h1>
+
+                        <div {{stimulus_controller('share-buttons') }} 
+                    
+                        data-url="{{app.request.uri}}"
+                        data-title="{{obj_row_translation.name}}"
+                        data-desc="{{(obj_row_translation.body)|striptags|slice(0, 140)}}"
+                        class="share-btn my-3">
+                            Shared on:  
+                            <a data-id="fb"><i class="fa-brands fa-lg fa-facebook"></i></a>
+                            <a data-id="tw"><i class="fa-brands fa-lg fa-twitter-square"></i></a>
+                            <a data-id="tg"><i class="fa-brands fa-lg fa-telegram"></i></a>
+                            <a data-id="mail"><i class="fa-solid fa-lg fa-envelope"></i></a>
+
+                        </div>
+
+                        {{obj_row_translation.body|raw}}
+
+
+                         <div class="row my-1">
+                            <div class="col-md">
+                                <table class="table">
+                                        
+                                    <tbody>
+                                        <tr>
+                                            <td ><span class="fw-bold">{{'Net content'|trans}}</span></td>
+                                            <td ><span class="fw-bold">{{'Quantity per box'|trans}}</span></td>
+                                            <td ><span class="fw-bold">{{'Shelf life in months'|trans}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-0">{{obj_row.weightGrammage|round(1, 'floor')}}g</td>
+                                            <td class="border-0">{{obj_row.quantityPerBox}}</td>
+                                            <td class="border-0">{{obj_row.storageLifeMonths}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div><!--END .row-->
+
+
+            
+           
+
+
+            </div><!--END .col-->
+
+
+            <div class="col-md-3 border-start">
+                <div id="contentPurchase">
+                 
+                    {% set session_translate = app.session.get('appParam').translate(app.request.locale) %}
+                    {% set wp_message = session_translate.wpCommerceText %}
+                    {% set wp_body = session_translate.wpCommerceBody %}
+                    {% set sales_number = (app.session.get('appParam').phoneSales) ?app.session.get('appParam').phoneSales : app.session.get('appParam').phoneMain %}
+                    
+                    <h5 {{stimulus_controller('wp-send-message', 
+                        {
+                            phone: sales_number,
+                            message: wp_message ~' '~ app.request.uri
+                        }
+                    ) }} ><a href="javascript:void(0);" data-action="click->wp-send-message#handleClick"><img src="/uploads/common/wp.png" class="d-inline" style="width:30px;"> Cotiza por whatsapp</a></h5>                    
+                    
+                    <div class="alert alert-info">{{wp_body|raw}}</div>
+                </div>
+            </div>
+  
+        </div>
+    </div>
+
+    {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets, use_title: true, main_product: obj_row}) }}
+
+</div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="{{app.request.locale}}">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{{app.session.get('appParam').legalName}}{% endblock %}</title>
+        {#
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">#}
+        <link rel="icon" href="/uploads/favicon/{{ app.session.get('appParam').favicon }}">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% block meta %}
+            
+        {% endblock %}
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('landing_theme') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('landing_theme') }} 
+        {% endblock %}
+
+        <style>
+            .bg_color_main{background: {{app.session.get('appParam').bgColorMain}}}
+            .bg_color_secondary{background: {{app.session.get('appParam').bgColorSecondary}}}
+            .primary_color{background: {{app.session.get('appParam').primaryColor}}}
+            .secondary_color{background: {{app.session.get('appParam').secondaryColor}}}
+            .tertiary_color{background: {{app.session.get('appParam').tertiaryColor}}}
+        </style>
+   
+    </head>
+    
+    <body id="landing-theme" class="bg_color_main">
+        {% block body %}{% endblock %}
+    </body>
+</html>
+
+{#
+{% if is_granted('ROLE_ADMIN') %}
+<a class="text-white" href="{{ ea_url()
+    .setController('App\\Controller\\Admin\\QuestionCrudController')
+    .setAction('edit')
+    .setEntityId(question.id)
+}}">
+        <span class="fa fa-edit"></span>
+    </a>
+{% endif %}
+#}
+
+
+{#
+<a href="https://wa.me/51999999999?text=Hola%2C+tengo+una+consulta..." id="okapi-wasb-button" target="_blank">
+	<img id="okapi-wasb-icon" src="https://homepage.com/assets/wp.png">
+</a>
+#}

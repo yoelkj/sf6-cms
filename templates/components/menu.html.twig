@@ -1,0 +1,146 @@
+<div id="header">
+    {#style="background-color: rgba(0, 166, 235, .85)"#}
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top pt-5">
+        <div class="container">
+            <a class="navbar-brand" href="{{path('app_homepage_local')}}">
+                <div class="container-logo ">
+                    <img id="logoApp" src="/uploads/logo/{{ app.session.get('appParam').logo }}">
+                    {% if app.session.get('appParam').translate(app.request.locale).slogan %}
+                        <em>{{app.session.get('appParam').translate(app.request.locale).slogan}}</em>    
+                    {% endif %}
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+
+            <ul class="navbar-nav nav ms-auto col-12 col-sm-12 col-md-10 mb-2 justify-content-end mt-5 mb-md-0 mt-md-0 mt-lg-0 mt-xl-0  mt-xxl-0">
+                {% for menuItem in this.menuItems %}
+                    
+                    {% set childMenu =  menuItem.menus %}
+                    {% set chilItems = childMenu|length %}
+                    <li class="nav-item {{chilItems > 0 ? 'dropdown': '' }}" >
+
+                        {% set obj_page = menuItem.getPage() %}
+                        {% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
+                        {% set page_slug = (obj_page_translation) ? obj_page_translation.slug : '' %}
+                        {% set page_name = (obj_page_translation) ? obj_page_translation.name : '' %}
+                        
+                        {% if page_slug %}
+                            {% if obj_page.isCatalog == true %}
+                                {% set obj_brand = menuItem.getBrand() %}
+                                {% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
+                                {#
+                                {% set obj_category = menuItem.getcategory() %}
+                                {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+                                {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+                                #}
+                                {% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug }) : '' %}
+                            {% else %}
+                                {% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
+                            {% endif %}
+                        {% else %}
+                            {% set urlpage = '#' %}
+                        {% endif %}
+
+                        <a class="nav-link {{chilItems > 0 ? 'dropdown-toggle': ''}}" href="{{(urlpage) ? urlpage : '#' }}" {{ chilItems > 0 ?'id="navbarDropdown-{{menuItem.id}}" role="button" data-bs-toggle="dropdown" aria-expanded="false"' : ''}} >{{menuItem.getTranslateName|upper}}</a>
+
+                        {% if chilItems > 0 %}
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown-{{menuItem.id}}">
+
+                            <li><a class="dropdown-item" href="{{urlpage}}">{{menuItem.getTranslateName|upper}}</a></li>    
+                            
+                            {% for chilMenuItem in childMenu %}
+
+                                {% set obj_page = chilMenuItem.getPage() %}
+                                {% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
+                                {% set page_slug = (obj_page_translation) ? obj_page_translation.slug : '' %}
+                                {% set page_name = (obj_page_translation) ? obj_page_translation.name : '' %}
+                                
+                                {% if page_slug %}
+                                
+                                    {% if obj_page.isCatalog == true %}
+                                        {% set obj_brand = chilMenuItem.getBrand() %}
+                                        {% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
+                                        
+                                        {#
+                                        {% set obj_category = chilMenuItem.getcategory() %}
+                                        {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+                                        {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+                                        #}
+                                        
+                                        {% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug }) : '' %}
+                                    
+                                    {% else %}
+                                        {% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
+                                    {% endif %}
+                                {% else %}
+                                    {% set urlpage = '#' %}
+                                {% endif %}
+
+                                <li><a class="dropdown-item" href="{{ (urlpage) ? urlpage : '#' }}">{{chilMenuItem.getTranslateName|upper}}</a></li>
+                            {% endfor %}
+                            </ul>    
+                        {% endif %}
+                    
+                    </li>
+                {% endfor %}
+                
+                <li class="nav-item">
+                    <a class="nav-link px-2 " data-bs-toggle="offcanvas" href="#offcanvasSearch" role="button" aria-controls="offcanvasSearch" href="#"><i class="fas fa-search"></i></a>
+                </li>
+                <li class="nav-item">{{ include('widget/_language.html.twig', {primaryColor: '#fff', secondaryColor: 'transparent'}) }}</li>
+
+            </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSearch" aria-labelledby="offcanvasSearchLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasSearchLabel">{{'Search'|upper|trans}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+            <form class="card card-sm">
+                <div id="custom-search-input">
+                <div
+                    class="input-group"
+                    {{ stimulus_controller('autocomplete', {
+                        url: path('app_search', { preview: 1 })
+                    }) }}
+                >
+                    <input
+                        name="q"
+                        {#value="{{ searchTerm }}"#}
+                        placeholder="{{'Search products'|trans}}"
+                        type="search"
+                        class="form-control input-lg mx-1"
+                        data-autocomplete-target="input"
+                    >
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        
+                    </span>
+
+                    <div
+                        class="search-preview"
+                        data-autocomplete-target="results">
+                    </div>
+                </div>
+
+                </div>
+            </form>
+
+            {{ component('shortcut') }}
+            
+        </div>
+    </div>
+</div>

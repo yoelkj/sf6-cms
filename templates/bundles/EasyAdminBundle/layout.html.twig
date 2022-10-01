@@ -1,0 +1,115 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block content_footer_wrapper %}
+    
+    <section class="content-footer">
+        <div class="m-3 text-center">
+            ©  {{app.session.get('appParam').name}} {{"now"|date("Y")}}. {{'All rights reserved'| trans }}
+        </div>
+    </section>
+    
+{% endblock content_footer_wrapper %}
+
+{#
+{% block content_top_header %}
+<div class="content-search">
+    {% if has_search %}
+        {% block search_new %}
+
+            <form class="form-action-search" method="get">
+                {% block search_form_new %}
+                    {% block search_form_filters_new %}
+                        {% for field, array in ea.search.appliedFilters %}
+                            {% for key, value in array %}
+                                {% if value is iterable %}
+                                    {% for index, iterValue in value %}
+                                        {% if iterValue is iterable %}
+                                            {% for subIndex, subIterValue in iterValue %}
+                                                <input type="hidden" name="filters[{{ field }}][{{ key }}][{{ index }}][{{ subIndex }}]" value="{{ subIterValue }}">
+                                            {% endfor %}
+                                        {% else %}
+                                            <input type="hidden" name="filters[{{ field }}][{{ key }}][{{ index }}]" value="{{ iterValue }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <input type="hidden" name="filters[{{ field }}][{{ key }}]" value="{{ value }}">
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+
+                    <input type="hidden" name="crudAction" value="index">
+                    <input type="hidden" name="crudControllerFqcn" value="{{ ea.request.query.get('crudControllerFqcn') }}">
+                    <input type="hidden" name="menuIndex" value="{{ ea.request.query.get('menuIndex') }}">
+                    <input type="hidden" name="submenuIndex" value="{{ ea.request.query.get('submenuIndex') }}">
+                    <input type="hidden" name="page" value="1">
+
+                    <div class="form-group">
+                        <div class="form-widget">
+                            <i class="fas fa-search content-search-icon"></i>
+
+                            <label class="content-search-label" data-value="{{ app.request.get('query') }}">
+                                <input class="form-control {{ app.request.get('query') is null ? 'is-blank' }}" type="search" name="query" value="{{ app.request.get('query') ?? '' }}" placeholder="{{ t('action.search', ea.i18n.translationParameters, 'EasyAdminBundle')|trans }}" spellcheck="false" autocorrect="off" onInput="this.parentNode.dataset.value=this.value"{% if ea.crud.currentAction == 'index' and ea.crud.autofocusSearch == true %} autofocus="autofocus"{% endif %}>
+                            </label>
+
+                            {% if app.request.get('query') %}
+                                <a href="{{ ea_url().unset('query') }}" class="content-search-reset">
+                                    <i class="fas fa-fw fa-times"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endblock %}
+            </form>
+        {% endblock search_new %}
+    {% endif %}
+</div>
+
+<div class="navbar-custom-menu">
+
+    <div class="dropdown">
+        <a class="pe-3" type="button" data-bs-toggle="dropdown" data-bs-offset="0,5" aria-expanded="false">ES</a>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                <a href="#" class="dropdown-item " referrerpolicy="origin-when-cross-origin">
+                <i class="fa fa-fw fa-sign-out"></i><span>English</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="dropdown-item " referrerpolicy="origin-when-cross-origin">
+                <i class="fa fa-fw fa-sign-out"></i><span>Spanish</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="navbar-custom-menu">
+    {% block header_custom_menu_new %}
+        <div class="dropdown user-menu-wrapper {{ is_granted(impersonator_permission) ? 'user-is-impersonated' }}">
+            <a class="user-details" type="button" data-bs-toggle="dropdown" data-bs-offset="0,5" aria-expanded="false">
+                {{ user_menu_avatar }}
+                {% if ea.userMenu.isNameDisplayed %}
+                    <span class="user-name">{{ ea.userMenu.name }}</span>
+                {% endif %}
+            </a>
+
+            {{ user_menu_dropdown }}
+        </div>
+    {% endblock header_custom_menu_new %}
+</div>
+
+{% if ea.dashboardHasDarkModeEnabled %}
+    <div class="navbar-custom-menu">
+        <div class="dropdown dropdown-appearance">
+            <a class="dropdown-appearance-button" type="button" data-bs-toggle="dropdown" data-bs-offset="0,5" aria-expanded="false">
+                <i class="fas fa-adjust"></i>
+            </a>
+
+            {{ appearance_menu_dropdown }}
+        </div>
+    </div>
+{% endif %}
+    
+{% endblock content_top_header %}
+#}
+

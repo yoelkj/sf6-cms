@@ -1,0 +1,60 @@
+{% if title %}
+    {% set title_text = title %}
+{% else %}
+
+    {% if type == 'bestsellers' %}
+        {% set title_text = 'Best seller products'|trans %}
+    {% elseif type == 'news' %}
+        {% set title_text = 'New products'|trans %}
+    {% elseif type == 'recommendeds' %}
+        {% set title_text = 'Recommended products'|trans %}
+    {% elseif type == 'relateds' %}
+        {% set title_text = 'Related products'|trans %}
+    {% endif %}
+
+{% endif %}
+
+<div id="owlCaroucel{{type}}Container" class="container my-3">
+    <div class="row py-3">
+        <div class="col-md-6">
+            <h2>{{ (title_text is defined) ? title_text : '' }}</h2>        
+        </div>
+        <div class="col-md-6 text-end">
+            <h2>
+            <a class="border-bottom title" href="{{path('app_catalog', {slug: 'productos-y-marcas', brand: 'all'})}}">{{'View more products'|trans}}</a>        
+            </h2>
+        </div>
+    </div>
+    <div class="row">  
+        <div class="col-md-12">
+            <div id="{{'owlCaroucel' ~ (type)}}" {{stimulus_controller('owl-caroucel', {targetId: '#owlCaroucel'~(type), items: 4})}} class="owl-carousel owl-theme">
+                {% for product in products %}
+                    {% set translation = product.translation %}
+                    {% set gallery = product.gallery %}
+
+                    
+                    {% if gallery %}
+                        {% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
+                        
+                        {% for image in images|slice(0, 1) %}
+                        <div class="item">
+                            
+                            <div class="wrapper-img">
+                                <a href="{{path('app_product', {slug: translation.slug})}}">
+                                <img class="img-fluid" src="{{image.getImageUrl()}}">
+                                </a>
+                            </div>
+                            <a href="{{path('app_product', {slug: translation.slug})}}">
+                            <h5 class="text-center">{{translation.name}}</h5>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        
+                    {% endif %}
+                    
+                        
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

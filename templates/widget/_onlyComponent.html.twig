@@ -1,0 +1,17 @@
+
+
+
+
+{% set translation = obj_widget.getTranslation %}
+
+{#obj_widget.useRelatedProductsComponent#}
+
+{% if obj_widget.useNewProductsComponent  %}
+    {{ component('products', { type: 'news', title: translation.name }) }}
+{% elseif obj_widget.useBestSellerComponent %}
+    {{ component('products', { type: 'bestsellers', title: translation.name }) }}
+{% elseif obj_widget.useRecommendedProductsComponent %}
+    {{ component('products', { type: 'recommendeds', title: translation.name }) }}
+{% else %}
+    {{ component('products', { type: 'relateds', product: (product is defined) ? product : 0, title: translation.name }) }}
+{% endif %}

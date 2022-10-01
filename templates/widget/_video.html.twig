@@ -1,0 +1,39 @@
+{% set translation = obj_widget.getTranslation %}
+{% set background_color  = (obj_widget.bgImageUrl or translation.body) ? 'background-color:'~obj_widget.bgColor : '' %}
+
+{% set background_video_color = (obj_widget.bgImageUrl or translation.body) ? '#ffffff' : '' %}
+
+
+
+<div class="presentation py-5" style="{{background_color}}">
+
+    <div class="container">
+        
+        <div class="row">
+            {% if translation %}
+                
+                {% if obj_widget.bgImageUrl or translation.body %}  
+                <div id="presentation-body" class="col-md py-3" style="
+                    background-image: url('{{obj_widget.bgImageUrl}}');
+                    ">
+                        {% if translation.getBodyImageUrl %}
+                            <img class="img-fluid" src="{{translation.getBodyImageUrl}}">
+                        {% endif %}
+                        
+                        {#{{translation.name}}#}
+                        {{translation.body|raw}}      
+                </div>
+                {% endif %}
+
+                <div class="col-md">
+                    <div class="rounded-3 p-3" style="background-color: {{ (background_video_color) ? background_video_color : obj_widget.bgColor}}">
+                        <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{translation.bodyVideo}}?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="alert alert-warning">No translation available</div>
+            {% endif %}
+        </div>
+    </div>
+</div>

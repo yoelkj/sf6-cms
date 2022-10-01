@@ -1,0 +1,40 @@
+{% extends "clear.html.twig" %}
+
+{% set company = app.session.get('appParam') %}
+
+{% block title %} Homepage | {{parent()}} {% endblock %}
+{% block body %}
+
+
+<div class="main-wrapper row primary_color">
+        <div class="section left col-md-6 ">
+            <div class="half">
+                
+                <div class="logo my-3 text-center">
+                    <a href="/" >
+                        <img alt="logo-footer" src="/uploads/logo/{{ company.logoSecondary }}">
+                    </a>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div id="present-countries" class="w-50 d-flex">
+                    {% for country in countries %}                    
+                            <div class="text-center">
+                                <a href="/{{country.code}}/">
+                                <img src="{{country.getFlagUrl()}}">
+                                <h2>{{country.name}}</h2>
+                                </a>
+                            </div>
+                    {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="section right col-md-6" style="background-image: url('{{obj_row.bgImageUrl}}');background-repeat: no-repeat;
+  background-size: cover;">
+        </div>
+</div><!--//.main-wrapper-->
+
+{{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+
+{% endblock %}

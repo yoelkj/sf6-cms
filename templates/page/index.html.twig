@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{obj_row_translation.name}}{% endblock %}
+
+{% block body %}
+
+<div id="page">
+
+    <div class="cover" style="background-color:#000">
+        <img class="opacity-50" src="{{obj_row.bgImageUrl}}">
+        <div class="cover-caption" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="100">
+            <h1 class="text-center">{{obj_row_translation.name|upper}}</h1>    
+        </div>
+    </div>
+
+    <div class="container my-5">
+
+        <div class="row">
+            <div class="col-md">
+                 {{ component('flashmsg') }}
+            </div>
+        </div>
+        
+        {% if obj_row.useContactForm %}
+        <div class="row">
+            <div class="col-md">
+                {{obj_row_translation.body|raw}}
+            </div>
+        </div>    
+        {% endif %}
+        
+
+        <div class="row">    
+            
+            {% set gallery = obj_row.gallery %}
+            
+            {% if gallery %}
+                
+                {% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
+                <div class="col-md-6">
+
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+                        <div class="carousel-indicators">
+                            {% for image in images %}
+                                {% set lpi = loop.index - 1 %}
+                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{lpi}}" {{(lpi == 0) ? ' class="active" aria-current="true" ' : ''}} aria-label="Slide {{loop.index - 1}}"></button>
+                            {% endfor %}                            
+                        </div>
+                        <div class="carousel-inner">
+                            {% for image in images %}
+
+                            {% set lpi = loop.index - 1 %}
+                            <div each="{{lpi}}" class="carousel-item {{  (lpi == 0) ? 'active':''}}">
+                                <img class="d-block w-100" src="{{image.getImageUrl()}}">
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                        </div>
+                </div>
+            
+            {% else %}
+            <div class="col-md-6">
+                <img src="{{obj_row_translation.bodyImageUrl}}" class="img-fluid">    
+            </div>
+            {% endif %}
+
+            <div class="col-md">
+
+                {% if obj_row.useContactForm %}
+                
+                    <form {{stimulus_controller('form')}} class="needs-validation" action="{{path('app_proccess_form')}}" method="POST" novalidate>
+                        <div class="form-group has-validation my-3">
+                            <label for="name">Name:</label>
+                            <input id="name" minlength="5"  class="form-control" name="name" type="text" placeholder="Complete name" required>
+                            <div class="invalid-feedback">
+                                Please provide a name.
+                            </div>
+                        </div>
+
+                        <div class="form-group has-validation my-3">
+                            <label for="phone">Phone:</label>
+                            <input id="phone" class="form-control" name="phone" type="text" placeholder="Phone" required>
+                            <div class="invalid-feedback">
+                                Please provide a phone number.
+                            </div>
+                        </div>
+
+                        <div class="form-group has-validation my-3">
+                            <label for="email">Email:</label>
+                            <input id="email" class="form-control" name="email" type="email" placeholder="E-mail" required>
+                            <div class="invalid-feedback">
+                                Please provide a email.
+                            </div>
+                        </div>
+
+                        <div class="form-group has-validation my-3">
+                            <label for="comment">Mensaje:</label>
+                            <textarea minlength="10" class="form-control" name="comment" id="comment" placeholder="Write a message" required cols="30" rows="10"></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2 my-3">
+                            <input name="proccess" type="hidden" value="contact">
+                            <button class="btn btn-success btn-block btn-lg" type="submit">Send message</button>
+                        </div>
+                    </form>
+
+                {% else %}
+                <div>
+                    {{obj_row_translation.body|raw}}
+                </div>    
+                {% endif %}
+                
+            </div>
+            
+        </div>
+    </div>
+
+    {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+
+</div>
+
+{% endblock %}

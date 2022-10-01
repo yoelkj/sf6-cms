@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Contact form - {{app.session.get('appParam').name}}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        h1 {
+            background-color: #00a6eb;
+            color: #ffffff;
+            padding: 30px 0 50px 0;
+            font-weight: normal;
+        }
+        hr {
+            border: none;
+            border-top: 3px solid #00a6eb;
+            margin: 20px;
+        }
+        .container {
+            background-color: #fefefe;
+            width: 580px;
+            margin: 0 auto;
+        }
+        .bottom {
+            background-color: #efefee;
+        }
+        .block {
+            margin: 0;
+            padding: 10px 20px 20px 10px;
+        }
+        .logo {
+            width: 100%;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #00a6eb;
+            color: #fefefe;
+            border: 1px solid #fff;
+            border-radius: 3px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <a href="{{url('app_homepage')}}">
+                <img id="logoApp" src="{{absolute_url('/uploads/logo/'~app.session.get('appParam').logo )}}" alt="logo">
+            </a>
+        </div>
+        <div class="content">
+            <h1 class="text-center">Subscriber form</h1>
+            <p class="block">
+                Mensaje enviado desde la web <strong>{{app.session.get('appParam').name}}</strong>
+            </p>
+            <p class="block">Email: {{data.email|striptags}}</p>
+        </div>
+        <div class="footer">
+            <p class="block">
+                Saludos,<br><br>
+                 <em>{{app.session.get('appParam').name}} Team</em>
+            </p>
+            <p class="block bottom text-center">
+                &copy; {{app.session.get('appParam').legalName}}
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<h5 class="border rounded-pill px-3 py-1">{{title|trans}}</h5>
+<ul class="list-group list-group-flush my-2">
+    {% for row_item in data %}
+    {% set translation = row_item.getTranslation() %}
+    <!--Product item-->
+            
+    {#
+    <div class="wrapper-img">
+        <a href="{{path('app_product', {slug: row_translation.slug})}}">
+            <img alt="product-name" class="img-fluid mb-3" src="/uploads/products-test/product-1.png">
+        </a>
+    </div>
+    #}
+
+    <li class="list-group-item p-1 m-1">
+        <a href="{{ path('app_product', {slug: translation.slug}) }}">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="h6 m-0">{{translation.name}}</h5>
+                <small>{{ 'Weight'|trans }}: {{row_item.weightGrammage|round(1, 'floor')}}g</small>
+            </div>
+        </a>
+    </li>
+    <!--END Product item-->    
+    {% endfor %}
+</ul>

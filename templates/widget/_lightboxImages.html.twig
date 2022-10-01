@@ -1,0 +1,28 @@
+{% set gallery = obj_widget.gallery %}
+
+{% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
+<div {{stimulus_controller('lightbox')}} id="lightBox-{{gallery.id}}" class="" data-bs-ride="">
+    <div class="container my-5">
+
+        {% if use_title %}
+            <div class="row">
+                <div class="col-md">    
+                    {% set translation = obj_widget.translation %}
+                    <h2>{{translation.name}}</h2>
+                </div>
+            </div>    
+        {% endif %}
+        
+        <div class="row">
+            {% set col_images = (images|length > 3) ? 'col-md-3' : 'col-md-3'  %}
+            {% for image in images %}
+                <div class="{{col_images}}">
+                    <a href="{{image.getImageUrl()}}" data-lightbox="roadtrip">
+                        <img class="img-fluid img-thumbnail" src="{{image.getImageUrl()}}">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    
+    </div>
+</div>

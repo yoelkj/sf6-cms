@@ -1,0 +1,7 @@
+{% extends "base.html.twig" %}
+{% block title %} Homepage | {{parent()}} {% endblock %}
+{% block body %}
+
+{{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{obj_row_translation.name}}{% endblock %}
+
+{% block body %}
+
+{% set brand = arr_catalog_data.brand %}
+{% set data = arr_catalog_data.data %}
+
+
+<div
+
+{{ stimulus_controller('catalog', {
+                url: path('ajax_app_products')
+            }) }} data-action="scroll@window->catalog#handleScroll"
+
+
+ id="page" class="catalog">
+    <div class="cover" style="background-color:#000">
+        <img class="opacity-50" src="{{obj_row.bgImageUrl}}">
+
+        <div class="cover-caption" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="100">
+            <h1 class="text-center">{{obj_row_translation.name}}</h1>    
+        </div>
+    </div>
+
+    <div  class="container my-5">
+        
+        {#
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    {{obj_row_translation.body|raw}}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <img src="{{obj_row_translation.bodyImageUrl}}" class="img-fluid">
+            </div>
+        </div>
+        #}
+
+        <!--Star filters-->
+        <form data-catalog-target="form" action="" method="POST" class="my-3">
+            <div class="row">
+                <div class="col-md mb-4 mb-md-1 mb-lg-1 mb-xl-1 mb-xxl-1 ">
+                    <div class="position-relative filter">
+                        <label class=" {{ (brand) ? '': 'bg-white '}}  position-absolute" for="cboBrand">{{'Brand'|trans}}</label>
+                        <select data-action="change->catalog#handleChange" name="cbo_brand" id="cboBrand" class="form-select p-2" {{ (brand) ? 'disabled': '' }}>
+                            <option value="">
+                                {{'All'|trans}}{#{{(filter_data.brands|slice(0, 2)|join('/'))|slice(0, 22) ~ '...'}}#}
+                            </option>
+                            {% for key, value in filter_data.brands %}
+                                <option value="{{key}}" {{ (brand and brand.id == key) ? 'selected': '' }}>{{value}}</option>
+                            {% endfor %}
+                        </select>
+
+                        {% if (brand) %}
+                            <input name="cbo_brand" type="hidden" value="{{brand.id}}">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md mb-4 mb-md-1 mb-lg-1 mb-xl-1 mb-xxl-1 ">
+                    <div class="position-relative filter">
+                        <label class="bg-white position-absolute" for="cboPresentation">{{'Presentation'|trans}}</label>
+                        <select data-action="change->catalog#handleChange" name="cbo_presentation" id="cboPresentation" class="form-select p-2">
+                            <option value="">{{'All'|trans}}{#{{(filter_data.presentations|slice(0, 2)|join('/')|slice(0, 22) ~ '...')}}#}</option>
+                            {% for key, value in filter_data.presentations %}
+                                <option value="{{key}}">{{value}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md mb-4 mb-md-1 mb-lg-1 mb-xl-1 mb-xxl-1 ">
+                    <div class="position-relative filter">
+                        <label class="bg-white position-absolute" for="cboCategories">{{'Category'|trans}}</label>
+                        <select data-action="change->catalog#handleChange" name="cbo_category" id="cboCategories" class="form-select p-2">
+                            <option value="">{{'All'|trans}}{#{{(filter_data.categories|slice(0, 2)|join('/')|slice(0, 25) ~ '...')}}#}</option>
+                            {% for key, value in filter_data.categories %}
+                                <option value="{{key}}">{{value}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md mb-4 mb-md-1 mb-lg-1 mb-xl-1 mb-xxl-1 ">
+                    <div class="position-relative filter">
+                        <label class="bg-white position-absolute" for="cboFeatures">{{'Features'|trans}}</label>
+                        <select data-action="change->catalog#handleChange" name="cbo_feature" id="cboFeatures" class="form-select p-2">
+                            <option value="">{{'All'|trans}}{#{{(filter_data.features|slice(0, 5)|join('/')) |slice(0, 22) ~ '...'}}#}</option>
+                            {% for key, value in filter_data.features %}
+                                <option value="{{key}}">{{value}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                
+            </div>
+        </form>
+
+        <!--END filters-->
+
+        <!--Content products-->
+        <div class="container-products">
+            <div id="entries" class="row" data-catalog-target="entries">
+
+                {{ include('page/_products.html.twig', {data: data}) }}
+
+                {#
+                {% for row in data %}
+                    
+                    {% set row_translation = row.getTranslation() %}
+                    
+                    <!--Product item-->
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="product border rounded p-3 pt-5 position-relative">
+                            <div class="position-absolute top-0 left-0 w-100 pt-3">
+
+                                {% if row.isBestSeller %}
+                                    <span class="badge bg-success col-md-6 p-2 mb-1">{{'New'|trans}}</span>    
+                                {% endif %}
+
+                                {% if row.isBestSeller %}
+                                    <span class="badge bg-warning col-md-6 p-2 mb-1">{{'Bestseller'|trans}}</span>    
+                                {% endif %}
+                                
+                                {% if row.isRecommended %}
+                                    <span class="badge bg-secondary col-md-6 p-2 mb-1">{{'Recommended'|trans}}</span>    
+                                {% endif %}
+                                
+                            
+                            </div>
+                            <img alt="product-name" class="img-fluid mb-3" src="/uploads/products-test/product-1.png">
+                            <div class="caption text-center">
+                                <h3>{{row_translation.name}}</h3>
+                                <p>{{ 'Weight'|trans }}: {{row.weightGrammage}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END Product item-->
+                {% else %}
+                    <div class="alert alert-warning">{{'No results were found'|trans}}</div>
+                {% endfor %}
+                #}
+
+            </div>
+        </div>
+        <!--END Content products-->
+    </div>
+</div>
+
+
+
+{{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+
+
+
+{% endblock %}

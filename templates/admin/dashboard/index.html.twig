@@ -1,0 +1,32 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block main %}
+    <div class="d-flex justify-content-between">
+        <h1>Very Important Admin Stats</h1>
+    </div>
+
+    {#    
+    <div class="row">
+        <div class="col-12">
+           
+            {{ render_chart(chart) }}
+            
+             <div {{stimulus_controller('tinymce')}}>
+               <textarea data-tinymce-target="input"></textarea>
+            </div>
+
+        </div>
+    </div>
+    #}
+
+    <div class="row">
+        <div class="col-6">
+            <h4>Production Report</h4>
+            {{ render_chart(chart2) }}
+        </div>
+        <div class="col-6">
+            <h4>Accident Types</h4>
+            {{ render_chart(chart3) }}
+        </div>
+    </div>
+{% endblock %}
