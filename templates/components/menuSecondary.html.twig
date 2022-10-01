@@ -1,10 +1,10 @@
 <div id="header">
-    
-    <div class="row justify-content-center tertiary_color">
-        <div class="col-md-4 text-center">
+
+    <div id="logofull">
+        <div class="w-50 m-auto mt-5">
             <a class="navbar-brand text-center" href="{{path('app_homepage_local')}}">
-                <div class="">
-                    <img id="logoApp" src="/uploads/logo/{{ app.session.get('appParam').logo }}">
+                <div class="text-center">
+                    <img class="m-auto" id="logoApp" src="/uploads/logo/{{ app.session.get('appParam').logo }}">
                     {% if app.session.get('appParam').translate(app.request.locale).slogan %}
                         <em>{{app.session.get('appParam').translate(app.request.locale).slogan}}</em>    
                     {% endif %}
@@ -13,14 +13,11 @@
         </div>
     </div>
     
-    
-    
     {#style="background-color: rgba(0, 166, 235, .85)"#}
     <nav class="navbar navbar-expand-md navbar-dark">
         <div class="container">
             
-            {#
-            <a class="navbar-brand" href="{{path('app_homepage_local')}}">
+            <a style="display:none" id="logomenu" class="navbar-brand" href="{{path('app_homepage_local')}}">
                 <div class="container-logo ">
                     <img id="logoApp" src="/uploads/logo/{{ app.session.get('appParam').logo }}">
                     {% if app.session.get('appParam').translate(app.request.locale).slogan %}
@@ -28,7 +25,6 @@
                     {% endif %}
                 </div>
             </a>
-            #}
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -36,7 +32,7 @@
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
-            <ul class="navbar-nav nav ms-auto col-12 col-sm-12 col-md-10 mb-2 justify-content-center mt-5 mb-md-0 mt-md-0 mt-lg-0 mt-xl-0  mt-xxl-0">
+            <ul class="navbar-nav nav m-auto col-12 col-sm-12 col-md-10 mb-2 justify-content-center mt-5 mb-md-0 mt-md-0 mt-lg-0 mt-xl-0  mt-xxl-0">
                 {% for menuItem in this.menuItems %}
                     
                     {% set childMenu =  menuItem.menus %}
@@ -111,7 +107,7 @@
                 <li class="nav-item">
                     <a class="nav-link px-2 " data-bs-toggle="offcanvas" href="#offcanvasSearch" role="button" aria-controls="offcanvasSearch" href="#"><i class="fas fa-search"></i></a>
                 </li>
-                <li class="nav-item">{{ include('widget/_language.html.twig', {primaryColor: '#fff', secondaryColor: 'transparent'}) }}</li>
+                <li class="nav-item">{{ include('widget/_language.html.twig', {primaryColor: '#009746', secondaryColor: 'transparent'}) }}</li>
 
             </ul>
 

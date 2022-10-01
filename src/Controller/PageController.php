@@ -48,7 +48,7 @@ class PageController extends AbstractController
         ]);
     }
 
-    #[Route("/{_locale}/", name: 'app_homepage_local', requirements: ['_locale' => 'en|es|pe|bo'])]
+    #[Route("/{_locale}/", name: 'app_homepage_local', requirements: ['_locale' => 'en|es'])]
     public function local(PageRepository $repo_page): Response
     {
         
@@ -68,7 +68,7 @@ class PageController extends AbstractController
         path: '/{_locale}/page/{slug}',
         name: 'app_page',
         requirements: [
-            '_locale' => 'en|es|pe|bo',
+            '_locale' => 'en|es',
         ],
     )]
     public function page($slug, PageRepository $repo_page): Response
@@ -91,7 +91,7 @@ class PageController extends AbstractController
         path: '/{_locale}/catalog/{slug}/{brand}',
         name: 'app_catalog',
         requirements: [
-            '_locale' => 'en|es|pe|bo',
+            '_locale' => 'en|es',
         ],
     )]
     public function catalog(Request $request, $slug, $brand, BrandRepository $repo_brand, PageRepository $repo_page, ProductRepository $repo_product): Response
@@ -132,7 +132,7 @@ class PageController extends AbstractController
         path: '/{_locale}/product/{slug}',
         name: 'app_product',
         requirements: [
-            '_locale' => 'en|es|pe|bo',
+            '_locale' => 'en|es',
         ],
     )]
     public function product(Request $request, $slug, ProductRepository $repo_product): Response
@@ -155,7 +155,7 @@ class PageController extends AbstractController
         path: '/{_locale}/ajax-catalog',
         name: 'ajax_app_products',
         requirements: [
-            '_locale' => 'en|es|pe|bo',
+            '_locale' => 'en|es',
         ],
     )]
     public function ajaxGetProducts(Request $request, ProductRepository $repo_product){
@@ -178,7 +178,7 @@ class PageController extends AbstractController
         path: '/{_locale}/search',
         name: 'app_search',
         requirements: [
-            '_locale' => 'en|es|pe|bo',
+            '_locale' => 'en|es',
         ],
     )]
     public function search( Request $request,  ProductRepository $repo_product)
@@ -200,7 +200,7 @@ class PageController extends AbstractController
         path: '/{_locale}/proccess-form',
         name: 'app_proccess_form',
         requirements: [
-            '_locale' => 'en|es|pe|bo',
+            '_locale' => 'en|es',
         ],
     )]
     public function proccessForm(Request $request, MailerInterface $mailer){

@@ -60,7 +60,7 @@ class DashboardController extends AbstractDashboardController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/{_locale}/admin', name: 'admin', requirements: ['_locale' => 'en|es|pe|bo',],)]
+    #[Route('/{_locale}/admin', name: 'admin', requirements: ['_locale' => 'en|es',],)]
     //public function index(ChartBuilderInterface $chartBuilder = null): Response
     public function index(): Response
     {

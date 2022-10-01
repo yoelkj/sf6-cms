@@ -19,7 +19,7 @@
                     <div id="present-countries" class="w-50 d-flex">
                     {% for country in countries %}                    
                             <div class="text-center">
-                                <a href="/{{country.code}}/">
+                                <a href="/{{country.getLanguage().getCode()}}/">
                                 <img src="{{country.getFlagUrl()}}">
                                 <h2>{{country.name}}</h2>
                                 </a>

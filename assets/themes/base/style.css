@@ -89,6 +89,14 @@ a:hover{
     transition: all 200ms
 }
 
+.navbar-toggler{
+    background-color: #009746!important;
+}
+
+#logomenu{
+    display: none!important;
+}
+
 
 
 #page .cover{   
@@ -122,13 +130,17 @@ background-size: cover;background-repeat: no-repeat;background-position: center;
     color: #FCFCFC;
 }
 
+
 .container-logo{
+    /*
     position: absolute;
     z-index: -1;
     top: 0;
+    */
     text-align: center;
     width: 230px;
 }
+
 
 .container-logo em{
     font-size:0.9em;
@@ -506,6 +518,14 @@ ul.dropdown-menu .dropdown-item:hover{
 
 @media (min-width: 769px) {
 
+    #logomenu{
+        display: none!important;
+    }
+
+    #logofull{
+        display: block!important;
+    }
+
     /*
     #header ul.navbar:first-child{
         display: none;
@@ -530,6 +550,15 @@ ul.dropdown-menu .dropdown-item:hover{
 }
 
 @media (max-width: 768px){
+
+    #logomenu{
+        display: block!important;
+    }
+
+    #logofull{
+        display: none!important;
+    }
+
     .container-logo em{
         display: none!important;
     }
@@ -543,6 +572,14 @@ ul.dropdown-menu .dropdown-item:hover{
 }
 
 @media (max-width: 425px){
+
+    #logomenu{
+        display: block!important;
+    }
+
+    #logofull{
+        display: none!important;
+    }
 
     .container-logo em{
         display: none;
