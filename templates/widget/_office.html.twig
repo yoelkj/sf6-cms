@@ -1,7 +1,7 @@
 {% set company = app.session.get('appParam') %}
 {% set translation = obj_widget.getTranslation %}
 
-<div class="container my-5">
+<div class="container my-5 wd">
     {% for office in company.offices  %}
     {% set officeTranslation = office.getTranslation() %}
     <div class="row justify-content-md-center">

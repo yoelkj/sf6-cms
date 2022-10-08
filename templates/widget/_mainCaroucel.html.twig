@@ -2,7 +2,7 @@
 {% set gallery = obj_widget.gallery %}
 {% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
 
-<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+<div id="mainCarousel" class="carousel slide wd" data-bs-ride="carousel">
     <div class="carousel-indicators">
       {% for image in images %}
       {% set lpi = loop.index - 1 %}

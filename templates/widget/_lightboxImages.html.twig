@@ -2,7 +2,7 @@
 
 {% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
 <div {{stimulus_controller('lightbox')}} id="lightBox-{{gallery.id}}" class="" data-bs-ride="">
-    <div class="container my-5">
+    <div class="container wd my-5">
 
         {% if use_title %}
             <div class="row">

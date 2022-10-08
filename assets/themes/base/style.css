@@ -516,7 +516,7 @@ ul.dropdown-menu .dropdown-item:hover{
     color: #98989c;
 }
 
-.btn{
+.wd .btn{
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     min-width: 150px;
