@@ -36,11 +36,12 @@ class WidgetCrudController extends AbstractCrudController
             yield ChoiceField::new('template')->setColumns(12)->onlyOnForms()->setChoices([
                 'Simple content' => 'TEMPLATE_CONTENT_SIMPLE',
                 'Content Caroucel' => 'TEMPLATE_CONTENT_CAROUCEL',
+                'Blog resume' => 'TEMPLATE_BLOG_RESUME',
                 'Lightbox images' => 'TEMPLATE_LIGHTBOX_IMAGES',
                 'Main Caroucel' => 'TEMPLATE_MAIN_CAROUCEL',
                 'Office' => 'TEMPLATE_OFFICE',
                 'One fluid image' => 'TEMPLATE_ONE_FLUID_IMAGE',
-                'Only component' => 'TEMPLATE_ONLY_COMPONENT',
+                //'Only component' => 'TEMPLATE_ONLY_COMPONENT',
                 'Subscription' => 'TEMPLATE_SUBSCRIPTION',
                 'Video' => 'TEMPLATE_VIDEO',
             ]);
@@ -56,24 +57,7 @@ class WidgetCrudController extends AbstractCrudController
                         return sprintf('%s - %s translation(s)', $name, $num_translations);
                     });
 
-            yield FormField::addRow();
-            yield ImageField::new('bgImage')
-                ->setBasePath('uploads/widgets/bg')
-                ->setUploadDir('public/uploads/widgets/bg')
-                ->setUploadedFileNamePattern('[slug]-bg-[timestamp].[extension]')
-                //->setFormTypeOption('upload_new', function(){})
-                ->onlyOnForms()
-                ->setColumns(6);
-
-            yield ColorField::new('bgColor')
-                    ->setColumns(3)
-                    ->onlyOnForms()
-                    ->showValue();
-
-            yield ColorField::new('textColor')
-                ->setColumns(3)
-                ->onlyOnForms()
-                ->showValue();
+            
 
             yield FormField::addRow();
             yield AssociationField::new('gallery')
@@ -88,12 +72,37 @@ class WidgetCrudController extends AbstractCrudController
             yield DateField::new('createdAt')->hideOnForm();
             yield DateField::new('updatedAt')->onlyOnForms()->hideOnForm();
         
+        yield FormField::addTab('Design')->setIcon('cogs');
+            yield FormField::addRow();
+            yield ImageField::new('bgImage')
+                ->setBasePath('uploads/widgets/bg')
+                ->setUploadDir('public/uploads/widgets/bg')
+                ->setUploadedFileNamePattern('[slug]-bg-[timestamp].[extension]')
+                //->setFormTypeOption('upload_new', function(){})
+                ->onlyOnForms()
+                ->setColumns(12);
+
+            yield FormField::addRow();
+            yield ColorField::new('bgColor')->setColumns(3)->onlyOnForms()->showValue();
+            yield ColorField::new('textColor')->setColumns(3)->onlyOnForms()->showValue();
+            yield ColorField::new('titleColor')->setColumns(3)->onlyOnForms()->showValue();
+            yield ColorField::new('subtitleColor')->setColumns(3)->onlyOnForms()->showValue();
+                
+            yield FormField::addRow();
+            yield ColorField::new('btnBgColor', 'Button bg color')->setColumns(3)->onlyOnForms()->showValue();
+            yield ColorField::new('btnTextColor', 'Button text color')->setColumns(3)->onlyOnForms()->showValue();
+
+            yield FormField::addRow();
+            yield BooleanField::new('pullRightImage')->onlyOnForms()->setColumns(12);
+
+        /*
         yield FormField::addTab('Use components')->setIcon('cogs');
             yield FormField::addRow();
-
             yield BooleanField::new('useRelatedProductsComponent')->onlyOnForms();
             yield BooleanField::new('useNewProductsComponent')->onlyOnForms();
             yield BooleanField::new('useBestSellerComponent')->onlyOnForms();
             yield BooleanField::new('useRecommendedProductsComponent')->onlyOnForms();
+        */
+
     }
 }

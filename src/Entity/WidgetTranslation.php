@@ -30,6 +30,9 @@ class WidgetTranslation implements TranslationInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $bodyImage;
 
+    #[ORM\Column(length: 200, nullable: true)]
+    private ?string $subtitle = null;
+
     public function __toString(): string
     {
         return $this->getName().' - '.$this->getLocale();
@@ -93,5 +96,17 @@ class WidgetTranslation implements TranslationInterface
         if (!$this->bodyImage) return null;
         if (strpos($this->bodyImage, '/') !== false) return $this->bodyImage;
         return sprintf('/uploads/widgets/body/%s', $this->bodyImage);
+    }
+
+    public function getSubtitle(): ?string
+    {
+        return $this->subtitle;
+    }
+
+    public function setSubtitle(?string $subtitle): self
+    {
+        $this->subtitle = $subtitle;
+
+        return $this;
     }
 }

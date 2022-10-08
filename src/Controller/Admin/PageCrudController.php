@@ -73,7 +73,7 @@ class PageCrudController extends AbstractCrudController
 
             
             yield AssociationField::new('widgets')
-                ->autocomplete()
+                //->autocomplete()
                 //->setFormTypeOption('by_reference', false)
                 ;
 

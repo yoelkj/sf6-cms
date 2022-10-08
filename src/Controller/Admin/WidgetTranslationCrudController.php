@@ -45,11 +45,10 @@ class WidgetTranslationCrudController extends AbstractCrudController
         ])->setColumns(12)->onlyOnForms()->setChoices($arr_langs)->renderAsNativeWidget();
 
         yield FormField::addRow();
-        yield Field::new('name')->setFormTypeOptions([
-            'attr' => [
-                'required' => true,
-            ],
+        yield Field::new('name', 'Name or title')->setFormTypeOptions([
+            'attr' => ['required' => true],
         ])->setColumns(12);
+        yield Field::new('subtitle')->setColumns(12);
         
         yield FormField::addRow();
         yield ImageField::new('bodyImage')

@@ -516,6 +516,19 @@ ul.dropdown-menu .dropdown-item:hover{
     color: #98989c;
 }
 
+.btn{
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+}
+/* 
+.content-blog-resume .content-blog-resume-title{
+}
+.content-blog-resume .content-blog-resume-subtitle{
+}
+*/
+
+
 @media (min-width: 769px) {
 
     #logomenu{

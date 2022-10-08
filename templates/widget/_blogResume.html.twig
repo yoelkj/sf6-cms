@@ -1,0 +1,110 @@
+{% set translation = obj_widget.getTranslation %}
+{% set alignRightImage = obj_widget.isPullRightImage %}
+
+{% set image = translation.getBodyImageUrl %}
+
+{% set titleColor = obj_widget.getTitleColor %}
+{% set subtitleColor = obj_widget.getSubtitleColor %}
+
+{% set textColor = obj_widget.getTextColor %}
+{% set bgColor = obj_widget.getBgColor %}
+{% set bgImage = obj_widget.bgImageUrl %}
+
+{% set btnBgColor = obj_widget.btnBgColor %}
+{% set btnTextColor = obj_widget.btnTextColor %}
+
+
+<!--Content blog resume-->
+{% if bgImage %}
+<div class="content-blog-resume col-md py-3" style="
+        background-image: url('{{bgImage}}');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        min-height:250px;">    
+{% else %}
+<div class="content-blog-resume" style="{{(bgColor)? 'background-color:' ~ bgColor: ''}}">
+{% endif %}
+
+<div class="container py-3">
+        
+        {% if translation %}
+            
+                <div class="row">
+                
+
+                    {% if alignRightImage %}
+
+                        <div class="col col-md-6"  style="{{(textColor)? 'color:' ~ textColor: ''}}">
+
+                            <h2 class="content-blog-resume-title" style="{{(titleColor) ? 'color:' ~ titleColor: ''}}">{{translation.name|upper}}</h2>
+                            {% if translation.subtitle %}
+                                <h2 class="content-blog-resume-subtitle" style="{{(subtitleColor) ? 'color:' ~ subtitleColor: ''}}">{{translation.subtitle|upper}}</h2>    
+                            {% endif %}
+
+                            <div class="content-blog-resume-body">
+                                {{translation.body|raw}}
+                            </div>
+
+                            <div class="my-3 content-blog-resume-actions">
+                                {% if btnBgColor %}
+                                    <a class="btn btn-light btn-lg" style="border-color:{{btnBgColor}}; background-color: {{btnBgColor}}; color:{{ btnTextColor}}">{{'Read more'|trans|upper}}</a>
+                                {% else %}
+                                    <a class="btn btn-light btn-lg" >{{'Read more'|trans|upper}}</a>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <div class="col col-md-6">
+                            <div class="d-flex flex-wrap align-items-center">
+                                <img class="img-fluid w-100" src="{{image}}">
+                            </div>
+                        </div>
+                    {% else %}
+
+
+                        <div class="col col-md-6">
+                            <div class="d-flex flex-wrap align-items-center">
+                                <img class="img-fluid w-100" src="{{image}}">
+                            </div>
+                        </div>
+
+                        <div class="col col-md-6 text-right"  style="{{(textColor)? 'color:' ~ textColor: ''}}">
+
+                            <h2 class="content-blog-resume-title " style="{{(titleColor) ? 'color:' ~ titleColor: ''}}">{{translation.name|upper}}</h2>
+                            {% if translation.subtitle %}
+                                <h2 class="content-blog-resume-subtitle" style="{{(subtitleColor) ? 'color:' ~ subtitleColor: ''}}">{{translation.subtitle|upper}}</h2>    
+                            {% endif %}
+
+                            <div class="content-blog-resume-body">
+                                {{translation.body|raw}}
+                            </div>
+
+                            <div class="my-3 content-blog-resume-actions">
+                                
+                                {% if btnBgColor %}
+                                    <a class="btn btn-light btn-lg" style="border-color:{{btnBgColor}}; background-color: {{btnBgColor}}; color:{{ btnTextColor}}">{{'Read more'|trans|upper}}</a>
+                                {% else %}
+                                    <a class="btn btn-light btn-lg" >{{'Read more'|trans|upper}}</a>
+                                {% endif %}
+                                
+                            </div>
+
+                        </div>
+
+
+
+                    {% endif %}
+
+                </div>
+
+            
+            
+        {% else %}
+            <div class="alert alert-warning">No translation available</div>
+        {% endif %}
+
+
+</div><!--//.container-->
+</div><!--END Content blog resume-->

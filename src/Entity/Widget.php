@@ -71,6 +71,21 @@ class Widget implements TimestampableInterface,  TranslatableInterface
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $useRecommendedProductsComponent = false;
 
+    #[ORM\Column(length: 140, nullable: true)]
+    private ?string $titleColor = null;
+
+    #[ORM\Column(length: 140, nullable: true)]
+    private ?string $subtitleColor = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $pullRightImage = null;
+
+    #[ORM\Column(length: 140, nullable: true)]
+    private ?string $btnBgColor = null;
+
+    #[ORM\Column(length: 140, nullable: true)]
+    private ?string $btnTextColor = null;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -313,6 +328,66 @@ class Widget implements TimestampableInterface,  TranslatableInterface
     public function setUseRecommendedProductsComponent(?bool $useRecommendedProductsComponent): self
     {
         $this->useRecommendedProductsComponent = $useRecommendedProductsComponent;
+
+        return $this;
+    }
+
+    public function getTitleColor(): ?string
+    {
+        return $this->titleColor;
+    }
+
+    public function setTitleColor(?string $titleColor): self
+    {
+        $this->titleColor = $titleColor;
+
+        return $this;
+    }
+
+    public function getSubtitleColor(): ?string
+    {
+        return $this->subtitleColor;
+    }
+
+    public function setSubtitleColor(?string $subtitleColor): self
+    {
+        $this->subtitleColor = $subtitleColor;
+
+        return $this;
+    }
+
+    public function isPullRightImage(): ?bool
+    {
+        return $this->pullRightImage;
+    }
+
+    public function setPullRightImage(?bool $pullRightImage): self
+    {
+        $this->pullRightImage = $pullRightImage;
+
+        return $this;
+    }
+
+    public function getBtnBgColor(): ?string
+    {
+        return $this->btnBgColor;
+    }
+
+    public function setBtnBgColor(?string $btnBgColor): self
+    {
+        $this->btnBgColor = $btnBgColor;
+
+        return $this;
+    }
+
+    public function getBtnTextColor(): ?string
+    {
+        return $this->btnTextColor;
+    }
+
+    public function setBtnTextColor(?string $btnTextColor): self
+    {
+        $this->btnTextColor = $btnTextColor;
 
         return $this;
     }
