@@ -20,10 +20,7 @@ export default class extends Controller{
             this.btnTarget.classList.remove('show');
         }
 
-
-
-
-
+        /*
         let obj_slogan = document.querySelector('.container-logo em');
         let windowY = window.scrollY;
   
@@ -36,6 +33,7 @@ export default class extends Controller{
             obj_slogan.classList.add('d-none');
             obj_slogan.classList.remove('d-block');
         }
+        */
 
 
     }

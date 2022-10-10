@@ -3,35 +3,19 @@
 @import '~@fontsource/roboto-condensed';
 
 @font-face {
-    font-family: HelveticaTStdBlack;
-    src: url("../../fonts/HelveticaTStd/HelveticaLTStd-Blk.otf") format("opentype");
+    font-family: FuturaMdBTBlack;
+    src: url("../../fonts/FuturaMdBT/FuturaMdBT-Bold.ttf") format("opentype");
 }
 
-/*
 @font-face {
-    font-family: HelveticaTStdBlack;
-    src: url("../../fonts/HelveticaTStd/HelveticaLTStd-BlkCond.otf") format("opentype");
-}
-*/
-
-/*
-@font-face {
-    font-family: HelveticaTStd;
-    src: url("../../fonts/HelveticaTStd/HelveticaLTStd-Cond.otf") format("opentype");
-}
-*/
-
-@font-face {
-    font-family: HelveticaTStd;
-    src: url("../../fonts/HelveticaTStd/HelveticaLTStd-roman.otf") format("opentype");
+    font-family: FuturaMdBT;
+    src: url("../../fonts/FuturaMdBT/FuturaMdBT-Medium.ttf") format("opentype");
 }
 
-
-
 @font-face {
-    font-family: HelveticaTStd;
+    font-family: FuturaMdBT;
     font-weight: bold;
-    src: url("../../fonts/HelveticaTStd/HelveticaLTStd-Bold.otf") format("opentype");
+    src: url("../../fonts/FuturaMdBT/FuturaMdBT-Bold.ttf") format("opentype");
 }
 
 /*
@@ -43,15 +27,15 @@
 
 /*
 .container {
-    
     max-width: 960px;
-    
     max-width: 1100px;
 }
 */
 
 body{
-    color: #008e3f;
+    background-color: #fcfcfc;
+    color: #009746;
+    font-family: 'FuturaMdBT';
 }
 
 #footer p{
@@ -59,7 +43,7 @@ body{
 }
 
 h1, h2, h3, h4, h5, h6{
-    font-family: 'HelveticaTStdBlack'
+    font-family: 'FuturaMdBTBlack';
 } 
 
 h1{
@@ -70,15 +54,13 @@ h1{
     font-size: 2em
 }
 
-body {
-    background-color: #fcfcfc;
-    font-family: 'HelveticaTStd';
+a, #header a{
+    color: #009746;
+    text-decoration: none;
 }
 
-a, #header a{
-    /*color: #212529;*/
-    color: #008e3f;
-    text-decoration: none;
+a:hover, #header a:hover{
+    color: #009746!important;
 }
 
 a.title{
@@ -100,8 +82,8 @@ a:hover{
 
 .btn-primary {
     color: #fff;
-    background-color: #008e3f;
-    border-color: #008e3f;
+    background-color: #009746;
+    border-color: #009746;
 }
 
 .btn-light {
@@ -591,12 +573,26 @@ ul.dropdown-menu .dropdown-item:hover{
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     min-width: 150px;
 }
-/* 
-.content-blog-resume .content-blog-resume-title{
+
+.content-blog-resume-title{
+    font-family: 'FuturaMdBT';
 }
-.content-blog-resume .content-blog-resume-subtitle{
+/*
+.content-blog-resume-subtitle{
+}
+.content-owl-caroucel-title{
 }
 */
+
+
+.content-owl-caroucel-subtitle, 
+.content-owl-caroucel-image h1,
+.content-owl-caroucel-image h2,
+.content-owl-caroucel-image h3{
+    font-family: 'FuturaMdBT';
+}
+
+
 
 
 @media (min-width: 769px) {
