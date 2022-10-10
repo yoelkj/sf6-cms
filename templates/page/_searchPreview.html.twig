@@ -1,14 +1,14 @@
 <div class="list-group">
-    {% for product in products %}
-        {% set translation = product.translation %}
+    {% for row in data %}
+        {% set translation = row.translation %}
         <a role="option" class="list-group-item list-group-item-action"
-            href="{{path('app_product', {slug: translation.slug})}}">
-            
+            href="{{path('app_page', {slug: translation.slug})}}">
+
             <div class="d-flex align-items-center justify-content-between">
                 <div>
                     <span class="px-1">{{ translation.name }}</span>
                 </div>
-                <em>{{ product.weightGrammage|round(1, 'floor') }}g</em>
+                {#<em></em>#}
             </div>
         </a>
     {% else %}

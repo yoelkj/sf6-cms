@@ -65,6 +65,36 @@ class PageRepository extends ServiceEntityRepository
         }
     }
 
+    public function getData($params = [], $only_query = false)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.isActive = :active');
+
+        if(isset($params["q"])){
+            if(trim($params["q"]) != ''){
+                $qb->innerJoin('r.translations', 'rt')
+                    ->andWhere('(rt.name LIKE :term OR rt.body LIKE :term) AND rt.locale = :language')
+                    ->setParameter('term', '%'.$params["q"].'%')
+                    ->setParameter('language', Locale::getDefault());
+            }else{
+                return null;
+            }
+        }
+
+       
+        $qb->setParameter('active', true)
+        ->orderBy('r.orderRow', 'ASC')
+        ;
+
+        
+        if($only_query){
+            return $qb;
+        }else{
+            return $qb->setMaxResults(10)->getQuery()->getResult();
+        }
+
+    }
+
 //    /**
 //     * @return Page[] Returns an array of Page objects
 //     */

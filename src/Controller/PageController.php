@@ -181,6 +181,29 @@ class PageController extends AbstractController
             '_locale' => 'en|es',
         ],
     )]
+    public function search( Request $request,  PageRepository $repo_page)
+    {
+        $params['q'] = $request->query->get('q'); 
+        $request->getSession()->set('searchParams', $params);
+        
+        $data = $repo_page->getData($params);
+        
+        if ($request->query->get('preview')) {
+            return $this->render('page/_searchPreview.html.twig', [
+                'data' => $data,
+            ]);
+        }
+    }
+
+    /*
+    
+    #[Route(
+        path: '/{_locale}/search',
+        name: 'app_search',
+        requirements: [
+            '_locale' => 'en|es',
+        ],
+    )]
     public function search( Request $request,  ProductRepository $repo_product)
     {
         $params['q'] = $request->query->get('q'); 
@@ -194,6 +217,8 @@ class PageController extends AbstractController
             ]);
         }
     }
+    
+    */
 
 
     #[Route(
