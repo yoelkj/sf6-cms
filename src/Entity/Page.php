@@ -62,6 +62,12 @@ class Page implements TimestampableInterface,  TranslatableInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isLocalHomepage = null;
 
+    #[ORM\ManyToOne(inversedBy: 'pages')]
+    private ?Menu $menu = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $pullRightImage = null;
+
     public function __construct()
     {
         $this->widgets = new ArrayCollection();
@@ -282,6 +288,30 @@ class Page implements TimestampableInterface,  TranslatableInterface
     public function setIsLocalHomepage(?bool $isLocalHomepage): self
     {
         $this->isLocalHomepage = $isLocalHomepage;
+
+        return $this;
+    }
+
+    public function getMenu(): ?Menu
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(?Menu $menu): self
+    {
+        $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function isPullRightImage(): ?bool
+    {
+        return $this->pullRightImage;
+    }
+
+    public function setPullRightImage(?bool $pullRightImage): self
+    {
+        $this->pullRightImage = $pullRightImage;
 
         return $this;
     }

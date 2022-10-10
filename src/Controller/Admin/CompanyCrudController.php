@@ -80,6 +80,7 @@ class CompanyCrudController extends AbstractCrudController
             yield FormField::addRow();
             yield ColorField::new('bgColorMain')->setColumns(4)->onlyOnForms();
             yield ColorField::new('bgColorSecondary')->setColumns(4)->onlyOnForms();
+            yield ColorField::new('bgColorTertiary')->setColumns(4)->onlyOnForms();
 
             //->showSample()->showValue()
 

@@ -50,7 +50,7 @@
 }
 */
 
-p{
+body{
     color: #008e3f;
 }
 
@@ -119,7 +119,7 @@ a:hover{
 }
 
 #page .cover{   
-    height: 350px;
+    height: 250px;
     position: relative;
     /*
     display: flex;
@@ -145,9 +145,60 @@ a:hover{
 /*
 background-size: cover;background-repeat: no-repeat;background-position: center;background-image: 
 */
-#page .cover h1{
+#page .cover h1, #page .cover h2{
     color: #FCFCFC;
+    font-size: 3.5em;
 }
+
+#page #body h1{
+    font-size: 2rem;
+}
+
+
+#page #content-menu{
+    border-radius: 6%;
+    overflow: hidden;
+    
+}
+
+#page #content-menu .list-group{
+    min-height: 250px;
+    padding: 1em 0;
+}
+
+#page #content-menu a{
+ color: #fcfcfc;   
+}
+
+#page #content-menu .list-group-item{
+    background: none;
+    border: none;
+    padding-left: 1.5em;
+}
+
+#page #content-menu .list-group-item span.icon{
+    position: absolute;
+    left: -4px;
+    top:5px;
+}
+
+#page #content-menu .list-group-item span.icon .fa-circle{
+    width: 20px;
+    overflow: hidden;
+    position: absolute;
+    font-size: 1.8em;
+    z-index: 1;
+    color: #009746;
+}
+
+#page #content-menu .list-group-item span.icon .fa-chevron-right{
+    position: absolute;
+    z-index: 2;
+    top: 5px;
+}
+
+
+
 
 
 .container-logo{

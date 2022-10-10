@@ -71,7 +71,6 @@
                         </div>
 
                         <div class="col col-md-6 text-end"  style="{{(textColor)? 'color:' ~ textColor: ''}}">
-
                             <h2 class="content-blog-resume-title " style="{{(titleColor) ? 'color:' ~ titleColor: ''}}">{{translation.name|upper}}</h2>
                             {% if translation.subtitle %}
                                 <h2 class="content-blog-resume-subtitle" style="{{(subtitleColor) ? 'color:' ~ subtitleColor: ''}}">{{translation.subtitle|upper}}</h2>    
@@ -82,24 +81,17 @@
                             </div>
 
                             <div class="my-3 content-blog-resume-actions">
-                                
                                 {% if btnBgColor %}
                                     <a class="btn btn-light btn-lg" style="border-color:{{btnBgColor}}; background-color: {{btnBgColor}}; color:{{ btnTextColor}}">{{'Read more'|trans|upper}}</a>
                                 {% else %}
                                     <a class="btn btn-light btn-lg" >{{'Read more'|trans|upper}}</a>
                                 {% endif %}
-                                
                             </div>
-
                         </div>
-
-
 
                     {% endif %}
 
-                </div>
-
-            
+                </div>            
             
         {% else %}
             <div class="alert alert-warning">No translation available</div>

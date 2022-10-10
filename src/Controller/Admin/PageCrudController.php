@@ -42,6 +42,7 @@ class PageCrudController extends AbstractCrudController
                 });
 
             yield FormField::addRow();
+            yield BooleanField::new('pullRightImage')->onlyOnForms()->setColumns(12);
             yield IntegerField::new('orderRow')->onlyOnForms()->setColumns(2);
             
             //yield BooleanField::new('isCatalog');
@@ -57,6 +58,9 @@ class PageCrudController extends AbstractCrudController
 
 
         yield FormField::addTab('Content')->setIcon('cogs');
+            yield AssociationField::new('menu')
+            ;
+
             yield ImageField::new('bgImage')
                 ->setBasePath('uploads/pages/bg')
                 ->setUploadDir('public/uploads/pages/bg')

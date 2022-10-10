@@ -106,6 +106,9 @@ class Company implements TimestampableInterface,  TranslatableInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logoSecondary = null;
 
+    #[ORM\Column(length: 140, nullable: true)]
+    private ?string $bgColorTertiary = null;
+
     public function __construct()
     {
         $this->offices = new ArrayCollection();
@@ -486,6 +489,18 @@ class Company implements TimestampableInterface,  TranslatableInterface
     public function setLogoSecondary(?string $logoSecondary): self
     {
         $this->logoSecondary = $logoSecondary;
+
+        return $this;
+    }
+
+    public function getBgColorTertiary(): ?string
+    {
+        return $this->bgColorTertiary;
+    }
+
+    public function setBgColorTertiary(?string $bgColorTertiary): self
+    {
+        $this->bgColorTertiary = $bgColorTertiary;
 
         return $this;
     }
