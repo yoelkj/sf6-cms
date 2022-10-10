@@ -35,7 +35,7 @@
 
                     {% if alignRightImage %}
 
-                        <div class="col col-md-6"  style="{{(textColor)? 'color:' ~ textColor: ''}}">
+                        <div class="col-md-6"  style="{{(textColor)? 'color:' ~ textColor: ''}}">
 
                             <h2 class="content-blog-resume-title" style="{{(titleColor) ? 'color:' ~ titleColor: ''}}">{{translation.name|upper}}</h2>
                             {% if translation.subtitle %}
@@ -56,7 +56,7 @@
 
                         </div>
 
-                        <div class="col col-md-6">
+                        <div class="col-md-6">
                             <div class="d-flex flex-wrap align-items-center">
                                 <img class="img-fluid w-100" src="{{image}}">
                             </div>
@@ -66,13 +66,13 @@
                     {% else %}
 
 
-                        <div class="col col-md-6">
+                        <div class="col-md-6">
                             <div class="d-flex flex-wrap align-items-center">
                                 <img class="img-fluid w-100" src="{{image}}">
                             </div>
                         </div>
 
-                        <div class="col col-md-6 text-end"  style="{{(textColor)? 'color:' ~ textColor: ''}}">
+                        <div class="col-md-6 text-end"  style="{{(textColor)? 'color:' ~ textColor: ''}}">
                             <h2 class="content-blog-resume-title " style="{{(titleColor) ? 'color:' ~ titleColor: ''}}">{{translation.name|upper}}</h2>
                             {% if translation.subtitle %}
                                 <h2 class="content-blog-resume-subtitle" style="{{(subtitleColor) ? 'color:' ~ subtitleColor: ''}}">{{translation.subtitle|upper}}</h2>    
