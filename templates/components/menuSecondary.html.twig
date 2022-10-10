@@ -66,8 +66,10 @@
                         {% if chilItems > 0 %}
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown-{{menuItem.id}}">
 
+                            {#
                             <li><a class="dropdown-item" href="{{urlpage}}">{{menuItem.getTranslateName|upper}}</a></li>    
-                            
+                            #}
+
                             {% for chilMenuItem in childMenu %}
 
                                 {% set obj_page = chilMenuItem.getPage() %}
@@ -115,14 +117,14 @@
         </div>
     </nav>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSearch" aria-labelledby="offcanvasSearchLabel">
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasSearch" aria-labelledby="offcanvasSearchLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasSearchLabel">{{'Search'|upper|trans}}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
 
-            <form class="card card-sm">
+            <form class="card card-sm mb-3">
                 <div id="custom-search-input">
                 <div
                     class="input-group"
@@ -133,7 +135,7 @@
                     <input
                         name="q"
                         {#value="{{ searchTerm }}"#}
-                        placeholder="{{'Search products'|trans}}"
+                        placeholder="{{'What are you looking for?'|trans}}"
                         type="search"
                         class="form-control input-lg mx-1"
                         data-autocomplete-target="input"
@@ -154,8 +156,9 @@
                 </div>
             </form>
 
+            {#
             {{ component('shortcut') }}
-            
+            #}
         </div>
     </div>
 </div>

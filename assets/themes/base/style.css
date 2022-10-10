@@ -50,6 +50,14 @@
 }
 */
 
+p{
+    color: #008e3f;
+}
+
+#footer p{
+    color: #fcfcfc;
+}
+
 h1, h2, h3, h4, h5, h6{
     font-family: 'HelveticaTStdBlack'
 } 
@@ -69,7 +77,7 @@ body {
 
 a, #header a{
     /*color: #212529;*/
-    color: #009746;
+    color: #008e3f;
     text-decoration: none;
 }
 
@@ -89,6 +97,19 @@ a:hover{
     transition: all 200ms
 }
 
+
+.btn-primary {
+    color: #fff;
+    background-color: #008e3f;
+    border-color: #008e3f;
+}
+
+.btn-light {
+    color: #333!important;
+    background-color: #fcfcfc;
+    border-color: #fcfcfc;
+}
+
 .navbar-toggler{
     background-color: #009746!important;
 }
@@ -96,8 +117,6 @@ a:hover{
 #logomenu{
     display: none!important;
 }
-
-
 
 #page .cover{   
     height: 350px;

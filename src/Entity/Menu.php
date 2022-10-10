@@ -49,6 +49,12 @@ class Menu implements TimestampableInterface,  TranslatableInterface
     #[ORM\ManyToOne(targetEntity: Brand::class, inversedBy: 'menus')]
     private $brand;
 
+    #[ORM\Column(length: 140, nullable: true)]
+    private ?string $code = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $showInFooter = null;
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();
@@ -181,6 +187,30 @@ class Menu implements TimestampableInterface,  TranslatableInterface
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function isShowInFooter(): ?bool
+    {
+        return $this->showInFooter;
+    }
+
+    public function setShowInFooter(?bool $showInFooter): self
+    {
+        $this->showInFooter = $showInFooter;
 
         return $this;
     }

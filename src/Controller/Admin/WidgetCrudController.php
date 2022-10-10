@@ -57,8 +57,6 @@ class WidgetCrudController extends AbstractCrudController
                         return sprintf('%s - %s translation(s)', $name, $num_translations);
                     });
 
-            
-
             yield FormField::addRow();
             yield AssociationField::new('gallery')
                     ->setCrudController(GalleryCrudController::class)
@@ -87,13 +85,16 @@ class WidgetCrudController extends AbstractCrudController
             yield ColorField::new('textColor')->setColumns(3)->onlyOnForms()->showValue();
             yield ColorField::new('titleColor')->setColumns(3)->onlyOnForms()->showValue();
             yield ColorField::new('subtitleColor')->setColumns(3)->onlyOnForms()->showValue();
-                
+            
+            yield FormField::addRow();
+            yield BooleanField::new('pullRightImage')->onlyOnForms()->setColumns(12);
+
             yield FormField::addRow();
             yield ColorField::new('btnBgColor', 'Button bg color')->setColumns(3)->onlyOnForms()->showValue();
             yield ColorField::new('btnTextColor', 'Button text color')->setColumns(3)->onlyOnForms()->showValue();
+            yield Field::new('btnUrl', 'Button link')->setColumns(12)->onlyOnForms();
 
-            yield FormField::addRow();
-            yield BooleanField::new('pullRightImage')->onlyOnForms()->setColumns(12);
+            
 
         /*
         yield FormField::addTab('Use components')->setIcon('cogs');

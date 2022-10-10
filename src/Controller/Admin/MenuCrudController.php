@@ -41,7 +41,7 @@ class MenuCrudController extends AbstractCrudController
         yield FormField::addRow();
         yield AssociationField::new('page')->setColumns(4);
         yield AssociationField::new('category')->onlyOnForms()->hideOnForm();
-        yield AssociationField::new('brand')->setColumns(4);
+        //yield AssociationField::new('brand')->setColumns(4);
 
         yield FormField::addRow();
         yield AssociationField::new('menus', 'Sub menus')->onlyOnForms()->setColumns(12);

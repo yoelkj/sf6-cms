@@ -72,7 +72,7 @@ class PageTranslation implements TranslationInterface
         return $this->body;
     }
 
-    public function setBody(string $body): self
+    public function setBody(string $body = null): self
     {
         $this->body = $body;
 

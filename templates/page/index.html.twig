@@ -68,9 +68,11 @@
                 </div>
             
             {% else %}
-            <div class="col-md-6">
-                <img src="{{obj_row_translation.bodyImageUrl}}" class="img-fluid">    
-            </div>
+                {% if obj_row_translation.bodyImageUrl %}
+                        <div class="col-md-6">
+                        <img src="{{obj_row_translation.bodyImageUrl}}" class="img-fluid">    
+                    </div>
+                {% endif %}
             {% endif %}
 
             <div class="col-md">

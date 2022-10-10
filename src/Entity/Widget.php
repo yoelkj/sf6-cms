@@ -86,6 +86,12 @@ class Widget implements TimestampableInterface,  TranslatableInterface
     #[ORM\Column(length: 140, nullable: true)]
     private ?string $btnTextColor = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $btnUrl = null;
+
+    #[ORM\Column(length: 140, nullable: true)]
+    private ?string $code = null;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -388,6 +394,30 @@ class Widget implements TimestampableInterface,  TranslatableInterface
     public function setBtnTextColor(?string $btnTextColor): self
     {
         $this->btnTextColor = $btnTextColor;
+
+        return $this;
+    }
+
+    public function getBtnUrl(): ?string
+    {
+        return $this->btnUrl;
+    }
+
+    public function setBtnUrl(?string $btnUrl): self
+    {
+        $this->btnUrl = $btnUrl;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }
