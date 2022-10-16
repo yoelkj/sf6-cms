@@ -32,6 +32,17 @@
 }
 */
 
+.container {
+    max-width: 960px;
+}
+
+
+
+
+
+
+
+
 body{
     background-color: #fcfcfc;
     color: #009746;
@@ -423,6 +434,28 @@ ul.dropdown-menu .dropdown-item:hover{
     overflow: hidden;
 }
 
+.owl-carousel .owl-prev {
+    width: 15px;
+    position: absolute;
+    top: 40%;
+    left: -3%;
+    display: block !important;
+}
+
+.owl-carousel .owl-next {
+    width: 15px;
+    position: absolute;
+    top: 40%;
+    right: -3%;
+    display: block !important;
+}
+
+.owl-carousel .owl-prev, .owl-carousel .owl-next,
+.owl-carousel .owl-prev:hover, .owl-carousel .owl-next:hover
+{
+    background: none!important;
+}
+
 /*Scroll to top button*/
 .btn-scroll-top{
     font-size: 1rem;
@@ -519,7 +552,9 @@ ul.dropdown-menu .dropdown-item:hover{
 }
 
 .content-widgets i{
-    color: #00a6eb;
+    color: #009746;
+    font-weight: bold;
+    font-size: 2em;
 }
 
 .rounded-3 {
@@ -590,6 +625,7 @@ ul.dropdown-menu .dropdown-item:hover{
 .content-owl-caroucel-image h2,
 .content-owl-caroucel-image h3{
     font-family: 'FuturaMdBT';
+    font-size: 1.4em;
 }
 
 

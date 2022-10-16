@@ -24,7 +24,7 @@
 {% endif %}
 
 
-    <div id="owlCaroucelContainer-{{obj_widget.id}}" class="container wd my-3" style="{{(textColor)? 'color:' ~ textColor: ''}}">
+    <div id="owlCaroucelContainer-{{obj_widget.id}}" class="container wd my-5" style="{{(textColor)? 'color:' ~ textColor: ''}}">
 
         <div class="row py-3">
             <div class="col-md text-center">
@@ -35,8 +35,10 @@
                         
             </div>
         </div>
-        <div class="row">  
-            <div class="col-md-12">
+
+        <!---->
+        <div class="row justify-content-center">  
+            <div class="col-md-11">
                 <div id="owlCaroucel-{{obj_widget.id}}" {{stimulus_controller('owl-caroucel', {targetId: '#owlCaroucel-' ~ obj_widget.id, items:4})}} class="owl-carousel owl-theme">
                     {% for image in images %}
                         <div class="item wrapper-img text-center">
@@ -53,6 +55,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 
 

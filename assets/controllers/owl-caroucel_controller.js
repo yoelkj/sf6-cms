@@ -17,13 +17,17 @@ export default class extends Controller{
 
         var obj_params = {
             margin:20,
-            nav:false,
+            nav:true,
             autoplay:true,
+            dots: false,
 
             loop: true,
             autoplayTimeout:3000,
             items: this.itemsValue,
             autoplayHoverPause:true,
+
+            autoWidth:false,
+            navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
 
             responsive:{
                 0:{
