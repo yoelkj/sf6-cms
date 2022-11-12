@@ -7,7 +7,9 @@
 
 <div class="presentation py-5" style="{{background_color}}">
 
+    {% if use_container is defined and use_container %}
     <div class="container wd">
+    {% endif %}
         
         <div class="row">
             {% if translation %}
@@ -35,5 +37,8 @@
                 <div class="alert alert-warning">No translation available</div>
             {% endif %}
         </div>
+    {% if use_container is defined and use_container %}
     </div>
+    {% endif %}
+
 </div>

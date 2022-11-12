@@ -1,5 +1,8 @@
 <div class="primary_color">
+
+{% if use_container is defined and use_container %}
 <div class="container subscribe wd py-5" >
+{% endif %}
 
     {{ component('flashmsg') }}
 
@@ -23,5 +26,8 @@
             </div>
         </form>
     </div>
+    
+{% if use_container is defined and use_container %}
 </div>
+{% endif %}
 </div>

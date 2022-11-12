@@ -266,7 +266,7 @@
                 <!--end content-->
 
                 {% if obj_row.menu and chilItems %}
-                    {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+                    {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets, container: false}) }}
                 {% endif %}
 
             </div><!--//.col-md-->
@@ -277,7 +277,7 @@
 
 
     {% if chilItems is defined and chilItems == 0 %}
-        {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+        {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets, container: true}) }}
     {% endif %}
     
 

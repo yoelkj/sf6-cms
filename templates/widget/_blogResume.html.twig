@@ -26,7 +26,10 @@
 <div class="content-blog-resume" style="{{(bgColor)? 'background-color:' ~ bgColor: ''}}">
 {% endif %}
 
+
+{% if use_container is defined and use_container %}
 <div class="container wd py-3">
+{% endif %}
         
         {% if translation %}
             
@@ -100,5 +103,9 @@
         {% endif %}
 
 
+{% if use_container is defined and use_container %}
 </div><!--//.container-->
+{% endif %}
+
+
 </div><!--END Content blog resume-->

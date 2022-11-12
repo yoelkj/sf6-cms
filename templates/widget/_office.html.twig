@@ -1,7 +1,10 @@
 {% set company = app.session.get('appParam') %}
 {% set translation = obj_widget.getTranslation %}
 
+{% if use_container is defined and use_container %}
 <div class="container my-5 wd">
+{% endif %}
+
     {% for office in company.offices  %}
     {% set officeTranslation = office.getTranslation() %}
     <div class="row justify-content-md-center">
@@ -23,4 +26,7 @@
         </div>
     </div>
     {% endfor %}
+
+{% if use_container is defined and use_container %}
 </div>
+{% endif %}
