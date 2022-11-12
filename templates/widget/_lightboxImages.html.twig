@@ -21,13 +21,14 @@
         <div class="row">
             {% set col_images = (images|length > 3) ? 'col-md-3' : 'col-md-3'  %}
             {% for image in images %}
+                {% set image_name = image.body|striptags|raw %}
+
                 <div class="{{col_images}}">
                     <a href="{{image.getImageUrl()}}" data-lightbox="roadtrip">
-                        <img class="img-fluid img-thumbnail" src="{{image.getImageUrl()}}">
-                        
-                        {% set image_name = image.body|striptags|raw %}
+                        <img class="img-fluid img-thumbnail" src="{{image.getImageUrl()}}" alt="{{ (image_name) ? image_name : 'Image ' ~ loop.index }}">
+
                         {% if image_name %}  
-                            <h5>{{image_name}}</h5>
+                            <h5 class="text-center">{{image_name}}</h5>
                         {% endif %}
 
                     </a>
