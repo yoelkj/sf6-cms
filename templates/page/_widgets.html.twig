@@ -31,7 +31,7 @@
       {{ include('widget/_office.html.twig', {obj_widget: obj_widget}) }}
     
     {% elseif obj_widget.template == 'TEMPLATE_LIGHTBOX_IMAGES' %}
-      {% set use_title_result = (use_title is is defined and use_title) ? true : false %}
+      {% set use_title_result = (use_title is defined and use_title) ? true : false %}
       {{ include('widget/_lightboxImages.html.twig', {obj_widget: obj_widget, use_title: use_title_result}) }}
     
     {% elseif obj_widget.template == 'TEMPLATE_CONTENT_SIMPLE' %}
