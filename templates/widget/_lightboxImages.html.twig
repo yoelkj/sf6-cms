@@ -20,7 +20,7 @@
                     <a href="{{image.getImageUrl()}}" data-lightbox="roadtrip">
                         <img class="img-fluid img-thumbnail" src="{{image.getImageUrl()}}">
                         
-                        {% set image_name = image.description|striptags|raw %}
+                        {% set image_name = image.body|striptags|raw %}
                         {% if image_name %}  
                             <h5>{{image_name}}</h5>
                         {% endif %}
