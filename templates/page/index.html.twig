@@ -110,7 +110,6 @@
                           
                           <!--IMAGE-->
                             
-                            
                             {% if gallery %}
                               
                               {% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
@@ -266,13 +265,20 @@
 
                 <!--end content-->
 
-                {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+                {% if obj_row.menu and chilItems %}
+                    {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+                {% endif %}
 
             </div><!--//.col-md-->
         </div><!--//.row-->
 
     </div><!--//.container-->
 
+
+
+    {% if chilItems is defined and chilItems == 0 %}
+        {{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets}) }}
+    {% endif %}
     
 
 </div>
