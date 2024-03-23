@@ -2,47 +2,47 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.24dee7f8.js",
-        "/build/746.31d0c85b.js",
-        "/build/169.3a56a61e.js",
-        "/build/41.3d130b88.js",
-        "/build/app.94a7d98c.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_symfony_ux-chartjs_di-503b28.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js.js",
+        "/build/node_modules_symfony_stimulus-bridge_dist_webpack_loader_js_assets_controllers_json-assets_bo-c9ceb2.js",
+        "/build/app.js"
       ],
       "css": [
-        "/build/746.7ba538bd.css",
-        "/build/app.31d6cfe0.css"
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_symfony_ux-chartjs_di-503b28.css",
+        "/build/app.css"
       ]
     },
     "admin": {
       "js": [
-        "/build/runtime.24dee7f8.js",
-        "/build/746.31d0c85b.js",
-        "/build/41.3d130b88.js",
-        "/build/admin.099a15f2.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_symfony_ux-chartjs_di-503b28.js",
+        "/build/node_modules_symfony_stimulus-bridge_dist_webpack_loader_js_assets_controllers_json-assets_bo-c9ceb2.js",
+        "/build/admin.js"
       ],
       "css": [
-        "/build/746.7ba538bd.css",
-        "/build/admin.def878d4.css"
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_symfony_ux-chartjs_di-503b28.css",
+        "/build/admin.css"
       ]
     },
     "base_theme": {
       "js": [
-        "/build/runtime.24dee7f8.js",
-        "/build/base_theme.340086d1.js"
+        "/build/runtime.js",
+        "/build/base_theme.js"
       ],
       "css": [
-        "/build/9.d71717cb.css",
-        "/build/base_theme.18e652ba.css"
+        "/build/vendors-node_modules_fontsource_roboto-condensed_index_css-node_modules_fortawesome_fontaweso-2f69db.css",
+        "/build/base_theme.css"
       ]
     },
     "landing_theme": {
       "js": [
-        "/build/runtime.24dee7f8.js",
-        "/build/landing_theme.a1f934c7.js"
+        "/build/runtime.js",
+        "/build/landing_theme.js"
       ],
       "css": [
-        "/build/9.d71717cb.css",
-        "/build/landing_theme.35be01db.css"
+        "/build/vendors-node_modules_fontsource_roboto-condensed_index_css-node_modules_fortawesome_fontaweso-2f69db.css",
+        "/build/landing_theme.css"
       ]
     }
   }
