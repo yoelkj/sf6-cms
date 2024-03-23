@@ -31,9 +31,12 @@ class GalleryImages implements TimestampableInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $link;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $wpMessage;
+
     #[ORM\Column(type: 'text', nullable: true)]
     private $body;
-        
+
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $isActive = false;
 
@@ -47,7 +50,7 @@ class GalleryImages implements TimestampableInterface
 
     public function __toString(): string
     {
-        return 'Imagen - '.($this->language) ?? $this->language->getName();
+        return 'Imagen - ' . ($this->language) ?? $this->language->getName();
     }
 
     public function getLanguage(): ?Language
@@ -138,6 +141,19 @@ class GalleryImages implements TimestampableInterface
     public function setUpdated(?\DateTimeInterface $updated): self
     {
         $this->updated = $updated;
+
+        return $this;
+    }
+
+
+    public function getWpMessage(): ?string
+    {
+        return $this->wpMessage;
+    }
+
+    public function setWpMessage(?string $wpMessage): self
+    {
+        $this->wpMessage = $wpMessage;
 
         return $this;
     }
