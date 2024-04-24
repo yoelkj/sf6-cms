@@ -1005,10 +1005,10 @@
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-"@symfony/ux-chartjs@file:vendor/symfony/ux-chartjs/Resources/assets":
+"@symfony/ux-chartjs@file:vendor/symfony/ux-chartjs/assets":
   version "1.1.0"
 
-"@symfony/ux-turbo@file:vendor/symfony/ux-turbo/Resources/assets":
+"@symfony/ux-turbo@file:vendor/symfony/ux-turbo/assets":
   version "0.1.0"
 
 "@symfony/webpack-encore@^2.0.0":
