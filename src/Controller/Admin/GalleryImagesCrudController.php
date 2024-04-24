@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -27,13 +28,15 @@ class GalleryImagesCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new('id')->onlyOnIndex();
-        
+
         yield FormField::addRow();
         yield AssociationField::new('gallery')->setColumns(12);
         yield AssociationField::new('language')->setColumns(12);
 
         yield FormField::addRow();
-        yield UrlField::new('link')->onlyOnForms()->setColumns(12);
+
+        yield UrlField::new('link')->onlyOnForms()->setColumns(6);
+        yield Field::new('wpMessage')->onlyOnForms()->setColumns(6);
 
         yield FormField::addRow();
         yield ImageField::new('image')
@@ -42,7 +45,6 @@ class GalleryImagesCrudController extends AbstractCrudController
             ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
             //->setFormTypeOption('upload_new', function(){})
             ->onlyOnForms()->setColumns(12);
-        
 
         yield TextareaField::new('body')
             ->setFormTypeOptions([
@@ -54,15 +56,13 @@ class GalleryImagesCrudController extends AbstractCrudController
                     //'id' => 'text-area-'.uniqid(),
                 ],
             ])
-            ->setColumns(12)->onlyOnForms()
-            ;
+            ->setColumns(12)->onlyOnForms();
 
         yield IntegerField::new('orderRow')->setColumns(12)->onlyOnForms();
-        yield BooleanField::new('isActive');//->setColumns(12)
+        yield BooleanField::new('isActive'); //->setColumns(12)
 
         yield DateField::new('createdAt')->hideOnForm();
         yield DateField::new('updatedAt')->onlyOnForms()->hideOnForm();
-
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -71,11 +71,10 @@ class GalleryImagesCrudController extends AbstractCrudController
             ->add('createdAt')
             ->add('gallery')
             ->add('language')
-            
+
             ->add(BooleanFilter::new('isActive'))
             //->add(BooleanFilter::new('enabled')->setFormTypeOption('expanded', false));
-            
-            ;
-    }
 
+        ;
+    }
 }
