@@ -2,7 +2,7 @@
 
 {% set images = gallery.getGalleryImagesByLanguage(app.request.getLocale()) %}
 
-{% set default_wp_message = 'I want more information about this product' %}
+{% set default_wp_message = 'Quiero más información sobre este producto.' %}
 <div {{stimulus_controller('lightbox')}} id="lightBox-{{gallery.id}}" class="" data-bs-ride="">
 
 
