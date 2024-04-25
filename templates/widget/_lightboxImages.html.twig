@@ -33,7 +33,7 @@
 						<img class="img-fluid img-thumbnail" src="{{image.getImageUrl()}}" alt="{{ (image_name) ? image_name : 'Image ' ~ loop.index }}">
 
 						{% if image_name %}
-							<h5 class="text-center">{{image_name}}</h5>
+							<h5 class="text-center ma">{{image_name}}</h5>
 						{% endif %}
 
 						{% set sales_number = (app.session.get('appParam').phoneSales) ?app.session.get('appParam').phoneSales : app.session.get('appParam').phoneMain %}
