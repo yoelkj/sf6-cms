@@ -2,6 +2,10 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes:
         - bootstrap_5_layout.html.twig
+    globals:
+        google_analytics_id: '%env(GOOGLE_ANALYTICS_ID)%'
+        google_tag_manager_id: '%env(GOOGLE_TAG_MANAGER_ID)%'
+
 when@test:
     twig:
         strict_variables: true
