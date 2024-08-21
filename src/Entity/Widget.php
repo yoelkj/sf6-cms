@@ -92,6 +92,9 @@ class Widget implements TimestampableInterface,  TranslatableInterface
     #[ORM\Column(length: 140, nullable: true)]
     private ?string $code = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isFluid = null;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -418,6 +421,18 @@ class Widget implements TimestampableInterface,  TranslatableInterface
     public function setCode(?string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function isIsFluid(): ?bool
+    {
+        return $this->isFluid;
+    }
+
+    public function setIsFluid(?bool $isFluid): static
+    {
+        $this->isFluid = $isFluid;
 
         return $this;
     }

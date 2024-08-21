@@ -1,15 +1,26 @@
 {% set translation = obj_widget.getTranslation %}
 
-{% if container is defined and container %}
-<div class="container wd">
-{% endif %}
 
-    <div class="row">
-        <div class="col-md">
-            {{translation.body|raw}}
-        </div>
-    </div>
+{% if obj_widget.isFluid %}
 
-{% if container is defined and container %}
-</div>
+	<div class="fluid-content">
+		{{translation.body|raw}}
+	</div>
+
+{% else %}
+
+	{% if container is defined and container %}
+		<div class="container wd">
+		{% endif %}
+
+		<div class="row">
+			<div class="col-md">
+				{{translation.body|raw}}
+			</div>
+		</div>
+
+		{% if container is defined and container %}
+		</div>
+	{% endif %}
+
 {% endif %}

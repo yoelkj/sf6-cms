@@ -191,8 +191,28 @@ background-size: cover;background-repeat: no-repeat;background-position: center;
 }
 
 
+div.fluid-content p{
+    margin: 0;
+}
+div.fluid-content iframe{
+    width: 100%!important;
+    height: 450px;
+}
 
 
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .box div {
+
+    align-self: center;
+    width: auto;
+    height: auto;
+  }
 
 .container-logo{
     /*

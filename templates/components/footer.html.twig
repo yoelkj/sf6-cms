@@ -2,88 +2,103 @@
 {% set generalMenu = this.getMenuItems() %}
 
 <div id="footer" class="bg_color_secondary">
-<footer class="container py-5 footer">
+	<footer class="container py-5 footer">
 
-    <div class="row mb-5">
+		<div class="row mb-5">
 
-        {% for menu  in generalMenu.withChilds %}
+			{% for menu  in generalMenu.withChilds %}
 
-            {% set obj_page = menu.getPage() %}
-            {% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
-            {% set page_slug = (obj_page_translation) ? obj_page_translation.slug : null %}
-            {% set page_name = (obj_page_translation) ? obj_page_translation.name : null %}
-            
-            {% if page_slug %}
-                {% if obj_page.isCatalog == true %}
-                    {% set obj_brand = menu.getBrand() %}
-                    {% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
-                    {% set obj_category = menu.getcategory() %}
-                    {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
-                    {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
-                    {% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug, category: category_slug }) : '' %}
-                {% else %}
-                    {% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
-                {% endif %}
+				{% set obj_page = menu.getPage() %}
+				{% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
+				{% set page_slug = (obj_page_translation) ? obj_page_translation.slug : null %}
+				{% set page_name = (obj_page_translation) ? obj_page_translation.name : null %}
 
-            {% else %}
-                {% set urlpage = '#' %}
-            {% endif %}
-            
-            <div class="col-6 col-md">
-                <h5><a class="link-secondary" href="{{ urlpage }}">{{menu.getTranslateName}}</a></h5>
-                <ul class="list-unstyled text-small">
-                    {% for chilMenu in menu.menus %}
-                        <li><a class="link-secondary" href="{{ urlpage }}">{{chilMenu.getTranslateName}}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endfor %}
+				{% if page_slug %}
+					{% if obj_page.isCatalog == true %}
+						{% set obj_brand = menu.getBrand() %}
+						{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
+						{% set obj_category = menu.getcategory() %}
+						{% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+						{% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+						{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug, category: category_slug }) : '' %}
+					{% else %}
+						{% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
+					{% endif %}
 
-        <div class="col-6 col-md">
+				{% else %}
+					{% set urlpage = '#' %}
+				{% endif %}
 
-            <h5>Contáctanos</h5>
+				<div class="col-6 col-md">
+					<h5>
+						<a class="link-secondary" href="{{ urlpage }}">{{menu.getTranslateName}}</a>
+					</h5>
+					<ul class="list-unstyled text-small">
+						{% for chilMenu in menu.menus %}
+							<li>
+								<a class="link-secondary" href="{{ urlpage }}">{{chilMenu.getTranslateName}}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endfor %}
 
-            <p>{{company.legalName}}</br>
-            {{company.address}}<br>
-            {{company.city}} {{company.province}} {{company.Country}}</p>
-            
-            <p>
-                {{((company.phoneMain) ? company.phoneMain~'<br>': '')|striptags('<br>')|raw}}
-                {{((company.phoneSales) ? company.phoneSales~'<br>': '')|striptags('<br>')|raw}}
-                {{((company.phoneSupport) ? company.phoneSupport~'<br>': '')|striptags('<br>')|raw}}
-            </p>
+			<div class="col-6 col-md">
 
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and is_granted('ROLE_ADMIN') %}
-                <div>
-                    <a class="btn btn-light btn-sm w-100" data-turbo="false" href="{{ path('admin') }}">
-                        Admin
-                    </a>
-                </div>
-            {% endif %}
-        
-        </div>
+				<h5>Contáctanos</h5>
 
-    </div>
+				<p>{{company.legalName}}<br>
+					{{company.address}}<br>
+					{{company.city}}
+					{{company.province}}
+					{{company.Country}}</p>
 
-    <hr>
-    
-    <div class="row my-3">
-    
-        <div class="col-4 col-md">
-            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                <img width="80" alt="logo-footer" src="/uploads/logo/{{ company.logoSecondary }}">
-            </a>
-        </div>
+				<p>{{company.emailSales}}</p>
 
-        <div class="col-4 col-md d-flex align-items-center justify-content-center">
-            <small>&copy; {{company.name |upper}} {{"now"|date("Y")}}. {{'All rights reserved'| trans }}</small>
-        </div>
+				<p>
+					{{((company.phoneMain) ? company.phoneMain~'<br>': '')|striptags('<br>')|raw}}
+					{{((company.phoneSales) ? company.phoneSales~'<br>': '')|striptags('<br>')|raw}}
+					{{((company.phoneSupport) ? company.phoneSupport~'<br>': '')|striptags('<br>')|raw}}
+				</p>
 
-        <div class="col-4 col-md  d-flex align-items-center justify-content-end">
-            <strong><i class="far fa-circle"></i> ESENCIA ESTUDIO</strong>
-        </div>
+				{#
+								{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and is_granted('ROLE_ADMIN') %}
+									<div>
+										<a class="btn btn-light btn-sm w-100" data-turbo="false" href="{{ path('admin') }}">
+											Admin
+										</a>
+									</div>
+								{% endif %}
+				                #}
 
-    </div>
+			</div>
 
-</footer>
+		</div>
+
+		<hr>
+
+		<div class="row my-3">
+
+			<div class="col-4 col-md">
+				<a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+					<img width="80" alt="logo-footer" src="/uploads/logo/{{ company.logoSecondary }}">
+				</a>
+			</div>
+
+			<div class="col-4 col-md d-flex align-items-center justify-content-center">
+				<small>&copy;
+					{{company.name |upper}}
+					{{"now"|date("Y")}}.
+					{{'All rights reserved'| trans }}</small>
+			</div>
+
+			<div class="col-4 col-md  d-flex align-items-center justify-content-end">
+				<strong>
+					<i class="far fa-circle"></i>
+					ESENCIA ESTUDIO</strong>
+			</div>
+
+		</div>
+
+	</footer>
 </div>
