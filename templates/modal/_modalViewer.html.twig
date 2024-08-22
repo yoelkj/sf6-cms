@@ -1,0 +1,27 @@
+<!-- Modal -->
+<div class="modal fade" 
+    id="modal_{{name}}" 
+    tabindex="-1" 
+    aria-labelledby="modal_{{name}}Label" 
+    aria-hidden="true"
+    data-modal-viewer-target="modal"
+    >
+  <div class="modal-dialog modal-dialog-centered {{(size is defined) ? 'modal-' ~ size : ''}}">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_{{name}}Label">{{(title is defined) ? title : ''}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body"
+          data-modal-viewer-target="modalBody"  
+        >
+        
+        {{body|default('Loading...')}}
+        
+        </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,176 @@
+<!--Payments option-->
+
+{% set obj_user = app.user %}
+{% set is_agency = (obj_user is instanceof('Agency'))  ? true : false %}
+{% set is_superuser = (is_agency and obj_user.isSuperuser ) ? true : false %}
+
+{% set company = app.session.get('appParam') %}
+{% set selected_mp = 1 %}
+{% set card_brand = 0 %}
+
+<div id="alertModalComplete" class="alert alert-small alert-info" style="display:none;"></div>
+
+<p id="loaderGetForm" class="text-center" style="display:none;">
+	<i class="fas fa-sync fa-spin"></i>
+</p>
+
+<form id="frmCheckout" action="{{path('app_checkout')}}" method="POST" autocomplete="off" class="needs-validation">
+
+	<div class="text-center">
+		<div id="methodPayment">
+			<div class="row mb-3">
+
+				<input
+				type="hidden" data-cart-show-target="option" id="paymethod_{{selected_mp}}" cardcomm="" cardbrand="" class="optMethodPay" name="method_payment" value="{{selected_mp}}">
+
+			{#
+									        {% for obj_payment_method in obj_payment_methods %}
+									
+									            {% set text_name = obj_payment_method.name|upper %}
+									            {% set onErrorString = "textnode= document.createTextNode('"~text_name~"');parent = this.parentNode; parent.appendChild(textnode);" %}
+									            {% set onErrorString = onErrorString~"this.onerror = '';this.style.position='absolute';this.style.display='none';this.parentNode.removeChild(this);" %} 
+									            
+									            <div class="col">
+									            
+									            <div class="content-option {{(obj_payment_method.id == 1)?'bg-secondary':''}} ">
+									            {% set is_active = (obj_payment_method.id == 3)?'checked':'' %}
+									
+									            <input data-cart-show-target="option" data-action="click->cart-show#selectption" id="paymethod_{{obj_payment_method.id}}" cardComm="{{obj_payment_method.commission}}"  cardBrand="{{obj_payment_method.cardbrand}}" class="optMethodPay" type="radio" name="method_payment" value="{{obj_payment_method.id}}" {{is_active}} ><br>
+									            
+									            <label  for="paymethod_{{obj_payment_method.id}}">
+									            {% if obj_payment_method.logoPath %}
+									                <div><img onError="{{onErrorString}}" alt="{{obj_payment_method.name|upper}}" src="/uploads/payments_types/{{obj_payment_method.logoPath}}"></div>
+									            {% else %}
+									                {{obj_payment_method.name|upper}}
+									            {% endif %}
+									            </label>  
+									            </div>
+									            </div>
+									        {% endfor %}
+									        #}
+
+			</div>
+		</div>
+		<div
+			id="summaryModal">
+
+			{#
+									            <div class="row">
+									                <div class="col-md">
+									                    Subtotal
+									                </div>
+									                <div class="col-md">
+									                    <span id="total_prices_ref"></span>
+									                </div>
+									            </div>
+									            #}
+
+			<div class="row my-3">
+				<div class="col-md text-start">
+					TOTAL
+				</div>
+				<div class="col-md">
+					<input type="hidden" id="commissionMethodPayment">
+					<span id="totalPayment" class="font-weight-bold"></span>
+				</div>
+			</div>
+
+		</div>
+
+		<input type="hidden" name="card_brand" id="cardBrand">
+		<input type="hidden" name="currency_code" value="EUR">
+		<input type="hidden" name="lc" value="ES">
+		<input type="hidden" name="distributor">
+
+		<input
+		type="hidden" name="total" id="payTotal">
+		<!--//TOTAL prices-->
+		<input
+		type="hidden" name="totalMask" id="payTotalMask">
+		<!--//TOTAL prices-->
+
+		<input
+		type="hidden" name="subtotal" id="paySubtotal">
+		<!--//TOTAL prices-->
+		<input type="hidden" name="shipping" id="payShipping" value="0">
+		<input type="hidden" name="shipping_doc" id="payShippingDoc" value="0">
+		<input type="hidden" name="taxes" id="payTaxes" value="0">
+		<input type="hidden" name="vat" id="payVat" value="{{arr_taxes.vat}}">
+		<input type="hidden" name="re" id="payRe" value="{{arr_taxes.re}}">
+		<input
+		type="hidden" name="order" id="payOrder">
+		<!--//ID order-->
+		<input
+		type="hidden" name="order_mask" id="payOrderMask">
+		<!--//MASK order-->
+		<input
+		type="hidden" name="url_return" value="{{app.request.get('_route')}}">
+	<!--//MASK order-->
+	</div>
+
+	<div id="moreFieldspayment"></div>
+
+</form>
+
+<div id="frmPayment"></div>
+
+<div id="orderButtons">
+
+	{% set company = app.session.get('appParam') %}
+
+	<div class="messaje-conditions alert alert-warning text-center">
+		<strong>Si completas el proceso, estás aceptando estas
+
+			<div {{ stimulus_controller('confirm', { urlget: path('app_terms', {content: 'company'} ), }) }}>
+				<a data-confirm-target="openbtn" data-action="click->confirm#handleClick" href="javascript:void(0);">{{'Privacy policy'|trans}}
+					/
+					{{'Terms and conditions'|trans}}</a>
+			</strong>
+		</div>
+	</div>
+
+	<div class="">
+		<div class="form-check">
+			<input class="form-check-input" data-action="change->cart-show#handleGrantedChange" type="checkbox" name="privacy_granted" value="1" id="privacyGranted" required>
+			<label class="form-check-label" for="privacyGranted">{{'I agree with the'| trans}}
+				<div {{ stimulus_controller('confirm', { urlget: path('app_terms', {agency: app.request.get('agency'), onlydata: 'comp'} ), }) }}>
+					<a data-action="click->confirm#handleClick" activecheck="privacyGranted" href="javascript:void(0);">
+						{{'Privacy policy'|trans}}
+						/
+						{{'Terms and conditions'|trans}}
+						{{company.name}}
+					</a>
+				</div>&nbsp;
+			</label>
+		</div>
+	</div>
+
+	<div class="d-grid gap-2 my-3">
+
+		<a data-cart-show-target="send" data-action="click->cart-show#handleSend" id="btn_send_order" class="btn btn-success" href="javascript:void(0);">
+
+			{% if card_brand %}
+				{{'Send payment'|trans}}
+			{% else %}
+				{{'Send order'|trans}}
+			{% endif %}
+
+		</a>
+
+		{% if catalog_uri %}
+			<a href="{{ path(catalog_uri) }}" class="btn btn-primary">{{'Continue buying'|trans}}</a>
+		{% endif %}
+
+
+	</div>
+
+	<div id="message"></div>
+
+	{{ include('modal/_modal.html.twig', {
+                            name: 'confirm',
+                            title: 'Terms',
+                            sendLabel: 'Accept and continue',
+                            size: 'lg'
+                        }) }}
+
+</div>

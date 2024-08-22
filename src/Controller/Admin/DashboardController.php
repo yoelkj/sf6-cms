@@ -11,6 +11,9 @@ use App\Entity\GalleryImages;
 use App\Entity\Language;
 use App\Entity\Menu;
 use App\Entity\Office;
+use App\Entity\Order;
+use App\Entity\OrderDetail;
+use App\Entity\OrderPayment;
 use App\Entity\Page;
 use App\Entity\Presentation;
 use App\Entity\Product;
@@ -78,7 +81,7 @@ class DashboardController extends AbstractDashboardController
         // if ('jane' === $this->getUser()->getUsername()) {
         //     return $this->redirect('...');
         // }
-        
+
         /*
         $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
         $chart->setData([
@@ -120,7 +123,6 @@ class DashboardController extends AbstractDashboardController
             'chart3' => $chart2,
         ]);
         */
-
     }
 
     public function configureDashboard(): Dashboard
@@ -129,19 +131,19 @@ class DashboardController extends AbstractDashboardController
         $appParam = $this->requestStack->getSession()->get('appParam');
 
         $dashboard = Dashboard::new();
-        
-            // the name visible to end users
-            $dashboard
+
+        // the name visible to end users
+        $dashboard
             //->setTitle('<img src="...">', $appParam->getName())
             // you can include HTML contents too (e.g. to link to an image)
             //$appParam->getName()
-            ->setTitle((($appParam->getLogo())?'<img src="/uploads/logo/'.$appParam->getLogo().'"> ':''))
-            
+            ->setTitle((($appParam->getLogo()) ? '<img src="/uploads/logo/' . $appParam->getLogo() . '"> ' : ''))
+
             // by default EasyAdmin displays a black square as its default favicon;
             // use this method to display a custom favicon: the given path is passed
             // "as is" to the Twig asset() function:
             // <link rel="shortcut icon" href="{{ asset('...') }}">
-            ->setFaviconPath('/uploads/favicon/'.$appParam->getFavicon())
+            ->setFaviconPath('/uploads/favicon/' . $appParam->getFavicon())
 
             // the domain used by default is 'messages'
             ->setTranslationDomain('admin')
@@ -170,7 +172,7 @@ class DashboardController extends AbstractDashboardController
         ;
 
         //$dashboard->getAsDto()->setContentWidth(Crud::LAYOUT_CONTENT_FULL);
-        
+
         return $dashboard;
     }
 
@@ -179,9 +181,9 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-dashboard');
         yield MenuItem::linkToRoute('Homepage', 'fas fa-home', 'app_homepage');
-        
+
         yield MenuItem::section('General');
-            
+
         /*
         yield MenuItem::subMenu('Products', 'fas fa-cubes')->setSubItems([
             MenuItem::linkToCrud('Products', 'fas fa-cubes', Product::class),
@@ -195,7 +197,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Pages', 'fas fa-clipboard', Page::class),
             MenuItem::linkToCrud('Menu', 'fas fa-list', Menu::class),
             MenuItem::linkToCrud('Widgets', 'fas fa-diamond', Widget::class),
-        ]); 
+        ]);
 
         yield MenuItem::subMenu('Gallery', 'fa fa-folder')->setSubItems([
             MenuItem::linkToCrud('Gallery', 'fas fa-folder', Gallery::class),
@@ -208,18 +210,31 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Languages', 'fas fa-globe', Language::class)
         ]);
 
-
         yield MenuItem::subMenu('Companies', 'fas fa-building')->setSubItems([
             MenuItem::linkToCrud('Companies', 'fas fa-building', Company::class),
             MenuItem::linkToCrud('Offices', 'fas fa-map-marked-alt', Office::class)
         ]);
 
+        yield MenuItem::subMenu('Ecommerce', 'fas fa-dumpster')->setSubItems([
+
+            //MenuItem::linkToCrud('Companies', 'fas fa-building', Order::class),
+            MenuItem::linkToCrud('Orders', 'fab fa-product-hunt', Order::class),
+            MenuItem::linkToCrud('Orders details', 'fab fa-product-hunt', OrderDetail::class),
+            MenuItem::linkToCrud('Order payments', 'fab fa-product-hunt', OrderPayment::class),
+            MenuItem::section('-------'),
+            MenuItem::linkToCrud('Products', 'fab fa-product-hunt', Product::class),
+            MenuItem::linkToCrud('Category', 'fab fa-product-hunt', Category::class),
+            MenuItem::linkToCrud('Presentation', 'fab fa-product-hunt', Presentation::class),
+            MenuItem::linkToCrud('Brand', 'fab fa-product-hunt', Brand::class),
+
+        ]);
+
         yield MenuItem::section('Security');
-        
-        
+
+
         yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class)
-                //->setPermission('ROLE_SUPERADMIN')
-                ->setController(UserCrudController::class);
+            //->setPermission('ROLE_SUPERADMIN')
+            ->setController(UserCrudController::class);
 
         //yield MenuItem::section('Users')->setPermission('ROLE_SUPERADMIN');
         //yield MenuItem::linkToUrl('Homepage', 'fas fa-home', $this->generateUrl('app_homepage'));
@@ -255,7 +270,7 @@ class DashboardController extends AbstractDashboardController
 
             // you can use any type of menu item, except submenus
             //->addMenuItems([
-                
+
             //    MenuItem::section('Localization'),
             //    MenuItem::linkToCrud('Countries', 'fas fa-list', Country::class),
             //    MenuItem::linkToCrud('Languages', 'fas fa-list', Language::class),
@@ -264,14 +279,13 @@ class DashboardController extends AbstractDashboardController
             //    MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),
             //])
         ;
-
     }
 
     public function configureActions(): Actions
     {
         return parent::configureActions()
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            
+
             /*
             ->update(Crud::PAGE_INDEX, Action::DELETE, static function(Action $action) {
                 $action->displayIf(static function (User $user) {
@@ -281,8 +295,8 @@ class DashboardController extends AbstractDashboardController
                 return $action;
             })
             */
-            
-            ;
+
+        ;
     }
 
     public function configureAssets(): Assets
@@ -296,7 +310,7 @@ class DashboardController extends AbstractDashboardController
         return parent::configureCrud()
             ->overrideTemplate('crud/field/id', 'admin/field/id_with_icon.html.twig')
             ->setDefaultSort([
-                    'id' => 'DESC',
+                'id' => 'DESC',
             ]);
     }
 
@@ -319,13 +333,12 @@ class DashboardController extends AbstractDashboardController
         $chart->setOptions([
             'scales' => [
                 'y' => [
-                   'suggestedMin' => 0,
-                   'suggestedMax' => 100,
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 100,
                 ],
             ],
         ]);
 
         return $chart;
     }
-
 }

@@ -1,0 +1,326 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% set data = arr_data %}
+{% set cart_header = (data and data.head is defined) ? data.head : null %}
+{% set cart_message = (data and data.message is defined) ? data.message : null %}
+{% set cart_detail = (data and data.detail is defined) ? data.detail : null %}
+
+{% set agency_detail =  ( cart_header.agencyDetail is defined ) ? cart_header.agencyDetail : null %}
+{% set agency_user_detail =  ( cart_header.userAgencyDetail is defined ) ? cart_header.userAgencyDetail : null %}
+{% set user_detail =  ( cart_header.userDetail is defined ) ? cart_header.userDetail : null %}
+{% set agency_super =  ( cart_header.agencySuperDetail is defined ) ? cart_header.agencySuperDetail : null %}
+{% set super_user =  ( cart_header.superUser is defined ) ? cart_header.superUser : null %}
+{% set tour_operator_view =  ( cart_header.tour_operator_view is defined ) ? cart_header.tour_operator_view : null %}
+
+{% block content_title %}
+	{{'Order show'|trans}}
+{% endblock %}
+
+{% block page_actions %}
+	{#<a class="btn btn-primary"  href="{{ ea_url().setRoute('app_cart') }}">Return to orders</a>#}
+
+	<a class="btn btn-primary" href="javascript: history.go(-1);">{{'Return to orders'|trans}}</a>
+
+{% endblock %}
+
+{% block main %}
+
+	<div>
+
+		<!--SHORT DETAL ORDER-->
+		{% if cart_header and cart_detail %}
+
+			<div class="row">
+				<div class="col">
+					<h2>
+						<strong>{{ maskNumberLocalOrder(cart_header.cart, 8, 0) }}</strong>
+						-
+						<span>{{cart_header.dateDoc|date('d/m/Y')}}</span>
+						-
+						<strong>{{ (arr_status[cart_header.status] is defined) ? arr_status[cart_header.status].name : cart_header.status}}</strong>
+					</h2>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+
+					<table class="table table-bordered table-stripped">
+						<thead>
+							<tr>
+								<th>{{'Items'|trans}}</th>
+								<th>{{'Price'|trans}}</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{% if cart_detail %}
+								{% set total = 0 %}
+								{% set items = 0 %}
+
+								{% for row in cart_detail %}
+
+
+									{% if app.user.email is defined and  (  app.user.email == agency_user_detail.email or  app.user.email == user_detail.email  ) %}
+
+										{% set row_price = row.price %}
+
+										{% if app.user is instanceof('Agency') %}
+											{% set info_prices = '<div class="alert alert-info">' ~ 'Check if the supplier is giving net or commissionable prices'|trans ~'</div>' %}
+										{% else %}
+											{% set info_prices = '' %}
+										{% endif %}
+
+									{% else %}
+										{% if is_admin %}
+											{% set row_price = row.base %}
+											{% set info_prices = '' %}
+										{% elseif is_super_agency %}
+											{% set row_price = row.parent %}
+											{% set info_prices = '<p class="fs-6 mb-1">Proveedor: ' ~ row.base|format_currency(cart_header.currency) ~ '</p>' %}
+										{% elseif app.user is instanceof('Agency') %}
+											{% set row_price = row.price %}
+											{% set info_prices = '<p class="fs-6 mb-1">Proveedor: ' ~ row.parent|format_currency(cart_header.currency) ~ '</p><div class="alert alert-info">' ~ 'Check if the supplier is giving net or commissionable prices'|trans ~'</div>' %}
+										{% else %}
+											{% set row_price = row.price %}
+											{% set info_prices = '' %}
+										{% endif %}
+									{% endif %}
+
+
+									{% set subtotal = row.items * row_price %}
+
+
+									<tr class="{{row.code}}">
+										<td class="text-end">{{row.items}}</td>
+
+										<td class="text-end">
+
+											{{row_price|format_currency(cart_header.currency)}}
+											{{info_prices|raw}}
+										</td>
+
+										<td class="text-end">{{subtotal|format_currency(cart_header.currency)}}</td>
+									</tr>
+
+									{% set total = total  + subtotal %}
+									{% set items = items + row.items %}
+
+								{% endfor %}
+							{% endif %}
+						</tbody>
+
+						<tfoot>
+							<tr>
+								<th colspan="2" class="text-end">Total</th>
+								<th class="text-end" id="totalOrder">{{total|format_currency(cart_header.currency)}}</th>
+							</tr>
+						</tfoot>
+
+					</table>
+
+				</div>
+				<!--Col-->
+			</div>
+			<!--Row-->
+
+
+			<div class="row">
+
+				<div class="col">
+					<table class="table table-bordered table-stripped">
+						<thead>
+							<tr>
+								<th colspan="2">{{"Agency detail"|trans}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-end">{{'Name'|trans}}:
+								</td>
+								<td class="text-end">Esencial Tours</td>
+							</tr>
+							<tr>
+								<td class="text-end">Email:
+								</td>
+								<td class="text-end">reservas@snve.es</td>
+							</tr>
+
+							{% if tour_operator_view and cart_header.cartReference is defined and cart_header.cartReference %}
+								<tr>
+									<td class="text-end">Reference order:</td>
+									<td class="text-end">
+										<strong>{{cart_header.cartReference}}</strong>
+									</td>
+								</tr>
+							{% else %}
+
+								<tr>
+									<td class="text-end">&nbsp;</td>
+									<td class="text-end">&nbsp;</td>
+								</tr>
+
+							{% endif %}
+
+						</tbody>
+
+					</table>
+				</div>
+
+
+				{#VENDEDOR#}
+
+				{% if agency_user_detail and agency_user_detail.name is defined and agency_user_detail.name  %}
+					<div class="col col-md-6">
+
+						<table class="table table-bordered table-stripped">
+							<thead>
+								<tr>
+									<th colspan="2">{{'User detail'|trans}}</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td class="text-end">{{'Name'|trans}}:
+									</td>
+									<td class="text-end">{{agency_user_detail.name}}</td>
+								</tr>
+								<tr>
+									<td class="text-end">Email:
+									</td>
+									<td class="text-end">{{agency_user_detail.email}}</td>
+								</tr>
+								<tr>
+									<td class="text-end">{{'Phone'|trans}}:
+									</td>
+									<td class="text-end">{{agency_user_detail.phone}}</td>
+								</tr>
+							</tbody>
+
+						</table>
+					</div>
+				{% endif %}
+
+				{% if is_super_agency and user_detail and user_detail.name is defined and user_detail.name %}
+
+					<div class="col col-md">
+
+						<table class="table table-bordered table-stripped">
+							<thead>
+								<tr>
+									<th colspan="2">{{'User detail'|trans}}</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td class="text-end">
+										{{'Name'|trans}}:
+									</td>
+									<td class="text-end">{{agency_detail.name}}</td>
+								</tr>
+								<tr>
+									<td class="text-end">Email:
+									</td>
+									<td class="text-end">{{agency_detail.email}}</td>
+								</tr>
+								<tr>
+									<td class="text-end">{{'Phone'|trans}}:
+									</td>
+									<td class="text-end">{{agency_detail.phone}}</td>
+								</tr>
+							</tbody>
+
+						</table>
+					</div>
+
+				{% else %}
+
+					{% if user_detail and user_detail.name is defined and user_detail.name  %}
+						<div class="col col-md">
+
+							<table class="table table-bordered table-stripped">
+								<thead>
+									<tr>
+										<th colspan="2">{{'User detail'|trans}}</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr>
+										<td class="text-end">{{'Name'|trans}}:
+										</td>
+										<td class="text-end">{{user_detail.name}}</td>
+									</tr>
+									<tr>
+										<td class="text-end">Email:
+										</td>
+										<td class="text-end">{{user_detail.email}}</td>
+									</tr>
+									<tr>
+										<td class="text-end">{{'Phone'|trans}}:
+										</td>
+										<td class="text-end">{{user_detail.phone}}</td>
+									</tr>
+								</tbody>
+
+							</table>
+						</div>
+					{% endif %}
+
+				{% endif %}
+
+
+				{% if agency_super and agency_super.name is defined and agency_super.name  %}
+					<div class="col col-md">
+
+						<table class="table table-bordered table-stripped">
+							<thead>
+								<tr>
+									<th colspan="2">{{'Tour operator detail'|trans}}</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td class="text-end">{{'Name'|trans}}:
+									</td>
+									<td class="text-end">{{agency_super.name}}</td>
+								</tr>
+								<tr>
+									<td class="text-end">Email:
+									</td>
+									<td class="text-end">{{agency_super.email}}</td>
+								</tr>
+								<tr>
+									<td class="text-end">{{'Phone'|trans}}:
+									</td>
+									<td class="text-end">{{agency_super.phone}}</td>
+								</tr>
+							</tbody>
+
+						</table>
+					</div>
+				{% endif %}
+
+
+			</div>
+
+
+		{% else %}
+			<div class="row">
+				<div class="col">
+					<div class="alert text-center alert-warning mb-5 mt-5">
+						{{'No records found'|trans|upper}}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+
+	</div>
+
+
+{% endblock %}

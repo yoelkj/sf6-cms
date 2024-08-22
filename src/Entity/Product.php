@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -73,11 +74,18 @@ class Product implements TimestampableInterface,  TranslatableInterface
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'relateds')]
     private $products;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderDetail::class)]
+    private Collection $orderDetails;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $price = null;
+
     public function __construct()
     {
         $this->widgets = new ArrayCollection();
         $this->relateds = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->orderDetails = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -353,6 +361,48 @@ class Product implements TimestampableInterface,  TranslatableInterface
         if ($this->products->removeElement($product)) {
             $product->removeRelated($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderDetail>
+     */
+    public function getOrderDetails(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderDetail(OrderDetail $orderDetail): static
+    {
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails->add($orderDetail);
+            $orderDetail->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDetail(OrderDetail $orderDetail): static
+    {
+        if ($this->orderDetails->removeElement($orderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getProduct() === $this) {
+                $orderDetail->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?string $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }

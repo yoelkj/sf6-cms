@@ -39,28 +39,69 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /*
+    public function getRow(
+        $user, 
+        $product, 
+        $admin = null,
+        $no_scandallo = false
+      ){
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+      $arr_data = [];
+      
+      $logueed_user = $this->security->getUser();
+
+      if(!$agency){
+        $agency = $logueed_user;
+      }
+
+      $arr_data['id'] = $agency->getId();
+      $arr_data['name'] = $agency->getName();
+      $arr_data['is_superuser'] = $agency->isIsSuperuser();
+      $arr_data['etype'] = $etype;
+      $arr_data['slug'] = $agency->getSlug();
+      $arr_data['commision'] = $this->getCommision($agency);
+
+      if((!$admin && $logueed_user instanceof Agency && $logueed_user->isIsSuperuser()) || $no_scandallo){
+        $arr_data['scandallos'] = [];
+      }else{
+        $arr_data['scandallos'] = $this->_em->getRepository('App\\Entity\\AgencyScandallo')->getRowsWithParent($agency);
+      }
+      
+      //set prices
+      if($event){
+        $arr_data = $this->_em->getRepository('App\\Entity\\Schedule')->getPricesByAgency($arr_data, $event, $etype, $no_scandallo);
+      }
+      
+      return $arr_data;
+
+    }
+    */
+
+
+
+    //    /**
+    //     * @return User[] Returns an array of User objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('u.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?User
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

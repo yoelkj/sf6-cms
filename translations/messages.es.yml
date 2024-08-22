@@ -24,6 +24,18 @@ Recommended products: Productos recomendados
 Related products: Productos relacionados
 
 All products: Todos los productos
+Products: Productos
+Cart: Tienda
+
+Profile: Perfil
+Orders: Pedidos
+
+Order: Pedido
+Date: Fecha
+Description: Descripción
+Status: Estado
+
+Add: Agregar
 
 Search: Buscar
 Search products: Buscar productos
@@ -32,6 +44,12 @@ What are you looking for?: Que estás buscando?
 Sorry we did not receive your message, please try again: Lo sentimos, no recibimos su mensaje, inténtelo de nuevo
 We have received your message, thank you for contacting us: Hemos recibido tu mensaje, gracias por contactarnos
 We have received your message, thanks for subscribing: Hemos recibido tu mensaje, gracias por suscribirte
+
+HELP_MESSAGE_RECOVERY_PASSWORD: Ingrese su dirección de correo electrónico y le enviaremos un enlace para restablecer su contraseña.
+
+Reset your password: Restablecer su contraseña
+Send email: Enviar email
+Reset password: Restablecer la contraseña
 
 Net content: Contenido neto
 Quantity per box: Cantidad por caja

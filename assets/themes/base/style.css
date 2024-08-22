@@ -200,6 +200,14 @@ div.fluid-content iframe{
 }
 
 
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: #009746;
+}
+
+.nav-link {
+    color: #009746;
+}
+
 .box {
     display: flex;
     align-items: center;

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{'Reset your password'|trans}}{% endblock %}
+
+{% block body %}
+    
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 login-form bg-light mt-4 p-4">
+
+    
+    {% for flash_error in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    <h1 class="h3 mb-3 font-weight-normal">{{'Reset your password'|trans}}</h1>
+
+    {{ form_start(requestForm) }}
+        {{ form_row(requestForm.email) }}
+        <div>
+            <small>
+                {{'HELP_MESSAGE_RECOVERY_PASSWORD'|trans}}
+            </small>
+        </div>
+
+        <div class="d-grid gap-2">            
+            <button class="btn btn-lg btn-primary float-end" type="submit">{{'Send email'|trans}}</button>
+        </div>
+    
+    {{ form_end(requestForm) }}
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

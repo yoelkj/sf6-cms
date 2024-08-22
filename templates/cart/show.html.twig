@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cart show |
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid my-5">
+
+		{% if data.head is defined and data.detail is defined %}
+
+			<div class="show-card" {{ stimulus_controller('cart-show', { uriCheckoutForm: path('app_checkout_form'), uriRemoveCartItem: path('app_cart_delete_item'), uriRedir: path('app_user_profile'), transsendingdata: 'Sending data' | trans } ) }}>
+
+				<div class="row">
+					<div class="col-md">
+
+						<h2>{{'Cart detail'|trans}}</h2>
+
+						{{ include('cart/_cartDetail.html.twig', { data: data, agency: null, useActions: false}) }}
+
+
+					</div>
+
+
+					{% if data.detail|length %}
+						<div class="col-md-4">
+
+							<h2>{{'Payment resume'|trans}}</h2>
+							{{ include('cart/_paymentType.html.twig', { 
+                        'default_payment_method': default_payment_method,
+                        'obj_payment_methods': obj_payment_methods, 'arr_taxes': {'vat': 0, 're':0} }) }}
+
+						</div>
+					{% else %}
+
+						{% if catalog_uri %}
+							<div class="text-center">
+								<a href="{{ path(catalog_uri) }}" class="btn btn-primary">{{'Continue buying'|trans}}</a>
+							</div>
+						{% endif %}
+					{% endif %}
+
+
+				</div>
+
+			</div>
+			<!--//.payment-->
+
+		{% else %}
+
+			<div class="alert alert-info">Empty cart</div>
+
+		{% endif %}
+
+	</div>
+
+
+{% endblock %}

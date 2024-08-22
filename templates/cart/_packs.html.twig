@@ -1,0 +1,84 @@
+<div class="row">
+
+    <div class="col">
+
+            <div class="">
+
+                <form id="frmPacks" action="" method="POST">
+
+                    <div id="alert-wrapper"></div>
+
+                    {% for key, rowDetail in data %}
+                        
+                        {% for key, rowDetailIn in rowDetail %}
+                            
+                            <h5>
+
+                            {{(rowDetailIn.description ? rowDetailIn.description : rowDetailIn.compose_key)}}
+
+                            {#
+                            {% if 'dblpp' in key  %} - {{rowDetailIn.amount}} {{'double rooms'|trans}} {% endif %}
+                            {% if 'sglpp'  in key %} - {{rowDetailIn.amount}} {{'Single rooms'|trans}} {% endif %}
+                            {% if 'tplpp' in key %} - :: {{'dblpp' in key}}  :: {{rowDetailIn.amount}} {{'Triple rooms'|trans}} {% endif %}
+                            {% if 'entries' in key %} - {{rowDetailIn.amount}} {{'Entries'|trans}} {% endif %}
+                            #}
+
+                            </h5>
+
+                            <input type="hidden" class="form-control" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][order_code]" value="{{(order_code)}}">
+                            <input type="hidden" class="form-control" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][description]" value="{{(rowDetailIn.description ? rowDetailIn.description : rowDetailIn.compose_key)}}">
+                            
+                            {% for pack in rowDetailIn.packs %}
+
+                            {% set idx = loop.index -1 %}
+                            
+                            
+                            <div class="mb-3 pb-3 row bg-light">
+                                <div class="col-12">
+                                    <h5 class="text-center mt-2">Pack {{loop.index}}</h5>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="name-{{idx}}" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name-{{idx}}" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][packs][{{idx}}][name]" value="{{(pack.name is defined and pack.name) ? pack.name : null}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastname-{{idx}}" class="form-label">Lastname</label>
+                                    <input type="text" class="form-control" id="lastname-{{idx}}" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][packs][{{idx}}][lastname]" value="{{(pack.lastname is defined and pack.lastname) ? pack.lastname : null}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="birthdate-{{idx}}" class="form-label">Birthdate</label>
+                                    <input type="text" class="form-control datetimepicker" id="birthdate-{{idx}}" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][packs][{{idx}}][birthdate]" value="{{(pack.birth_date is defined and pack.birth_date) ? pack.birth_date|date('d/m/Y') : null}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email-{{idx}}" class="form-label">email</label>
+                                    <input type="email" class="form-control" id="email-{{idx}}" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][packs][{{idx}}][email]" value="{{(pack.email is defined and pack.email) ? pack.email : null}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="nationality-{{idx}}" class="form-label">Nationality</label>
+                                    <input type="text" class="form-control" id="nationality-{{idx}}" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][packs][{{idx}}][nationality]" value="{{(pack.nationality is defined and pack.nationality) ? pack.nationality : null}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone-{{idx}}" class="form-label">phone</label>
+                                    <input type="phone" class="form-control" id="phone-{{idx}}" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][packs][{{idx}}][phone]" value="{{(pack.phone is defined and pack.phone) ? pack.phone : null}}">
+                                    <input type="hidden" name="packs[{{rowDetailIn.id}}][{{rowDetailIn.compose_key}}][packs][{{idx}}][id]" value="{{(pack.id is defined and pack.id) ? pack.id : null}}">
+                                </div>
+                            </div>
+                            
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    <div class="col-md-12 mt-3">
+                        <div class="d-grid gap-2">
+                            <a id="btnSavePacks" href="javascript:void(0);" class="btn btn-primary">Save packs</a>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+    </div>
+
+</div>

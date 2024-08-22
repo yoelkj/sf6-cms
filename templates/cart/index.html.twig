@@ -1,0 +1,173 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    Orders
+{% endblock %}
+
+{% block main %}
+
+
+    {% set filterData = app.session.get('filterData') %}
+    {% set filterData = filterData.order is defined ? filterData.order : [] %}
+    
+    <div id="filters" class="card mb-3">
+        <div class="card-body">
+            <form class="row" method="POST" action="">
+
+                <div class="col col-md-2">
+                    <label class="form-label">{{'Find by'|trans}}</label>
+                    <select name="find-by-field" class="form-control">
+                        <option value=""> {{'Find by'|trans|upper}}</option>
+                        <option value="id" {{(filterData['find-by-field'] is defined and filterData['find-by-field'] == 'id') ? 'selected' : ''}}  > {{'Order'|trans}}</option>
+                        <option value="description" {{(filterData['find-by-field'] is defined and filterData['find-by-field'] == 'description') ? 'selected' : ''}}> {{'Description'|trans}}</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <label class="form-label">{{'Find by'|trans}} <span class="find-by-value">{{'Value'|trans|lower}}</span></label>
+                    <input placeholder="{{'Write find by value'|trans}}" class="form-control" type="text" name="find-by-value" value="{{(filterData['find-by-value'] is defined and filterData['find-by-value']) ? filterData['find-by-value'] : ''}}">
+                </div>
+
+                {#
+                <div class="col-md">
+                    <label class="form-label">Agency</label>
+                    <select {{ stimulus_controller('select2-simple', {
+                            urlget: path('admin_ajax_get_agencies'),
+                            } ) }}
+                            
+                            name="agency" class="form-control">
+                        <option value="">{{'SELECT'|trans}}</option>
+                    </select>
+                </div>
+                #}
+
+                <div class="col-md-3">
+                    <label class="form-label">{{'Status'|trans}}</label>
+                    <select name="status" class="form-control">
+                        <option value="">{{'Select'|trans|upper}}</option>
+                        {% for st_option in arr_status %}
+                        <option value="{{st_option.id}}"  {{(filterData['status'] is defined and filterData['status'] == st_option.id ) ? 'selected' : ''}}  >{{st_option.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label><br>
+                    <button type="submit" name="btn-submit" value="submit" class="btn btn-lg btn-success">{{'Search'|trans}}</button>
+                    <button type="submit" name="btn-clear" value="clear" class="btn btn-lg btn-danger">{{'Clear'|trans}}</button>
+                </div>
+            
+            </form>
+        </div>
+
+    </div>
+
+
+{% if rows and rows.nbResults %}
+    
+    <table class="table datagrid">
+    <thead>
+        <tr>
+            <th>{{'Date'|trans}}</th>
+
+            <th>Nro.</th>
+
+            <th>{{'Description'|trans}}</th>
+            
+            {% if is_agency %}
+                <th>{{'User'|trans}}</th>
+            {% endif %}
+
+            {% if is_admin %}
+                <th>{{'Agency'|trans}}</th>
+            {% endif %}
+            
+            <th>Total</th>
+            <th>St</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    {% for row in rows %}
+        <tr>
+
+            <td>{{row.dateDoc |date("d/m")}}</td>
+            <td>
+                {{ maskNumberLocalOrder(row.id, 8, 0) }}
+            </td>
+            <td> {{ row | order_descrip }} </td>
+
+            {% if is_agency %}
+                <td>
+                   {% if row.user %}
+                        {{row.user.name}}
+                    {% endif %}
+                    {% if row.userAgency %}
+                        {{row.userAgency.name}}
+                    {% endif %}
+                </td>    
+            {% endif %}
+
+            {% if is_admin %}
+                <td>
+                   {% if row.agency %}
+                        {{row.agency.name}}
+                    {% endif %}
+                </td>    
+            {% endif %}
+            
+            {% set total_order = recalculeTotal(row, is_super_agency, is_admin) %}
+            <td class="text-end">{{total_order | format_currency(row.currency)}}</td>
+            
+            {#
+            {% if is_admin %}
+            {% else %}
+                <td class="text-end">{{row.total | format_currency(row.currency)}}</td>
+            {% endif %}
+            #}
+            
+            <td class="text-center">
+                {{ (arr_status[row.status] is defined) ? arr_status[row.status].name : row.status}}
+            </td>
+            <td>
+
+                <div class="dropdown dropdown-actions">
+                    <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="21" width="21" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" style="">
+                        
+                        <a class="dropdown-item action-detail" href="{{ea_url().setRoute('app_order_show', { id: row.id }) }}}}" data-action-name="detail"><span class="action-label">Ver</span></a>
+                        
+                        {#
+                        <a class="dropdown-item action-edit" href="" data-action-name="edit"><span class="action-label">Modificar</span></a>
+                        <a class="dropdown-item action-delete text-danger" href="" data-action-name="delete" formaction="" data-bs-toggle="modal" data-bs-target="#modal-delete"><span class="action-label">Borrar</span></a>
+                        #}
+                    </div>
+                </div>
+            
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <div class="row justify-content-center">
+        <div class="col-md-auto">
+            <div class="pagination my-3" id="paginationTarget" data-catalog-target="pagination">
+                {% if rows|length > 0 %}
+                    {{ pagerfanta(rows) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {{ include('modal/_modalDelete.html.twig')}}
+
+{% else %}
+<div class="alert alert-warning">Without results</div>
+{% endif %}
+
+{% endblock %}
+
+

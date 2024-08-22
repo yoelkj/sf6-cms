@@ -1,0 +1,17 @@
+{% set data = this.data %}
+
+{% set user = this.selectedUser %}
+
+<div {{stimulus_controller('cart-add' , { i18nMsgAddedProduct: 'Added product'|trans, i18nMsgViewCart: 'View cart'|trans, i18nMsgRequestConfirmation: 'Request order confirmation'|trans, i18nMsgItems: 'Items'|trans, i18nMsgPrice: 'Price'|trans, url: path('app_ajax_user_save_cart'), urlGoToCart: path('app_cart_show', {agency: (agency is defined and agency ) ? agency.slug : null} ) })}} class="add-to-cart">
+
+
+	{{ include("cart/_input.html.twig", {
+		id: data.id, 
+		code: data.code, 
+		description: pdata_trans.name, 
+		step: 2,
+		price: data.price,
+		currency: 'USD'
+	}) }}
+
+</div>

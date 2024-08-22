@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{'Terms and conditions' | trans }}
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+
+	<div id="page">
+		<div id="body" class="container my-5">
+			<div class="row">
+				<div
+					class="col-md">
+					<!--content-->
+					<div
+						class="row">
+						<!--BODY-->
+
+						{{ include("page/_contentTerms.html.twig", {
+                        actions: actions,
+                        company: company,
+                        company_translation: company_translation,
+                        onlydata : onlydata
+                        }) }}
+
+						<!--END BODY-->
+					</div>
+					<!--end content-->
+				</div>
+				<!--//.col-md-->
+			</div>
+			<!--//.row-->
+		</div>
+		<!--//.container-->
+	</div>
+{% endblock %}

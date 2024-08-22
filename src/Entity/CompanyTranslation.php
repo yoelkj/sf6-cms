@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CompanyTranslationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
@@ -26,6 +27,12 @@ class CompanyTranslation implements TranslationInterface
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $wpCommerceBody;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $terms = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $dataProtection = null;
 
     public function __toString(): string
     {
@@ -69,6 +76,30 @@ class CompanyTranslation implements TranslationInterface
     public function setWpCommerceBody(?string $wpCommerceBody): self
     {
         $this->wpCommerceBody = $wpCommerceBody;
+
+        return $this;
+    }
+
+    public function getTerms(): ?string
+    {
+        return $this->terms;
+    }
+
+    public function setTerms(?string $terms): static
+    {
+        $this->terms = $terms;
+
+        return $this;
+    }
+
+    public function getDataProtection(): ?string
+    {
+        return $this->dataProtection;
+    }
+
+    public function setDataProtection(?string $dataProtection): static
+    {
+        $this->dataProtection = $dataProtection;
 
         return $this;
     }

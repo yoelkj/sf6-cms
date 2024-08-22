@@ -1,0 +1,103 @@
+{% set cart = (data) ? data : null %}
+
+{% set cart_header = (data and data.head is defined) ? data.head : null %}
+{% set cart_message = (data and data.message is defined) ? data.message : null %}
+{% set cart_detail = (cart and cart.detail is defined) ? cart.detail : null %}
+
+{% if cart_message %}
+	<div class="alert alert-info">{{cart_message}}</div>
+{% endif %}
+
+
+{% if cart_header and cart_detail %}
+
+	<div class="body-cart" class="col-md">
+
+		<table class="table table-striped">
+
+			<thead>
+				<tr>
+					<th>{{'Items'|trans}}</th>
+					<th>{{'Price'|trans}}</th>
+					<th>Total</th>
+
+					{% if useActions == false %}
+						<th>&nbsp;</th>
+					{% endif %}
+				</tr>
+			</thead>
+
+			<tbody>
+				{% if cart_detail %}
+					{% set total = 0 %}
+					{% set items = 0 %}
+
+					{% for row in cart_detail %}
+
+						{% set subtotal = row.items * row.price %}
+
+						<tr class="{{row.code}}">
+							<td colspan="3">{{row.description}}</td>
+
+							{% if useActions == false %}
+								<td class="text-end">
+									<a class="btn btn-link btn-del-row" href="javascript:void(0);">
+										<i class="fa fa-trash" aria-hidden="true"></i>
+									</a>
+								</td>
+							{% endif %}
+						</tr>
+
+						<tr class="{{row.code}}">
+							<td>{{row.items}}</td>
+							<td>{{row.price|format_currency(cart_header.currency)}}</td>
+							<td>{{subtotal|format_currency(cart_header.currency)}}</td>
+
+							{% if useActions == false %}
+								<td>&nbsp;</td>
+							{% endif %}
+						</tr>
+
+						{% set total = total  + subtotal %}
+						{% set items = items + row.items %}
+
+					{% endfor %}
+				{% endif %}
+			</tbody>
+
+			<thead>
+				<tr>
+					<td colspan="2">Total</td>
+					<td id="totalOrder">{{total|format_currency(cart_header.currency)}}</td>
+				</tr>
+			</thead>
+
+		</table>
+
+
+		<input id="summaryTarget" type="hidden" data-cart-show-target="summary" total="{{total}}" totalmask="{{total | format_currency(cart_header.currency)}}" currency="{{cart_header.currency}}" totalitems="{{items}}" status="{{(obj_order is defined and obj_order) ? obj_order.status : null}}" orderid="{{ (obj_order is defined and obj_order) ? obj_order.id : null }}" ordermask="{{ (obj_order is defined and obj_order) ? maskNumberOrder(obj_order.id, 6, 0) : null }}" {#ordermask="{{ (obj_order is defined and obj_order) ? maskNumberOrder(obj_order.id, 6, 0) : null }}"#}>
+
+	</div>
+
+	{% if useActions %}
+
+		<div class="d-grid gap-2 mb-5">
+			<a class="btn btn-primary" href="{{path('app_cart_show')}}">{{'Request order confirmation' |trans}}</a>
+
+
+			{#
+						<a class="btn btn-primary" href="javascript:window.location.reload();">{{'Continue buying'|trans}}</a>
+			
+																																													        {% if catalog_uri %}
+																																													        <a href="{{ path(catalog_uri) }}" class="btn btn-primary">{{'Continue buying'|trans}}</a>
+																																													        {% endif %}
+																																													        #}
+
+		</div>
+		{#<div class="cart-detail"></div>#}
+
+	{% endif %}
+
+{% else %}
+	<div class="alert alert-info">Empty cart</div>
+{% endif %}

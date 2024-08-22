@@ -28,7 +28,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
     private UserRepository $user_repo;
     private RouterInterface $router;
-    
+
     public function __construct(UserRepository $user_repo, RouterInterface $router)
     {
         $this->user_repo = $user_repo;
@@ -41,19 +41,19 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $password = $request->request->get('password');
 
         return new Passport(
-            new UserBadge($email, function($user_ident){
+            new UserBadge($email, function ($user_ident) {
                 $user = $this->user_repo->findOneBy([
                     'email' => $user_ident
                 ]);
 
-                
-                if(!$user){
+
+                if (!$user) {
                     throw new UserNotFoundException();
                 }
 
-                
+
                 return $user;
-            }), 
+            }),
             new PasswordCredentials($password),
             [
                 new CsrfTokenBadge(
@@ -67,11 +67,13 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        
+        $session = $request->getSession();
         $target = $this->getTargetPath($request->getSession(), $firewallName);
         $is_login_route = strpos($target, 'login');
-        
-        if($is_login_route === false) {
+
+        //dd($session->all());
+
+        if ($is_login_route === false) {
             return new RedirectResponse($target);
         }
 
@@ -84,5 +86,4 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     {
         return $this->router->generate('app_login');
     }
-
 }

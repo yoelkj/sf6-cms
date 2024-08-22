@@ -1,46 +1,49 @@
 <div class="content-widgets">
-  {% for obj_widget in obj_widgets %}
-    
-    {% if obj_widget.template == 'TEMPLATE_MAIN_CAROUCEL' %}
-      {{ include('widget/_mainCaroucel.html.twig', {obj_widget: obj_widget, container: container}) }}
+	{% for obj_widget in obj_widgets %}
 
-    {% elseif obj_widget.template == 'TEMPLATE_CONTENT_CAROUCEL' %}
-      
-      {{ include('widget/_owlCaroucel.html.twig', {obj_widget: obj_widget, container: container}) }}  
-    
-    {% elseif obj_widget.template == 'TEMPLATE_BLOG_RESUME' %}
-      
-      {{ include('widget/_blogResume.html.twig', {obj_widget: obj_widget, container: container}) }}
+		{% if obj_widget.template == 'TEMPLATE_MAIN_CAROUCEL' %}
+			{{ include('widget/_mainCaroucel.html.twig', {obj_widget: obj_widget, container: container}) }}
 
-    {% elseif obj_widget.template == 'TEMPLATE_SUBSCRIPTION' %}
+			{{ component('flashmsg') }}
 
-      {{ include('widget/_subscribe.html.twig', {obj_widget: obj_widget, container: container}) }}
-    
-    {% elseif obj_widget.template == 'TEMPLATE_VIDEO' %}
-      {{ include('widget/_video.html.twig', {obj_widget: obj_widget, container: container}) }}
-    
-    {% elseif obj_widget.template == 'TEMPLATE_ONE_FLUID_IMAGE' %}
-      {{ include('widget/_oneFluidImage.html.twig', {obj_widget: obj_widget, container: container}) }}
 
-    {#
-    {% elseif obj_widget.template == 'TEMPLATE_ONLY_COMPONENT' %}
-      {{ include('widget/_onlyComponent.html.twig', {obj_widget: obj_widget, product: main_product.id}) }}
-    #}
+		{% elseif obj_widget.template == 'TEMPLATE_CONTENT_CAROUCEL' %}
 
-    {% elseif obj_widget.template == 'TEMPLATE_OFFICE' %}
-      {{ include('widget/_office.html.twig', {obj_widget: obj_widget, container: container}) }}
-    
-    {% elseif obj_widget.template == 'TEMPLATE_LIGHTBOX_IMAGES' %}
-      
-      {% set use_title_result = (use_title is defined and use_title) ? true : false %}
-      {{ include('widget/_lightboxImages.html.twig', {obj_widget: obj_widget, use_title: use_title_result, container: container}) }}
-    
-    {% elseif obj_widget.template == 'TEMPLATE_CONTENT_SIMPLE' %}
-      
-      {{ include('widget/_simpleContent.html.twig', {obj_widget: obj_widget, container: container}) }}
-    
-    {% endif %}
+			{{ include('widget/_owlCaroucel.html.twig', {obj_widget: obj_widget, container: container}) }}
 
-  {% endfor %}
+		{% elseif obj_widget.template == 'TEMPLATE_BLOG_RESUME' %}
+
+			{{ include('widget/_blogResume.html.twig', {obj_widget: obj_widget, container: container}) }}
+
+		{% elseif obj_widget.template == 'TEMPLATE_SUBSCRIPTION' %}
+
+			{{ include('widget/_subscribe.html.twig', {obj_widget: obj_widget, container: container}) }}
+
+		{% elseif obj_widget.template == 'TEMPLATE_VIDEO' %}
+			{{ include('widget/_video.html.twig', {obj_widget: obj_widget, container: container}) }}
+
+		{% elseif obj_widget.template == 'TEMPLATE_ONE_FLUID_IMAGE' %}
+			{{ include('widget/_oneFluidImage.html.twig', {obj_widget: obj_widget, container: container}) }}
+
+			{#
+			    {% elseif obj_widget.template == 'TEMPLATE_ONLY_COMPONENT' %}
+			      {{ include('widget/_onlyComponent.html.twig', {obj_widget: obj_widget, product: main_product.id}) }}
+			    #}
+
+		{% elseif obj_widget.template == 'TEMPLATE_OFFICE' %}
+			{{ include('widget/_office.html.twig', {obj_widget: obj_widget, container: container}) }}
+
+		{% elseif obj_widget.template == 'TEMPLATE_LIGHTBOX_IMAGES' %}
+
+			{% set use_title_result = (use_title is defined and use_title) ? true : false %}
+			{{ include('widget/_lightboxImages.html.twig', {obj_widget: obj_widget, use_title: use_title_result, container: container}) }}
+
+		{% elseif obj_widget.template == 'TEMPLATE_CONTENT_SIMPLE' %}
+
+			{{ include('widget/_simpleContent.html.twig', {obj_widget: obj_widget, container: container}) }}
+
+		{% endif %}
+
+	{% endfor %}
 
 </div>

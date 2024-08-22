@@ -23,6 +23,18 @@ Recommended products: Recommended products
 Related products: Related products
 
 All products: All products
+Products: Products
+Cart: Cart
+
+Profile: Profile
+Orders: Orders
+
+Order: Order
+Date: Date
+Description: Description
+Status: Status
+
+Add: Add
 
 Search: Search
 Search products: Search products
@@ -31,6 +43,12 @@ What are you looking for?: What are you looking for?
 Sorry we did not receive your message, please try again: Sorry we did not receive your message, please try again
 We have received your message, thank you for contacting us: We have received your message, thank you for contacting us
 We have received your message, thanks for subscribing: We have received your message, thanks for subscribing
+
+HELP_MESSAGE_RECOVERY_PASSWORD: Enter your email address and we will send you a link to reset your password.
+
+Reset your password: Reset your password
+Send email: Send email
+Reset password: Reset password
 
 Net content: Net content
 Quantity per box: Quantity per box

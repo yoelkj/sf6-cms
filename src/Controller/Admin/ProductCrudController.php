@@ -32,12 +32,11 @@ class ProductCrudController extends AbstractCrudController
 {
     private AdminUrlGenerator $adminUrlGenerator;
     private RequestStack $requestStack;
-    
+
     public function __construct(AdminUrlGenerator $adminUrlGenerator, RequestStack $requestStack)
     {
         $this->adminUrlGenerator = $adminUrlGenerator;
         $this->requestStack = $requestStack;
-    
     }
 
     public static function getEntityFqcn(): string
@@ -48,58 +47,61 @@ class ProductCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new('id')->onlyOnIndex();
-        
-        yield FormField::addTab('General')->setIcon('cog');
-            yield FormField::addRow();
-            yield Field::new('code')->setColumns(12);
-            
-            yield CollectionField::new('translations')
-                ->useEntryCrudForm()
-                ->setColumns(12)
-                ->formatValue(static function ($value, ?Product $row): ?string {
 
-                    $name = $row?->getTranslateName();
-                    $num_translations = $row?->getTranslations()->count();
-                    return sprintf('%s - %s translation(s)', $name, $num_translations);
+        yield FormField::addTab('General')->setIcon('cog');
+        yield FormField::addRow();
+        yield Field::new('code')->setColumns(12);
+
+        yield CollectionField::new('translations')
+            ->useEntryCrudForm()
+            ->setColumns(12)
+            ->formatValue(static function ($value, ?Product $row): ?string {
+
+                $name = $row?->getTranslateName();
+                $num_translations = $row?->getTranslations()->count();
+                return sprintf('%s - %s translation(s)', $name, $num_translations);
             });
 
-            yield NumberField::new('weightGrammage')->onlyOnIndex();
+        yield NumberField::new('weightGrammage')->onlyOnIndex();
 
-            yield AssociationField::new('category')->onlyOnIndex();
+        yield AssociationField::new('category')->onlyOnIndex();
 
-            yield FormField::addRow();
-            yield BooleanField::new('isNew')->onlyOnForms()->setColumns(3);
-            yield BooleanField::new('isBestSeller')->onlyOnForms()->setColumns(3);
-            yield BooleanField::new('isRecommended')->onlyOnForms()->setColumns(3);
-            yield BooleanField::new('isActive')->onlyOnForms()->setColumns(3);
+        yield FormField::addRow();
+        yield Field::new('price')->onlyOnForms()->setColumns(12);
 
-            yield FormField::addRow();
-            yield IntegerField::new('orderRow')->setTextAlign('right')->onlyOnForms()->setColumns(2);
+        yield BooleanField::new('isNew')->onlyOnForms()->setColumns(3);
+        yield BooleanField::new('isBestSeller')->onlyOnForms()->setColumns(3);
+        yield BooleanField::new('isRecommended')->onlyOnForms()->setColumns(3);
+        yield BooleanField::new('isActive')->onlyOnForms()->setColumns(3);
+
+        yield FormField::addRow();
+        yield IntegerField::new('orderRow')->setTextAlign('right')->onlyOnForms()->setColumns(2);
 
         yield FormField::addTab('Content')->setIcon('cogs');
-            yield FormField::addRow();
-            yield AssociationField::new('category')->onlyOnForms()->setColumns(4);
-            yield AssociationField::new('brand')->onlyOnForms()->setColumns(4);
-            yield AssociationField::new('presentation')->onlyOnForms()->setColumns(4);       
-            
-            yield FormField::addRow();
-            yield NumberField::new('weightGrammage')->onlyOnForms()->setColumns(4);
-            yield IntegerField::new('quantityPerBox')->onlyOnForms()->setColumns(4);
-            yield IntegerField::new('storageLifeMonths')->onlyOnForms()->setColumns(4);
+        yield FormField::addRow();
 
-            yield FormField::addRow();
-            yield AssociationField::new('gallery')
-                ->setCrudController(GalleryCrudController::class)
-                ->setColumns(12);
-            
-            yield AssociationField::new('widgets')
-                ->setColumns(12);
+        yield AssociationField::new('category')->onlyOnForms()->setColumns(4);
+        yield AssociationField::new('brand')->onlyOnForms()->setColumns(4);
+        yield AssociationField::new('presentation')->onlyOnForms()->setColumns(4);
+
+        yield FormField::addRow();
+        yield NumberField::new('weightGrammage')->onlyOnForms()->setColumns(4);
+        yield IntegerField::new('quantityPerBox')->onlyOnForms()->setColumns(4);
+        yield IntegerField::new('storageLifeMonths')->onlyOnForms()->setColumns(4);
+
+        yield FormField::addRow();
+        yield AssociationField::new('gallery')
+            ->setCrudController(GalleryCrudController::class)
+            ->setColumns(12);
+
+        yield AssociationField::new('widgets')
+            ->setColumns(12);
 
 
-            yield AssociationField::new('relateds')
-                ->setColumns(12);
-        
-        
+        yield AssociationField::new('relateds')
+            ->setColumns(12);
+
+
         yield DateField::new('createdAt')->onlyOnForms()->hideOnForm();
         yield DateField::new('updatedAt')->onlyOnForms()->hideOnForm();
     }
@@ -112,7 +114,7 @@ class ProductCrudController extends AbstractCrudController
             ->add('createdAt')
             ->add(BooleanFilter::new('isActive'))
             //->add(BooleanFilter::new('enabled')->setFormTypeOption('expanded', false));
-            
+
         ;
     }
 
@@ -148,5 +150,4 @@ class ProductCrudController extends AbstractCrudController
 
         return $csvExporter->createResponseFromQueryBuilder($queryBuilder, $fields, 'products.csv');
     }
-
 }
