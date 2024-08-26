@@ -3,11 +3,9 @@
         "@fontsource/roboto-condensed": "^4.5.8",
         "@fortawesome/fontawesome-free": "^6.1.1",
         "@hotwired/stimulus": "^3.0.0",
-
         "@hotwired/turbo": "^7.1.1 || ^8.0",
         "@symfony/stimulus-bridge": "^3.2.0",
         "@symfony/stimulus-bundle": "file:vendor/symfony/stimulus-bundle/assets",
-
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
         "@symfony/webpack-encore": "^2.0.0",
         "axios": "^0.27.2",
@@ -17,6 +15,8 @@
         "file-loader": "^6.0.0",
         "jquery": "^3.6.0",
         "regenerator-runtime": "^0.13.2",
+        "sass": "^1.77.8",
+        "sass-loader": "^12.0.0",
         "snarkdown": "^2.0.0",
         "webpack-notifier": "^1.6.0"
     },
@@ -29,6 +29,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@klaxit/cookie-consent": "^0.3.4",
         "@popperjs/core": "^2.11.5",
         "aos": "^3.0.0-beta.6",
         "lightbox2": "^2.11.3",

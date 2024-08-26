@@ -61,3 +61,14 @@ Category: Categoría
 Features: Caracteristicas
 
 Select: Seleccionar
+
+
+modal_consent_title: Usamos cookies
+modal_consent_desc: La página web de COESA Contómetros Especiales SAC utiliza cookies\n propias y de terceros para fines funcionales (permitir la navegación web), para optimizar la\n navegación y personalizarla según tus preferencias así como para mostrarte publicidad en base\n a tu perfil de navegación (p.e páginas visitadas). Clica AQUÍ para más información. Puedes\n aceptar todas las cookies pulsando el botón “ACEPTAR” o rechazar su uso pulsando el botón “RECHAZAR”.
+modal_consent_btn_acceptAll: Aceptar
+modal_consent_btn_acceptSelected: Aceptar Cookies
+modal_consent_btn_reject: Rechazar
+modal_consent_btn_showSettings: Configuración cookies
+modal_consent_btn_hideSettings: Ocultar
+modal_consent_essentials_desc: COESA cookies son necesarias para funciones que\n son esenciales para el uso de nuestro sitio o servicios,\n como el inicio de sesión de cuenta, la autenticación y la seguridad del sitio.. 
+modal_consent_analityc_desc: Analytics cookies nos permiten analizar sus visitas y\n acciones en nuestros sitios web, y ofrecerle una\n experiencia más relevante.
