@@ -191,20 +191,13 @@ class OrderRepository extends ServiceEntityRepository
               if($obj_agency_order && $obj_agency_order->getEmail()) array_push($arr_hidden_emails, $obj_agency_order->getEmail());
               */
 
-                $obj_customer_order = ($obj_order->getUser()) ? $obj_order->getUser() : $obj_order->getUserAgency();
-                $obj_supplier_order = ($obj_order->getAgency()) ? $obj_order->getAgency() : null;
-
-                $user_type = ($obj_customer_order && $obj_customer_order instanceof Agency) ? 'agency' : 'user';
-                $user_type = ($user_type == 'agency' && $obj_customer_order->isIsSuperuser()) ? 'too' : $user_type;
-
-                $customer = $obj_supplier_order->getCustomer();
-                $obj_too_order = ($customer) ? $this->_em->getRepository('App\\Entity\\Agency')->getSuperUser($customer) : null;
-
+                $obj_customer_order = $obj_order->getUser();
+                $obj_supplier_order = $obj_too_order = null;
+                $user_type = 'user';
 
                 //-> email para CLIENTE su contacto AGENCIA
                 //-> email para AGENCIA su contacto CLIENTE
                 //-> email para TOO su contacto AGENCIA
-                //-> email para SNVE su contacto TOO
 
                 //Final customer
                 $arr_recipients[0]['to'] = ($obj_customer_order && $obj_customer_order->getEmail()) ? $obj_customer_order->getEmail() : null;
@@ -327,10 +320,6 @@ class OrderRepository extends ServiceEntityRepository
       */
         //----END code parse here.
 
-        if ($with_packs) {
-            $arr_data['packs'] = $this->getPacks($obj_order_row->getId(), 1);
-        }
-
         return $arr_data;
     }
 
@@ -346,7 +335,8 @@ class OrderRepository extends ServiceEntityRepository
             $arr_detail[$rowD->getId()]['id'] = $rowD->getId();
             $arr_detail[$rowD->getId()]['product'] = $rowD->getProduct();
             $arr_detail[$rowD->getId()]['items'] = $rowD->getAmount();
-            $arr_detail[$rowD->getId()]['description'] = $rowD->getDescription();
+
+            $arr_detail[$rowD->getId()]['description'] = $obj_product->getTranslateName(); //$rowD->getDescription();
             $arr_detail[$rowD->getId()]['price'] = $rowD->getPrice();
             $arr_detail[$rowD->getId()]['base'] = $obj_product->getPrice();
             $arr_detail[$rowD->getId()]['hp'] = null;

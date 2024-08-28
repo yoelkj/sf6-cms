@@ -44,10 +44,14 @@ class Country implements TimestampableInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isPresent = null;
 
+    #[ORM\OneToMany(mappedBy: 'Country', targetEntity: User::class)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
         $this->offices = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -218,6 +222,36 @@ class Country implements TimestampableInterface
     public function setIsPresent(?bool $isPresent): self
     {
         $this->isPresent = $isPresent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCountry() === $this) {
+                $user->setCountry(null);
+            }
+        }
 
         return $this;
     }

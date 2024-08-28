@@ -62,11 +62,11 @@ Features: Features
 Select: Select
 
 modal_consent_title: We use cookies
-modal_consent_desc: The website of COESA Contómetros Especiales SAC uses its own\n and third-party cookies for functional purposes (allow web browsing), to optimize\n browsing and personalize it according to your preferences as well as to show you advertising based\n on your browsing profile (eg pages visited). Click HERE for more information. You can\n accept all cookies by pressing the "ACCEPT" button or reject their use by pressing the "REJECT" button.
+modal_consent_desc: The website of COESA Contómetros Especiales SAC uses its own and third-party cookies for functional purposes (allow web browsing), to optimize browsing and personalize it according to your preferences as well as to show you advertising based on your browsing profile (eg pages visited). Click HERE for more information. You can accept all cookies by pressing the "ACCEPT" button or reject their use by pressing the "REJECT" button.
 modal_consent_btn_acceptAll: Accept
 modal_consent_btn_acceptSelected: Accept Cookies
 modal_consent_btn_reject: reject
 modal_consent_btn_showSettings: Cookies settings
 modal_consent_btn_hideSettings: Hide
-modal_consent_essentials_desc: Essential cookies are necessary for features which\n                    are essential to your use of our site or services,\n                    such as account login, authentication, and site security. 
-modal_consent_analityc_desc: Analytics cookies allow us to analyze your visits and\n                    actions on our websites, and offer you a more relevant\n                    experience.
+modal_consent_essentials_desc: Essential cookies are necessary for features which                    are essential to your use of our site or services,                    such as account login, authentication, and site security. 
+modal_consent_analityc_desc: Analytics cookies allow us to analyze your visits and                    actions on our websites, and offer you a more relevant                    experience.

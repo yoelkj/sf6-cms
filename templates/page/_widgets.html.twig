@@ -2,9 +2,10 @@
 	{% for obj_widget in obj_widgets %}
 
 		{% if obj_widget.template == 'TEMPLATE_MAIN_CAROUCEL' %}
-			{{ include('widget/_mainCaroucel.html.twig', {obj_widget: obj_widget, container: container}) }}
 
 			{{ component('flashmsg') }}
+
+			{{ include('widget/_mainCaroucel.html.twig', {obj_widget: obj_widget, container: container}) }}
 
 
 		{% elseif obj_widget.template == 'TEMPLATE_CONTENT_CAROUCEL' %}
@@ -26,9 +27,9 @@
 			{{ include('widget/_oneFluidImage.html.twig', {obj_widget: obj_widget, container: container}) }}
 
 			{#
-			    {% elseif obj_widget.template == 'TEMPLATE_ONLY_COMPONENT' %}
-			      {{ include('widget/_onlyComponent.html.twig', {obj_widget: obj_widget, product: main_product.id}) }}
-			    #}
+									    {% elseif obj_widget.template == 'TEMPLATE_ONLY_COMPONENT' %}
+									      {{ include('widget/_onlyComponent.html.twig', {obj_widget: obj_widget, product: main_product.id}) }}
+									    #}
 
 		{% elseif obj_widget.template == 'TEMPLATE_OFFICE' %}
 			{{ include('widget/_office.html.twig', {obj_widget: obj_widget, container: container}) }}

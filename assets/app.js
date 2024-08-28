@@ -55,7 +55,7 @@ const options = {
         "domain": null,
         "expiryDays": 365,
         "secure": false,
-        "sameSite": "Xevents"
+        "sameSite": "COESA"
     }
 
 }

@@ -1,0 +1,198 @@
+{% extends 'email.html.twig' %}
+
+
+{% block body %}
+
+	{% set agency = (arr_data.agency_detail is defined and arr_data.agency_detail) ? arr_data.agency_detail : null  %}
+
+	<div
+		style="background:#ffffff;background-color:#ffffff;Margin:0px auto;max-width:600px;">
+
+		<!--[if mso | IE]>
+		     
+		      <table
+		         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+		      >
+		        <tr>
+		          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+		      <![endif]-->
+
+
+		<div style="background:#ffffff;background-color:#ffffff;Margin:0px auto;max-width:600px;">
+			<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;background-color:#ffffff;width:100%;">
+				<tbody>
+					<tr>
+						<td
+							style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:20px;padding-top:20;text-align:center;vertical-align:top;">
+							<!--[if mso | IE]>
+															                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+															                
+															        <tr>
+															      
+															            <td
+															               class="" style="vertical-align:top;width:600px;"
+															            >
+															          <![endif]-->
+							<div class="mj-column-per-100 outlook-group-fix" style="font-size:16px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+								<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+									<tr>
+										<td align="center" style="font-size:0px;padding:10px 25px;padding-top:0;padding-right:0px;padding-bottom:0px;padding-left:0px;word-break:break-word;">
+											<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+												<tbody>
+													<tr>
+														<td style="width:100px;">
+
+
+															{% if agency is defined and agency %}
+
+																<a href="#/" target="_blank">
+																	{% if  agency.logoPath is defined and agency.logoPath  %}
+																		<img class="me-auto" id="logoApp" height="auto" width="250" src="{{app_media_base_user_logo}}{{agency.logoPath}} ">
+																	{% else %}
+																		<h1 id="logoApp">{{agency.name}}</h1>
+																	{% endif %}
+																</a>
+
+															{% else %}
+
+																<a href="#/" target="_blank">
+																	{% if app.session.get('appParam').logo %}
+																		<img height="auto" src="{{app_media_base_user_logo}}{{ app.session.get('appParam').logo }}" style="border:none;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="250"/>
+																	{% else %}
+																		<h1 id="logoApp">{{app.session.get('appParam').name}}</h1>
+																	{% endif %}
+																</a>
+															{% endif %}
+
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<!--[if mso | IE]>
+															            </td>
+															          
+															        </tr>
+															      
+															                  </table>
+															                <![endif]-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div style="background:#ffffff;background-color:#ffffff;Margin:0px auto;max-width:600px;">
+			<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;background-color:#ffffff;width:100%;">
+				<tbody>
+					<tr>
+						<td
+							style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:20px;padding-top:20;text-align:center;vertical-align:top;">
+							<!--[if mso | IE]>
+							                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+							                
+							        <tr>
+							      
+							            <td
+							               class="" style="vertical-align:top;width:600px;"
+							            >
+							          <![endif]-->
+							{% if additional_message %}
+
+								<div class="row">
+									<div class="col">
+										<table style="width:100%;">
+											<tr>
+												<td align="center" style="font-size:0px;padding:10px 25px;padding-top:10;padding-right:25px;padding-bottom:10px;padding-left:25px;word-break:break-word;">
+													<div style="font-family:'Oswald', sans-serif;font-size:16px;line-height:1.5;text-align:center;color:#000000;">
+														<h2 style="font-family:'Oswald', sans-serif;text-align:center">{{ title|raw}}
+														</h2>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+								<hr>
+								<div class="mj-column-per-100 outlook-group-fix" style="font-size:16px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+									<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+										<tr>
+											<td align="justify" style="font-size:16px;padding:10px 25px;padding-top:0;padding-right:25px;padding-bottom:0px;padding-left:25px;word-break:break-word;">
+												<div style="font-family:font-family: 'Roboto', Arial!important;;font-size:16px;line-height:1;text-align:justify;color:#000000;">
+													<p style="text-align:center">
+														<span style="color: rgb(57, 63, 76);">{{ additional_message|raw}}</span>
+													</p>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<hr>
+								{% if gotoorder is defined and gotoorder %}
+									<div style="text-align:center;margin-top:10px;">
+										<a style="font-size:15px;line-height:50px;margin:0 auto;display:block;width:255px;height:50px;text-decoration:none;color:#ffffff;font-weight:500;text-transform:uppercase;background-color:#343a40" href="{{gotoorder}}" target="_blank">{{gotoorder_button}}</a>
+									</div>
+								{% endif %}
+							{% endif %}
+							<!--[if mso | IE]>
+							            </td>
+							          
+							        </tr>
+							      
+							                  </table>
+							                <![endif]-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		{% if agency is defined and agency %}
+
+
+			<div class="row">
+				<div class="col">
+					<table align="center" border="0" cellpadding="0" cellspacing="0" style="clear:both;color:#666666!important;font-family:arial,helvetica,sans-serif;font-size:11px;margin-top:20px" width="100%">
+						<thead>
+							<tr>
+								<th colspan="2" style="border:1px solid #ccc;border-right:none;border-left:none;padding:5px 10px 5px 10px!important;color:#333333!important">Agency detail</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">Name:
+								</td>
+								<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{agency.name}}</td>
+							</tr>
+							<tr>
+								<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">Email:
+								</td>
+								<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{agency.email}}</td>
+							</tr>
+							<tr>
+								<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">Phone:
+								</td>
+								<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{agency.phone}}</td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+			</div>
+		{% endif %}
+
+
+		<!--[if mso | IE]>
+		          </td>
+		        </tr>
+		      </table>
+		      <![endif]-->
+	</div>
+
+{% endblock %}

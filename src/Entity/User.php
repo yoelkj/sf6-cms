@@ -61,6 +61,12 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Country $Country = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -308,6 +314,30 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
                 $order->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->Country;
+    }
+
+    public function setCountry(?Country $Country): static
+    {
+        $this->Country = $Country;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

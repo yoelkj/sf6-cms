@@ -8,7 +8,8 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 
-class CommonHelper{
+class CommonHelper
+{
 
     private $mailer;
 
@@ -32,18 +33,19 @@ class CommonHelper{
 
         return $text;
     }
-    
-    public static function slugifyIntl($text) {
-        
+
+    public static function slugifyIntl($text)
+    {
+
         return \Transliterator::createFromRules(
             ':: Any-Latin;'
-            . ':: NFD;'
-            . ':: [:Nonspacing Mark:] Remove;'
-            . ':: NFC;'
-            . ':: [:Punctuation:] Remove;'
-            . ':: Lower();'
-            . '[:Separator:] > \'-\'')->transliterate($text);
-
+                . ':: NFD;'
+                . ':: [:Nonspacing Mark:] Remove;'
+                . ':: NFC;'
+                . ':: [:Punctuation:] Remove;'
+                . ':: Lower();'
+                . '[:Separator:] > \'-\''
+        )->transliterate($text);
     }
 
 
@@ -52,86 +54,79 @@ class CommonHelper{
 
         $hidden_emails = (isset($data['hidden']) && is_array($data['hidden'])) ? $data['hidden'] : [];
 
-        if($name_template == 'mailerContact'){
+        if ($name_template == 'mailerContact') {
 
-            $from_mail = $_ENV['APP_CONTACT_EMAIL']; 
-            $from_mail_name = $_ENV['APP_CONTACT_NAME']; 
+            $from_mail = $_ENV['APP_CONTACT_EMAIL'];
+            $from_mail_name = $_ENV['APP_CONTACT_NAME'];
             $data['to'] = [$_ENV['APP_CONTACT_EMAIL']];
             $arr_data = $data;
+        } elseif ($name_template == 'mailer_reset') {
 
-        }elseif($name_template == 'mailer_reset'){
-            
             $from_mail = $_ENV['APP_CONTACT_EMAIL'];
             $from_mail_name = $_ENV['APP_CONTACT_NAME'];
             $arr_data = $data;
-
-        }else{
+        } else {
 
             $from_mail = $_ENV['APP_CONTACT_EMAIL'];
             $from_mail_name = $_ENV['APP_CONTACT_NAME'];
             $arr_data = array(
-                'obj_order' => (isset($data['obj_order']))?$data['obj_order']:null, 
-                'arr_data' => (isset($data['arr_data']))?$data['arr_data']:null, 
-                'title' => (isset($data['title']))?$data['title']:null, 
-                'additional_message' => (isset($data['additional_message']))?$data['additional_message']:null,
-                'gotoorder' => (isset($data['gotoorder']))?$data['gotoorder']:null,
-                'gotoorder_button' => (isset($data['gotoorder_button']))?$data['gotoorder_button']:null,
+                'obj_order' => (isset($data['obj_order'])) ? $data['obj_order'] : null,
+                'arr_data' => (isset($data['arr_data'])) ? $data['arr_data'] : null,
+                'title' => (isset($data['title'])) ? $data['title'] : null,
+                'additional_message' => (isset($data['additional_message'])) ? $data['additional_message'] : null,
+                'gotoorder' => (isset($data['gotoorder'])) ? $data['gotoorder'] : null,
+                'gotoorder_button' => (isset($data['gotoorder_button'])) ? $data['gotoorder_button'] : null,
             );
         }
 
-        //array_push($hidden_emails, 'reservas@snve.es');
-        //array_push($hidden_emails, 'direccion@snve.es');
+        //array_push($hidden_emails, 'reservas@coesa.com');
+        //array_push($hidden_emails, 'direccion@coesa.com');
 
-        if($_ENV['APP_CONTACT_TEST_EMAIL']) array_push($hidden_emails, $_ENV['APP_CONTACT_TEST_EMAIL']);
+        if ($_ENV['APP_CONTACT_TEST_EMAIL']) array_push($hidden_emails, $_ENV['APP_CONTACT_TEST_EMAIL']);
 
-        
-        if(empty($data['to'])) $data['to'] =  ['direccion@snve.es'];
+
+        if (empty($data['to'])) $data['to'] =  ['info@coesa.es'];
 
         //$data['to'] =  [$_ENV['APP_CONTACT_TEST_EMAIL']];
-        //hidden_emails = ['test@snve.es', 'noche_d_verano@hotmail.com'];
-        
+        //hidden_emails = ['test@coesa.com', 'noche_d_verano@hotmail.com'];
+
         array_unique($hidden_emails);
         array_unique($data['to']);
 
-        if($_ENV['APP_CONTACT_DIRECCION_EMAIL']) array_push($hidden_emails, $_ENV['APP_CONTACT_DIRECCION_EMAIL']);
+        if ($_ENV['APP_CONTACT_DIRECCION_EMAIL']) array_push($hidden_emails, $_ENV['APP_CONTACT_DIRECCION_EMAIL']);
 
         try {
 
+            $email_to = implode(',', $data['to']);
+
+            if (!$email_to) {
+                $email_to = $_ENV['APP_CONTACT_DIRECCION_EMAIL'];
+            }
+
             $message = (new TemplatedEmail())
                 ->from(new Address($from_mail, $from_mail_name))
-                ->to(...$data['to'])
+                ->to((is_array($email_to) ? implode(',', $email_to) : $email_to))
                 ->bcc(...$hidden_emails)
                 ->subject($data['subject'])
-                
-                ->htmlTemplate(  ($name_template ==  'mailer_reset') ?  'reset_password/email.html.twig' : 'email/'.$name_template.'.html.twig'   )
-                
+                ->htmlTemplate(($name_template ==  'mailer_reset') ?  'reset_password/email.html.twig' : 'email/' . $name_template . '.html.twig')
                 ->context($arr_data);
 
             $result = $this->mailer->send($message);
-
-            return $result;
-
-
-
         } catch (\Exception $e) {
 
             //Send error message
             $id_report = uniqid();
-            $data_email = [         
-                'subject' => 'Bug report. '.$id_report, 
+            $data_email = [
+                'subject' => 'Bug report. ' . $id_report,
                 'arr_data' => [],
-                'title' => 'Bug '.$id_report.' has been registered',
+                'title' => 'Bug ' . $id_report . ' has been registered',
                 'to' => [$_ENV['APP_CONTACT_TEST_EMAIL']],
                 'gotoorder' => '',
                 'additional_message' => '
-                    <p>Se ha reportado un error en XEVENTS al generar el pedido: '.$name_template.'<br> Mensage: <br>'.$e->getMessage().'</p>',
+                    <p>Se ha reportado un error en XEVENTS al generar el pedido: ' . $name_template . '<br> Mensage: <br>' . $e->getMessage() . '</p>',
             ];
-            $this->composeAndSendDeveloperEmail( $data_email, 'mailer' );
-
+            $this->composeAndSendDeveloperEmail($data_email, 'mailer');
         }
-        
-
-
     }
 
     public function composeAndSendDeveloperEmail($data, $name_template)
@@ -140,33 +135,29 @@ class CommonHelper{
         $from_mail = $_ENV['APP_CONTACT_EMAIL'];
         $from_mail_name = $_ENV['APP_CONTACT_NAME'];
         $arr_data = array(
-            'title' => (isset($data['title']))?$data['title']:null, 
-            'additional_message' => (isset($data['additional_message']))?$data['additional_message']:null,
+            'title' => (isset($data['title'])) ? $data['title'] : null,
+            'additional_message' => (isset($data['additional_message'])) ? $data['additional_message'] : null,
 
-            'obj_order' => null, 
-            'arr_data' => null, 
+            'obj_order' => null,
+            'arr_data' => null,
             'gotoorder' => null,
             'gotoorder_button' => null,
         );
-        
+
         try {
 
             $message = (new TemplatedEmail())
                 ->from(new Address($from_mail, $from_mail_name))
                 ->to(...$data['to'])
                 ->subject($data['subject'])
-                ->htmlTemplate( 'email/'.$name_template.'.html.twig'   )
+                ->htmlTemplate('email/' . $name_template . '.html.twig')
                 ->context($arr_data);
 
             $result = $this->mailer->send($message);
 
             return $result;
-
         } catch (\Exception $e) {
             return false;
         }
-
     }
-
-
 }

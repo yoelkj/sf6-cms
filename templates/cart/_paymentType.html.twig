@@ -6,7 +6,7 @@
 
 {% set company = app.session.get('appParam') %}
 {% set selected_mp = 1 %}
-{% set card_brand = 0 %}
+{% set card_brand = 1 %}
 
 <div id="alertModalComplete" class="alert alert-small alert-info" style="display:none;"></div>
 
@@ -24,30 +24,30 @@
 				type="hidden" data-cart-show-target="option" id="paymethod_{{selected_mp}}" cardcomm="" cardbrand="" class="optMethodPay" name="method_payment" value="{{selected_mp}}">
 
 			{#
-									        {% for obj_payment_method in obj_payment_methods %}
-									
-									            {% set text_name = obj_payment_method.name|upper %}
-									            {% set onErrorString = "textnode= document.createTextNode('"~text_name~"');parent = this.parentNode; parent.appendChild(textnode);" %}
-									            {% set onErrorString = onErrorString~"this.onerror = '';this.style.position='absolute';this.style.display='none';this.parentNode.removeChild(this);" %} 
-									            
-									            <div class="col">
-									            
-									            <div class="content-option {{(obj_payment_method.id == 1)?'bg-secondary':''}} ">
-									            {% set is_active = (obj_payment_method.id == 3)?'checked':'' %}
-									
-									            <input data-cart-show-target="option" data-action="click->cart-show#selectption" id="paymethod_{{obj_payment_method.id}}" cardComm="{{obj_payment_method.commission}}"  cardBrand="{{obj_payment_method.cardbrand}}" class="optMethodPay" type="radio" name="method_payment" value="{{obj_payment_method.id}}" {{is_active}} ><br>
-									            
-									            <label  for="paymethod_{{obj_payment_method.id}}">
-									            {% if obj_payment_method.logoPath %}
-									                <div><img onError="{{onErrorString}}" alt="{{obj_payment_method.name|upper}}" src="/uploads/payments_types/{{obj_payment_method.logoPath}}"></div>
-									            {% else %}
-									                {{obj_payment_method.name|upper}}
-									            {% endif %}
-									            </label>  
-									            </div>
-									            </div>
-									        {% endfor %}
-									        #}
+																																	        {% for obj_payment_method in obj_payment_methods %}
+																																	
+																																	            {% set text_name = obj_payment_method.name|upper %}
+																																	            {% set onErrorString = "textnode= document.createTextNode('"~text_name~"');parent = this.parentNode; parent.appendChild(textnode);" %}
+																																	            {% set onErrorString = onErrorString~"this.onerror = '';this.style.position='absolute';this.style.display='none';this.parentNode.removeChild(this);" %} 
+																																	            
+																																	            <div class="col">
+																																	            
+																																	            <div class="content-option {{(obj_payment_method.id == 1)?'bg-secondary':''}} ">
+																																	            {% set is_active = (obj_payment_method.id == 3)?'checked':'' %}
+																																	
+																																	            <input data-cart-show-target="option" data-action="click->cart-show#selectption" id="paymethod_{{obj_payment_method.id}}" cardComm="{{obj_payment_method.commission}}"  cardBrand="{{obj_payment_method.cardbrand}}" class="optMethodPay" type="radio" name="method_payment" value="{{obj_payment_method.id}}" {{is_active}} ><br>
+																																	            
+																																	            <label  for="paymethod_{{obj_payment_method.id}}">
+																																	            {% if obj_payment_method.logoPath %}
+																																	                <div><img onError="{{onErrorString}}" alt="{{obj_payment_method.name|upper}}" src="/uploads/payments_types/{{obj_payment_method.logoPath}}"></div>
+																																	            {% else %}
+																																	                {{obj_payment_method.name|upper}}
+																																	            {% endif %}
+																																	            </label>  
+																																	            </div>
+																																	            </div>
+																																	        {% endfor %}
+																																	        #}
 
 			</div>
 		</div>
@@ -55,15 +55,15 @@
 			id="summaryModal">
 
 			{#
-									            <div class="row">
-									                <div class="col-md">
-									                    Subtotal
-									                </div>
-									                <div class="col-md">
-									                    <span id="total_prices_ref"></span>
-									                </div>
-									            </div>
-									            #}
+																																	            <div class="row">
+																																	                <div class="col-md">
+																																	                    Subtotal
+																																	                </div>
+																																	                <div class="col-md">
+																																	                    <span id="total_prices_ref"></span>
+																																	                </div>
+																																	            </div>
+																																	            #}
 
 			<div class="row my-3">
 				<div class="col-md text-start">
@@ -157,9 +157,14 @@
 
 		</a>
 
-		{% if catalog_uri %}
+		{#{% if catalog_uri %}
 			<a href="{{ path(catalog_uri) }}" class="btn btn-primary">{{'Continue buying'|trans}}</a>
 		{% endif %}
+		#}
+
+		<a class="btn btn-success" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" aria-controls="offcanvasCart" href="#">
+			{{'Continue buying'|trans}}
+		</a>
 
 
 	</div>

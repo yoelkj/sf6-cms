@@ -250,12 +250,7 @@ div.fluid-content iframe{
     color: #fcfcfc;
 }
 
-#header a{
-    font-size: .85em;
-}
-
-#footer a {
-    
+#footer a {   
     text-decoration: none;
     transition: color .15s ease-in-out;
 }
@@ -264,7 +259,16 @@ div.fluid-content iframe{
     color: #fcfcfc;
 }
 
-#header a:hover, #footer a:hover{
+#footer a:hover{
+    color: #ccc!important;
+}
+
+
+#header a{
+    font-size: .85em;
+}
+
+#header a:hover{
     color: #edeeef;
 }
 

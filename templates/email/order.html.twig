@@ -1,0 +1,367 @@
+{% extends 'email.html.twig' %}
+
+{% block body %}
+
+	{% set data = arr_data %}
+
+	{% set cart_recipient = (data and data.recipient_data is defined) ? data.recipient_data : null %}
+	{% set cart_header = (data and data.head is defined) ? data.head : null %}
+	{% set cart_message = (data and data.message is defined) ? data.message : null %}
+	{% set cart_detail = (data and data.detail is defined) ? data.detail : null %}
+	{% set cart_packs = (data and data.packs is defined) ? data.packs : null %}
+
+	{% set agency_detail =  ( cart_header.agencyDetail is defined ) ? cart_header.agencyDetail : null %}
+
+	<!--[if mso | IE]>
+												      <table
+												         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+												      >
+												        <tr>
+												          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+												      <![endif]-->
+	<div style="background:#ffffff;background-color:#ffffff;Margin:0px auto;max-width:600px;">
+		<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;background-color:#ffffff;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:20px;padding-top:20;text-align:center;vertical-align:top;">
+						<!--[if mso | IE]>
+																																																														                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+																																																														                
+																																																														        <tr>
+																																																														      
+																																																														            <td
+																																																														               class="" style="vertical-align:top;width:600px;"
+																																																														            >
+																																																														          <![endif]-->
+						<div class="mj-column-per-100 outlook-group-fix" style="font-size:16px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+							<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+								<tr>
+									<td align="center" style="font-size:0px;padding:10px 25px;padding-top:0;padding-right:0px;padding-bottom:0px;padding-left:0px;word-break:break-word;">
+										<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+											<tbody>
+												<tr>
+													<td style="width:100px;">
+
+														{% if cart_recipient.from is defined and cart_recipient.from == 'company' %}
+															<a href="#/" target="_blank">
+																{% if app.session.get('appParam').logo %}
+																	<img height="auto" src="{{app_media_base_user_logo}}{{ app.session.get('appParam').logo }}" style="border:none;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="250"/>
+																{% else %}
+																	<h1 id="logoApp">{{app.session.get('appParam').name}}</h1>
+																{% endif %}
+															</a>
+														{% else %}
+
+															{% if cart_recipient and cart_recipient.from is defined and cart_recipient.from   %}
+
+																{% set agency_logo = ( cart_recipient.from.logoPath is defined and cart_recipient.from.logoPath) ? cart_recipient.from.logoPath : null %}
+																{% set agency_name = (cart_recipient.from.name is defined and cart_recipient.from.name) ? cart_recipient.from.name : null %}
+
+																{% if agency_logo or agency_name %}
+
+																	{% if agency_logo %}
+																		<a href="#/" target="_blank"><img height="auto" src="{{app_media_base_user_logo}}{{agency_logo}}" style="border:none;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="250"/></a>
+																	{% else %}
+																		<h1 id="logoApp">{{agency_name}}</h1>
+																	{% endif %}
+
+																{% endif %}
+
+															{% endif %}
+
+
+														{% endif %}
+
+
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!--[if mso | IE]>
+																																																														            </td>
+																																																														          
+																																																														        </tr>
+																																																														      
+																																																														                  </table>
+																																																														                <![endif]-->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!--[if mso | IE]>
+												          </td>
+												        </tr>
+												      </table>
+												      
+												      <table
+												         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+												      >
+												        <tr>
+												          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+												      <![endif]-->
+
+
+	<div
+		style="background:#ffffff;background-color:#ffffff;Margin:0px auto;max-width:600px;">
+
+		<!--SHORT DETAL ORDER-->
+		{% if cart_header and cart_detail %}
+
+			<div class="row">
+				<div class="col">
+					<table>
+						<tr>
+							<td align="center" style="font-size:0px;padding:10px 25px;padding-top:10;padding-right:25px;padding-bottom:10px;padding-left:25px;word-break:break-word;">
+								<div style="font-family:'Oswald', sans-serif;font-size:16px;line-height:1;text-align:center;color:#000000;">
+									<h2 style="font-family:'Oswald', sans-serif;text-align:center;font-size:18px;">{{ title}}
+									</h2>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<strong>{{ maskNumberLocalOrder(cart_header.cart, 8, 0) }}</strong>
+					-
+					<span>{{cart_header.dateDoc|date('d/m/Y')}}</span>
+					-
+					<strong>{{cart_header.label_status}}</strong>
+				</div>
+			</div>
+
+			{% if app.user is instanceof('Agency') and cart_header.reference is defined %}
+				<div class="row">
+					<div class="col">
+						<table align="center" border="0" cellpadding="0" cellspacing="0" style="clear:both;color:#666666!important;font-family:arial,helvetica,sans-serif;font-size:11px;margin-top:20px" width="100%">
+							<tr>
+								<td style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap" colspan="2">
+									<strong>Reference:
+									</strong>
+									{{cart_header.reference}}</td>
+							</tr>
+							<tr>
+								<td style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">
+									<strong>Agente:
+									</strong>
+									<p>{{cart_header.agente}}</p>
+								</td>
+								<td style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">
+									<strong>Email:
+									</strong>
+									<p>{{cart_header.agenteEmail}}</p>
+								</td>
+							</tr>
+							<tr>
+								<td style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap" colspan="2">
+									<strong>Observatios:
+									</strong>
+									<p>{{cart_header.obs}}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			{% endif %}
+
+			<div class="row">
+				<div class="col">
+
+
+					<table align="center" border="0" cellpadding="0" cellspacing="0" style="clear:both;color:#666666!important;font-family:arial,helvetica,sans-serif;font-size:11px;margin-top:20px" width="100%">
+						<thead>
+							<tr>
+								<th style="border:1px solid #ccc;border-right:none;border-left:none;padding:5px 10px 5px 10px!important;color:#333333!important">{{'Items'|trans}}</th>
+								<th style="border:1px solid #ccc;border-right:none;border-left:none;padding:5px 10px 5px 10px!important;color:#333333!important">{{'Price'|trans}}</th>
+								<th style="border:1px solid #ccc;border-right:none;border-left:none;padding:5px 10px 5px 10px!important;color:#333333!important">Total</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{% if cart_detail %}
+								{% set total = 0 %}
+								{% set items = 0 %}
+
+								{% for row in cart_detail %}
+
+									{% set product = row.product %}
+
+									{% set code = 'coesap-' ~ product.id %}
+
+									{% set row_price = row.price %}
+									{% set info_prices = '' %}
+
+									{% set subtotal = row.items * row_price %}
+
+									<tr class="{{code}}">
+										<td style="border-bottom:1px dashed #ccc;padding:10px;" colspan="3">
+											{{row.description}}
+										</td>
+									</tr>
+
+									<tr class="{{code}}">
+										<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{row.items}}</td>
+										<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">
+											{{row_price|format_currency(cart_header.currency)}}
+											{{info_prices| raw}}
+										</td>
+										<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{subtotal|format_currency(cart_header.currency)}}</td>
+									</tr>
+
+									{% set total = total  + subtotal %}
+									{% set items = items + row.items %}
+
+								{% endfor %}
+							{% endif %}
+						</tbody>
+
+						<tfoot>
+							<tr>
+								<th colspan="2" style="border:1px solid #ccc;border-right:none;border-left:none;padding:5px 10px 5px 10px!important;color:#333333!important;white-space: nowrap">Total</th>
+								<th align="right" id="totalOrder" style="border:1px solid #ccc;border-right:none;border-left:none;padding:5px 10px 5px 10px!important;color:#333333!important;white-space: nowrap">{{total|format_currency(cart_header.currency)}}</th>
+							</tr>
+						</tfoot>
+
+					</table>
+
+				</div>
+				<!--Col-->
+			</div>
+			<!--Row-->
+
+			{% set contact_data = (cart_recipient.contact is defined and cart_recipient.contact) ? cart_recipient.contact : null %}
+			{% if contact_data   %}
+				<div class="row">
+					<div class="col">
+						<table align="center" border="0" cellpadding="0" cellspacing="0" style="clear:both;color:#666666!important;font-family:arial,helvetica,sans-serif;font-size:11px;margin-top:20px" width="100%">
+							<thead>
+								<tr>
+									<th colspan="2" style="border:1px solid #ccc;border-right:none;border-left:none;padding:5px 10px 5px 10px!important;color:#333333!important">
+
+										{% set contact_title = 'Agency detail' %}
+
+										{% if cart_recipient.contact_type == 'user' %}
+											{% set contact_title = 'Customer detail' %}
+										{% endif %}
+
+										{{contact_title}}
+
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">Name:
+									</td>
+									<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{contact_data.name}}</td>
+								</tr>
+								<tr>
+									<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">Email:
+									</td>
+									<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{contact_data.email}}</td>
+								</tr>
+								<tr>
+									<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">Phone:
+									</td>
+									<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{contact_data.phone}}</td>
+								</tr>
+
+								{#
+																{% if cart_recipient.mask_type == 'snve' or cart_recipient.mask_type == 'base' or cart_header.tour_operator_view  %}
+																	<tr>
+																		<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">Reference order:</td>
+																		<td align="right" style="border-bottom:1px dashed #ccc;padding:10px;white-space: nowrap">{{cart_header.cartReference}}</td>
+																	</tr>
+																{% endif %}
+																#}
+
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+			{% endif %}
+
+		{% else %}
+			<div class="row">
+				<div class="col">
+					<div class="alert text-center alert-warning mb-5 mt-5">
+						{{'NO HAVE PRODUCTS'|trans|upper}}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if gotoorder is defined and gotoorder %}
+			<br><br>
+			<div style="text-align:center;">
+				<a style="background-color:#003d63!important;border:1px solid #FF7100!important;border-radius:3px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:16px;line-height:44px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;mso-hide:all;" href="{{gotoorder}}" target="_blank">IR AL PEDIDO</a>
+			</div>
+		{% endif %}
+
+		<!--[if mso | IE]>
+																					
+																					<table
+																						align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+																					>
+																					<tr>
+																						<td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+																					<![endif]-->
+		<div style="background:#ffffff;background-color:#ffffff;Margin:0px auto;max-width:600px;">
+			<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;background-color:#ffffff;width:100%;">
+				<tbody>
+					<tr>
+						<td
+							style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:20px;padding-top:20;text-align:center;vertical-align:top;">
+							<!--[if mso | IE]>
+																																																																										<table role="presentation" border="0" cellpadding="0" cellspacing="0">
+																																																																									
+																																																																							<tr>
+																																																																							
+																																																																								<td
+																																																																									class="" style="vertical-align:top;width:600px;"
+																																																																								>
+																																																																								<![endif]-->
+							{% if additional_message %}
+								<div class="mj-column-per-100 outlook-group-fix" style="font-size:14px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+									<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+										<tr>
+											<td align="justify" style="font-size:0px;padding:10px 25px;padding-top:0;padding-right:25px;padding-bottom:0px;padding-left:25px;word-break:break-word;">
+												<div style="font-family:font-family: 'Roboto', Arial!important;;font-size:14px;line-height:1;text-align:justify;color:#000000;">
+													<p>
+														<span style="color: rgb(57, 63, 76);">{{ additional_message}}</span>
+													</p>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							{% endif %}
+							<!--[if mso | IE]>
+																																																																								</td>
+																																																																								
+																																																																							</tr>
+																																																																							
+																																																																										</table>
+																																																																									<![endif]-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!--[if mso | IE]>
+																						</td>
+																					</tr>
+																					</table>
+																					<![endif]-->
+	</div>
+
+{% endblock %}

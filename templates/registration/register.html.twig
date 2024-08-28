@@ -1,32 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Register
+{% endblock %}
 
 {% block body %}
 
-<div class="container">
-    <div class="row">
-        <div class="bg-light mt-4 p-4">
-            <h1>Register</h1>
+	<div class="container">
+		<div class="row">
+			<div class="bg-light mt-4 p-4">
+				<h1>Register</h1>
 
-            {#
-            {% if is_granted('EDIT', RelatedUserTable) %}
-                <a href="{{ path('app_relatedUserTable_edit', {
-                    slug: RelatedUserTable.slug
-                }) }}" class="btn btn-secondary btn-sm mb-2">Edit</a>
-            {% endif %}
-            #}
+				{#
+								                {% if is_granted('EDIT', RelatedUserTable) %}
+								                    <a href="{{ path('app_relatedUserTable_edit', {
+								                        slug: RelatedUserTable.slug
+								                    }) }}" class="btn btn-secondary btn-sm mb-2">Edit</a>
+								                {% endif %}
+								                #}
 
-            {{ form_start(registrationForm) }}
-                {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.plainPassword, {
+				{{ form_start(registrationForm) }}
+
+				{{ form_row(registrationForm.name) }}
+				{{ form_row(registrationForm.email) }}
+
+				{{ form_row(registrationForm.country) }}
+
+				{{ form_row(registrationForm.plainPassword, {
                     label: 'Password'
                 }) }}
-                {{ form_row(registrationForm.agreeTerms) }}
 
-                <button type="submit" class="btn btn-primary">Register</button>
-            {{ form_end(registrationForm) }}
-        </div>
-    </div>
-</div>
+				<div class="mb-3">
+
+					{% set aggre_i18n = 'I agree with the'|trans %}
+					{% set privay_i18n = 'Privacy policy'|trans %}
+					{% set terms_i18n = 'Terms and conditions'|trans %}
+
+					{{ form_widget(registrationForm.agreeTerms, {
+                        label:  aggre_i18n ~ ' <a target="_blank" href="' ~ path('app_terms') ~ '">' ~ privay_i18n ~ " / " ~  terms_i18n ~ '</a>',
+                        label_html: true
+                        })
+                    }}
+				</div>
+
+				<button type="submit" class="btn btn-primary">{{'Register'|trans}}</button>
+				{{ form_end(registrationForm) }}
+			</div>
+		</div>
+	</div>
 {% endblock %}

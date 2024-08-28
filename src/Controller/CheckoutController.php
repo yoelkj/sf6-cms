@@ -175,7 +175,7 @@ class CheckoutController extends AbstractController
 
       //$bankObj = $this->get("app.redsys");//new RedsysAPI;
 
-      $bankObj->setParameter("DS_MERCHANT_MERCHANTNAME", "SN V&E PLATAFORMA INTERNACIONAL, SL");
+      $bankObj->setParameter("DS_MERCHANT_MERCHANTNAME", "COESA");
       $bankObj->setParameter("DS_MERCHANT_AMOUNT", $amount);
       $bankObj->setParameter("DS_MERCHANT_CURRENCY", $currency);
       $bankObj->setParameter("DS_MERCHANT_ORDER", $order . '-' . $num_nclose);
@@ -217,45 +217,24 @@ class CheckoutController extends AbstractController
 
         try {
 
-          $agency_manager = null;
-
           $this->em->getRepository(Order::class)->acceptAndSend($order, $payment_method, null, null, 3, $total, strtoupper($this->getParameter('app_company')));
-
-          $obj_user = $this->getUser();
-
-          if ($obj_user instanceof Agency) {
-            if ($obj_user->isIsSuperuser()) {
-              $agency_manager = 'Esencial Tours';
-            } else {
-              $obj_agency_manager = $this->em->getRepository(Agency::class)->getSuperUser($obj_user->getCustomer());
-            }
-          }
-
-          if ($obj_user instanceof User) {
-            $obj_agency_manager = $obj_order->getAgency();
-          }
-
-          $agency_manager = (isset($obj_agency_manager) && $obj_agency_manager) ? $obj_agency_manager->getName() . ' ' . $obj_agency_manager->getLastname() : $agency_manager;
-
-          /* 
-          Te recordamos que estás pidiendo una reserva pero aún no está confirmada. 
-                Tu AAVV (aquí sería genial que saliera la AAVV en la que ha hecho la reserva para personalizarlo más) se pondrá en contacto contigo (esto para cliente final). 
-                Tu TTOO (aquí sería genial que saliera el nombre del TTOO del que cuelga, para personalizarlo un poco) se pondrá en contacto contigo (esto para AAVV). 
-                Esencial Tours se pondrá en contacto contigo (esto para el TTOO).`;
-          */
 
           switch ($request->getLocale()) {
             case 'es':
-              $susses_message = ($agency_manager) ? 'Su pedido se ha completado correctamente. Te recordamos que estás pidiendo una reserva pero aún no está confirmada. ' . $agency_manager . ' se pondrá en contacto contigo.' : 'Su pedido se ha completado correctamente.';
+              $susses_message = 'Su pedido se ha completado correctamente.';
               break;
 
             default:
-              $susses_message = ($agency_manager) ? 'Your order has been successfully completed. We remind you that you are requesting a reservation but it is not yet confirmed. ' . $agency_manager . '. will contact you' : 'Your order has been successfully completed.';
+              $susses_message = 'Your order has been successfully completed.';
               break;
           }
 
           $this->session->getFlashBag()->add('success', $susses_message);
         } catch (\Exception $e) {
+
+
+          dd($e->getMessage());
+
 
           switch ($request->getLocale()) {
 
@@ -277,7 +256,7 @@ class CheckoutController extends AbstractController
             'to' => [$_ENV['APP_CONTACT_TEST_EMAIL']],
             'gotoorder' => '',
             'additional_message' => '
-                  <p>Se ha reportado un error en XEVENTS al generar el pedido: ' . $order . '<br> Mensage: <br>' . $e->getMessage() . '</p>',
+                  <p>Se ha reportado un error en COESA al generar el pedido: ' . $order . '<br> Mensage: <br>' . $e->getMessage() . '</p>',
           ];
           $this->commonHelper->composeAndSendDeveloperEmail($data_email, 'mailer');
 

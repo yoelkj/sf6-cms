@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Country;
 use App\Entity\User;
+use App\Repository\CountryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -17,7 +20,28 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('name', null, [
+                //'help' => 'Write your name',
+                'required' => true,
+            ])
             ->add('email')
+
+            ->add(
+                'country',
+                EntityType::class,
+                array(
+                    'class' => Country::class,
+                    'choice_label' => 'name',
+                    'choice_value' => 'id',
+                    'placeholder' => 'Choose an option',
+                    'label_attr' => array('title' => 'Country'),
+                    'query_builder' => function (CountryRepository $v) {
+                        return $v->createQueryBuilder('v')
+                            ->orderBy('v.name', ' ASC');
+                    }
+                )
+            )
+
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

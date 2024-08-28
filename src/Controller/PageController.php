@@ -233,7 +233,6 @@ class PageController extends AbstractController
     ): Response {
 
         $company = $request->getSession()->get('appParam');
-        $agency_slug = $request->query->get('agency');
         $only = $request->query->get('onlydata');
 
         $actions = ($request->isXmlHttpRequest()) ? 1 : 0;
@@ -242,7 +241,6 @@ class PageController extends AbstractController
 
         //dd($obj_company->getTranslation());
         return $this->render('page/' . $template, [
-            'agency_slug' => $agency_slug,
             'onlydata' => $only,
             'company' => $obj_company,
             'company_translation' => $obj_company->getTranslation(),
