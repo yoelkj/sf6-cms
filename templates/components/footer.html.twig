@@ -12,26 +12,31 @@
 
 				{% set first_element = first_element + 1 %}
 
-				{% set obj_page = menu.getPage() %}
-				{% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
-				{% set page_slug = (obj_page_translation) ? obj_page_translation.slug : null %}
-				{% set page_name = (obj_page_translation) ? obj_page_translation.name : null %}
-
-				{% if page_slug %}
-					{% if obj_page.isCatalog == true %}
-						{% set obj_brand = menu.getBrand() %}
-						{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
-						{% set obj_category = menu.getcategory() %}
-						{% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
-						{% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
-						{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug, category: category_slug }) : '' %}
+				{#
+					{% set obj_page = menu.getPage() %}
+					{% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
+					{% set page_slug = (obj_page_translation) ? obj_page_translation.slug : null %}
+					{% set page_name = (obj_page_translation) ? obj_page_translation.name : null %}
+				
+					{% if page_slug %}
+						{% if obj_page.isCatalog == true %}
+							{% set obj_brand = menu.getBrand() %}
+							{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
+							{% set obj_category = menu.getcategory() %}
+							{% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+							{% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+							{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug, category: category_slug }) : '' %}
+						{% else %}
+							{% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
+						{% endif %}
+				
 					{% else %}
-						{% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
+						{% set urlpage = '#' %}
 					{% endif %}
+					#}
 
-				{% else %}
-					{% set urlpage = '#' %}
-				{% endif %}
+
+				{% set urlpage = '#' %}
 
 				<div class="col-6 col-md">
 					<h5>
@@ -40,6 +45,24 @@
 					<ul class="list-unstyled text-small">
 
 						{% for chilMenu in menu.menus %}
+
+							{% set obj_page = chilMenu.getPage() %}
+							{% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
+							{% set page_slug = (obj_page_translation) ? obj_page_translation.slug : '' %}
+							{% set page_name = (obj_page_translation) ? obj_page_translation.name : '' %}
+
+							{% if page_slug %}
+
+								{% if obj_page.isCatalog == true %}
+									{% set obj_brand = chilMenuItem.getBrand() %}
+									{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
+									{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug }) : '' %}
+								{% else %}
+									{% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
+								{% endif %}
+							{% else %}
+								{% set urlpage = '#' %}
+							{% endif %}
 
 							<li>
 								<a class="link-secondary" href="{{ urlpage }}">{{chilMenu.getTranslateName}}</a>
@@ -79,14 +102,14 @@
 				</p>
 
 				{#
-																																												{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and is_granted('ROLE_ADMIN') %}
-																																													<div>
-																																														<a class="btn btn-light btn-sm w-100" data-turbo="false" href="{{ path('admin') }}">
-																																															Admin
-																																														</a>
-																																													</div>
-																																												{% endif %}
-																																								                #}
+																																																												{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and is_granted('ROLE_ADMIN') %}
+																																																													<div>
+																																																														<a class="btn btn-light btn-sm w-100" data-turbo="false" href="{{ path('admin') }}">
+																																																															Admin
+																																																														</a>
+																																																													</div>
+																																																												{% endif %}
+																																																								                #}
 
 			</div>
 
