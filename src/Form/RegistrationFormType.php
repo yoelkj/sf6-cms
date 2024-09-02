@@ -25,7 +25,9 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
             ])
             ->add('email')
+            ->add('phone')
 
+            ->add('address')
             ->add(
                 'country',
                 EntityType::class,
@@ -41,6 +43,9 @@ class RegistrationFormType extends AbstractType
                     }
                 )
             )
+
+            ->add('province')
+            ->add('city')
 
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

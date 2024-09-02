@@ -11,19 +11,44 @@
 				<h1>Register</h1>
 
 				{#
-								                {% if is_granted('EDIT', RelatedUserTable) %}
-								                    <a href="{{ path('app_relatedUserTable_edit', {
-								                        slug: RelatedUserTable.slug
-								                    }) }}" class="btn btn-secondary btn-sm mb-2">Edit</a>
-								                {% endif %}
-								                #}
+																{% if is_granted('EDIT', RelatedUserTable) %}
+																<a href="{{ path('app_relatedUserTable_edit', {
+																	slug: RelatedUserTable.slug
+																}) }}" class="btn btn-secondary btn-sm mb-2">Edit</a>
+																{% endif %}
+																#}
 
 				{{ form_start(registrationForm) }}
 
 				{{ form_row(registrationForm.name) }}
-				{{ form_row(registrationForm.email) }}
 
-				{{ form_row(registrationForm.country) }}
+
+				<div class="row">
+					<div class="col">
+						{{ form_row(registrationForm.email) }}
+					</div>
+					<div class="col">
+						{{ form_row(registrationForm.phone) }}
+					</div>
+
+				</div>
+
+				{{ form_row(registrationForm.address) }}
+
+				<div class="row">
+					<div class="col">
+						{{ form_row(registrationForm.country) }}
+					</div>
+					<div class="col">
+						{{ form_row(registrationForm.province) }}
+					</div>
+
+					<div class="col">
+						{{ form_row(registrationForm.city) }}
+					</div>
+
+				</div>
+
 
 				{{ form_row(registrationForm.plainPassword, {
                     label: 'Password'
@@ -42,7 +67,12 @@
                     }}
 				</div>
 
-				<button type="submit" class="btn btn-primary">{{'Register'|trans}}</button>
+
+				<div class="d-grid gap-2 my-3">
+					<button type="submit" class="btn btn-primary">{{'Register'|trans}}</button>
+				</div>
+
+
 				{{ form_end(registrationForm) }}
 			</div>
 		</div>
