@@ -424,14 +424,19 @@ ul.dropdown-menu .dropdown-item:hover{
     font-weight: bold;
 }
 
-
 #entries{
     min-height: 50vh;;
 }
 
-#entries a{
-    color: #212529;
+#entries a.btn-dark{
+    color: #fcfcfc;
     text-decoration: none;
+    background-color: #009746;
+    border-color: #009746;
+}
+
+#entries a.btn-dark:hover{
+    color: #fcfcfc;
 }
 
 

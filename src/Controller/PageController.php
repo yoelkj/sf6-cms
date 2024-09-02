@@ -89,42 +89,28 @@ class PageController extends AbstractController
     }
 
     #[Route(
-        path: '/{_locale}/catalog/{slug}/{brand}',
+        path: '/{_locale}/catalog',
         name: 'app_catalog',
         requirements: [
             '_locale' => 'en|es',
         ],
     )]
-    public function catalog(Request $request, $slug, $brand, BrandRepository $repo_brand, PageRepository $repo_page, ProductRepository $repo_product): Response
+    public function catalog(Request $request, BrandRepository $repo_brand, PageRepository $repo_page, ProductRepository $repo_product): Response
     {
 
-        $obj_row = $repo_page->getPageBySlug($slug);
-        $obj_row_translation = $obj_row->getTranslation();
-
-        $obj_brand = ($brand && $brand != 'all' && $brand != 'todos') ? $repo_brand->findOneBySlug($brand) : null;
-
-        $obj_qb = $repo_product->getCatalogData(($obj_brand) ? ["cbo_brand" => $obj_brand->getId()] : [], 1);
+        $obj_qb = $repo_product->getCatalogData([], 1);
         $data = new Pagerfanta(new QueryAdapter($obj_qb));
         $data->setMaxPerPage(8);
 
         $arr_data['data'] = $data;
-        $arr_data['brand'] = $obj_brand;
-
-
-        $arr_filter_data = $repo_product->getFilterData();
-
-
-        $obj_widgets = $obj_row->getWidgets();
-
-        //$request->getSession()->set('searchParams', []);
 
         return $this->render('page/catalog.html.twig', [
-            'filter_data' => $arr_filter_data,
-            'obj_row' => $obj_row,
-            'obj_row_translation' => $obj_row_translation,
             'arr_catalog_data' => $arr_data,
             'search_params' => [],
-            'obj_widgets' => $obj_widgets
+            'filter_data' => null,
+            'obj_row' => null,
+            'obj_row_translation' => null,
+            'obj_widgets' => null
         ]);
     }
 

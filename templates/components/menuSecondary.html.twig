@@ -49,10 +49,10 @@
 									{% set obj_brand = menuItem.getBrand() %}
 									{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
 									{#
-																																																																																																																																																																																																																																																																																																																											                                {% set obj_category = menuItem.getcategory() %}
-																																																																																																																																																																																																																																																																																																																											                                {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
-																																																																																																																																																																																																																																																																																																																											                                {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
-																																																																																																																																																																																																																																																																																																																											                                #}
+																																																																																																																																																																																																																																																																																																																																				                                {% set obj_category = menuItem.getcategory() %}
+																																																																																																																																																																																																																																																																																																																																				                                {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+																																																																																																																																																																																																																																																																																																																																				                                {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+																																																																																																																																																																																																																																																																																																																																				                                #}
 									{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug }) : '' %}
 								{% else %}
 									{% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
@@ -68,8 +68,8 @@
 									class="dropdown-menu" aria-labelledby="navbarDropdown-{{menuItem.id}}">
 
 									{#
-																		<li><a class="dropdown-item" href="{{urlpage}}">{{menuItem.getTranslateName|upper}}</a></li>    
-																		#}
+																											<li><a class="dropdown-item" href="{{urlpage}}">{{menuItem.getTranslateName|upper}}</a></li>    
+																											#}
 
 									{% for chilMenuItem in childMenu %}
 
@@ -85,10 +85,10 @@
 												{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
 
 												{#
-												{% set obj_category = chilMenuItem.getcategory() %}
-												{% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
-												{% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
-												#}
+																								{% set obj_category = chilMenuItem.getcategory() %}
+																								{% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+																								{% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+																								#}
 
 												{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug }) : '' %}
 
@@ -123,9 +123,17 @@
 							</a>
 
 						{% else %}
-							<a class="nav-link px-2 " data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" aria-controls="offcanvasCart">
+							{#
+														<a class="nav-link px-2 " data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" aria-controls="offcanvasCart">
+															<i class="fas fa-shopping-cart"></i>
+														</a>							
+														#}
+
+							<a class="nav-link px-2 " href="{{path('app_catalog')}}">
 								<i class="fas fa-shopping-cart"></i>
 							</a>
+
+
 						{% endif %}
 
 
