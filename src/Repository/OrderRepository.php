@@ -108,7 +108,7 @@ class OrderRepository extends ServiceEntityRepository
         return $obj_new_order; //return snve event to payment procces
     }
 
-    public function acceptandsend($order = null, $payment_method = null, $autorization_code = null, $status_payment, $status = null, $total = null, $app_company_field = null)
+    public function acceptandsend($order = null, $payment_method = null, $autorization_code = null, $status_payment = null, $status = null, $total = null, $app_company_field = null)
     {
 
         $obj_order = $this->find($order);
@@ -182,7 +182,7 @@ class OrderRepository extends ServiceEntityRepository
                 //COESA
                 $arr_recipients[3]['to'] = $_ENV['APP_CONTACT_RESERVAS_EMAIL'];
                 $arr_recipients[3]['contact_type'] = 'coesa';
-                $arr_recipients[3]['mask_type'] = 'snve';
+                $arr_recipients[3]['mask_type'] = 'coesa';
                 $arr_recipients[3]['from'] = 'company';
                 $arr_recipients[3]['contact'] = ($obj_too_order) ? $obj_too_order : null;
 
