@@ -17,6 +17,7 @@
         "handcraftedinthealps/goodby-csv": "^1.4",
         "knplabs/doctrine-behaviors": "^2.6",
         "knplabs/knp-time-bundle": "^1.19",
+        "openpay/sdk": "^3.1",
         "pagerfanta/doctrine-orm-adapter": "^3.6",
         "pagerfanta/twig": "^3.6",
         "scheb/2fa-bundle": "^6.0",

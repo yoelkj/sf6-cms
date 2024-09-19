@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use App\Entity\OrderDetail;
+use App\Entity\OrderPayment;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,12 +40,12 @@ class OrderRepository extends ServiceEntityRepository
     );
 
     static public $order_status = array(
-        1 => array('id' => 1, 'name' => 'ABIERTO', 'shortname' => 'abierto', 'class_button' => 'btn-secondary'), //FOR EDITABLE
+        1 => array('id' => 1, 'name' => 'POR CONFIRMAR', 'shortname' => 'PORCONFIRMAR', 'class_button' => 'btn-secondary'), //FOR EDITABLE
         6 => array('id' => 6, 'name' => 'CANCELADO', 'shortname' => 'cancelado', 'class_button' => 'btn-danger'), //ANULADO - NO-STOCK
-        2 => array('id' => 2, 'name' => 'CERRADO', 'shortname' => 'cerrado', 'class_button' => 'btn-dark'),
-        4 => array('id' => 4, 'name' => 'CONFIRMADO', 'shortname' => 'confirmado', 'class_button' => 'btn-primary'),
-        5 => array('id' => 5, 'name' => 'PAGADO', 'shortname' => 'pagado', 'class_button' => 'btn-success'),
-        3 => array('id' => 3, 'name' => 'POR CONFIRMAR', 'shortname' => 'porconfirmar', 'class_button' => 'btn-info')
+        2 => array('id' => 2, 'name' => 'CONFIRMADO', 'shortname' => 'cerrado', 'class_button' => 'btn-dark'),
+        //4 => array('id' => 4, 'name' => 'CONFIRMADO', 'shortname' => 'confirmado', 'class_button' => 'btn-primary'),
+        5 => array('id' => 5, 'name' => 'COMPLETADO', 'shortname' => 'completado', 'class_button' => 'btn-success'),
+        //3 => array('id' => 3, 'name' => 'POR CONFIRMAR', 'shortname' => 'porconfirmar', 'class_button' => 'btn-info')
     );
 
 
@@ -99,7 +100,6 @@ class OrderRepository extends ServiceEntityRepository
                 $obj_new_order_detail->setPrice(isset($row_d['price']) && $row_d['price'] ? $row_d['price'] : null);
 
                 $obj_new_order_detail->setProduct($obj_product);
-
                 $this->_em->persist($obj_new_order_detail);
                 $flush = $this->_em->flush();
             }
@@ -119,41 +119,14 @@ class OrderRepository extends ServiceEntityRepository
 
         if ($obj_order && $obj_order->getStatus() != 5) {
 
-            /*
-            
-            if(!empty($payment_detail) && $payment_detail['ohp_id'] != null){
-              $obj_payment = $em->getRepository('BackendBundle:OrdersHasPayments')->find($payment_detail['ohp_id']);
-              $obj_order =$em->getRepository('BackendBundle:Order')->find($order);
-    
-              if($obj_payment){
-                $obj_payment->setPaymentMethod($payment_method);
-                $obj_payment->setPaymentCode(($autorization_code)?$autorization_code:'');
-                $obj_payment->setStatus(($status_payment)?$status_payment:'');
-                $obj_payment->setActive(1);
-                //Save payment detail    
-                $obj_payment->setUpdatedAt(new \DateTime());
-                $empd = $this->getDoctrine()->getManager();
-                $empd->persist($obj_payment);
-                $flush = $empd->flush();
-              }
-            }else{
-    
-              $obj_payment = new OrdersHasPayments();
-              $obj_payment->setOrder($obj_order);
-              $obj_payment->setPaymentMethod($payment_method);
-              $obj_payment->setPaymentCode(($autorization_code)?$autorization_code:'');
-              $obj_payment->setStatus(($status_payment)?$status_payment:'');
-              if($total) $obj_payment->setTotal(($total)?number_format($total, 2, '.', ''):0);
-              $obj_payment->setActive(1);
-              $obj_payment->setCreatedAt(new \DateTime());
-              $obj_payment->setUpdatedAt(new \DateTime());
-              //-------------------------------------------------
-              $empd = $this->getDoctrine()->getManager();
-              $empd->persist($obj_payment);
-              $flush = $empd->flush();
-              //--------END---Save order payment method
-            }
-            */
+            $obj_new_order_payment = new OrderPayment();
+            $obj_new_order_payment->setOrderHead($obj_order);
+            $obj_new_order_payment->setPaymentMethod(3);
+            $obj_new_order_payment->setPaymentCode($autorization_code);
+            $obj_new_order_payment->setStatus(1);
+            $obj_new_order_payment->setIsActive(1);
+            $this->_em->persist($obj_new_order_payment);
+            $this->_em->flush();
 
             if ($total) $obj_order->setTotal(($total) ? number_format($total, 2, '.', '') : 0);
 
@@ -206,9 +179,9 @@ class OrderRepository extends ServiceEntityRepository
                 $arr_recipients[0]['from'] = ($obj_supplier_order) ? $obj_supplier_order : null;
                 $arr_recipients[0]['contact'] = ($obj_supplier_order) ? $obj_supplier_order : null;
 
-                //SNVE
+                //COESA
                 $arr_recipients[3]['to'] = $_ENV['APP_CONTACT_RESERVAS_EMAIL'];
-                $arr_recipients[3]['contact_type'] = 'snve';
+                $arr_recipients[3]['contact_type'] = 'coesa';
                 $arr_recipients[3]['mask_type'] = 'snve';
                 $arr_recipients[3]['from'] = 'company';
                 $arr_recipients[3]['contact'] = ($obj_too_order) ? $obj_too_order : null;
@@ -276,49 +249,59 @@ class OrderRepository extends ServiceEntityRepository
         return $result_message;
     }
 
-    public function getOrderActiveView($obj_order_row, $with_packs = false)
+    public function getOrderActiveView($obj_order_row = null, $with_packs = false)
     {
 
-        //$logged_user = $this->security->getUser();
-        $arr_status = $this->getOrderStatus();
+        if (!$obj_order_row) {
+            $obj_order_row = $this->findOneBy(['status' => 1, 'isActive' => 1]);
+        }
 
-        $arr_data = [];
-
-        $obj_user = $obj_order_row->getUser();
-
-        $arr_data['head']['cart'] = $obj_order_row->getId();
-        $arr_data['head']['total'] = $obj_order_row->getTotal();
-        $arr_data['head']['dateDoc'] = $obj_order_row->getDateDoc();
-
-        $arr_data['head']['status'] = $obj_order_row->getStatus();
-        $arr_data['head']['label_status'] = (isset($arr_status[$obj_order_row->getStatus()])) ? $arr_status[$obj_order_row->getStatus()]['name'] : $obj_order_row->getStatus();
-
-        $arr_data['head']['currency'] = $obj_order_row->getCurrency();
+        if ($obj_order_row) {
 
 
-        $arr_data['head']['user'] = ($obj_user) ? $obj_user->getId() : null;
-        $arr_data['head']['userDetail']['name'] =  ($obj_user) ? $obj_user->getName() : null;
-        $arr_data['head']['userDetail']['email'] = ($obj_user) ? $obj_user->getEmail() : null;
-        $arr_data['head']['userDetail']['phone'] = ($obj_user) ? $obj_user->getPhone() : null;
+            //$logged_user = $this->security->getUser();
+            $arr_status = $this->getOrderStatus();
 
-        $arr_data['message'] = '';
+            $arr_data = [];
 
-        $objs_order_detail = $this->_em->getRepository('App\\Entity\\OrderDetail')->getRows($obj_order_row);
+            $obj_user = $obj_order_row->getUser();
 
-        //------Code parse price here.
+            $arr_data['head']['cart'] = $obj_order_row->getId();
+            $arr_data['head']['total'] = $obj_order_row->getTotal();
+            $arr_data['head']['dateDoc'] = $obj_order_row->getDateDoc();
 
-        $arr_data['detail'] = $this->getOrderPrice($objs_order_detail);
+            $arr_data['head']['status'] = $obj_order_row->getStatus();
+            $arr_data['head']['label_status'] = (isset($arr_status[$obj_order_row->getStatus()])) ? $arr_status[$obj_order_row->getStatus()]['name'] : $obj_order_row->getStatus();
 
-        /*
-      foreach ($objs_order_detail as $rowD) {
-        $arr_data['detail'][$rowD->getComposeKey()]['id'] = $rowD->getId();
-        $arr_data['detail'][$rowD->getComposeKey()]['items'] = $rowD->getAmount();
-        $arr_data['detail'][$rowD->getComposeKey()]['description'] = $rowD->getDescription();
-        $arr_data['detail'][$rowD->getComposeKey()]['code'] = $rowD->getComposeKey();
-        $arr_data['detail'][$rowD->getComposeKey()]['price'] = $rowD->getPrice();
-      }
-      */
-        //----END code parse here.
+            $arr_data['head']['currency'] = $obj_order_row->getCurrency();
+
+
+            $arr_data['head']['user'] = ($obj_user) ? $obj_user->getId() : null;
+            $arr_data['head']['userDetail']['name'] =  ($obj_user) ? $obj_user->getName() : null;
+            $arr_data['head']['userDetail']['email'] = ($obj_user) ? $obj_user->getEmail() : null;
+            $arr_data['head']['userDetail']['phone'] = ($obj_user) ? $obj_user->getPhone() : null;
+
+            $arr_data['message'] = '';
+
+            $objs_order_detail = $this->_em->getRepository('App\\Entity\\OrderDetail')->getRows($obj_order_row);
+
+            //------Code parse price here.
+
+            $arr_data['detail'] = $this->getOrderPrice($objs_order_detail);
+
+            /*
+            foreach ($objs_order_detail as $rowD) {
+                $arr_data['detail'][$rowD->getComposeKey()]['id'] = $rowD->getId();
+                $arr_data['detail'][$rowD->getComposeKey()]['items'] = $rowD->getAmount();
+                $arr_data['detail'][$rowD->getComposeKey()]['description'] = $rowD->getDescription();
+                $arr_data['detail'][$rowD->getComposeKey()]['code'] = $rowD->getComposeKey();
+                $arr_data['detail'][$rowD->getComposeKey()]['price'] = $rowD->getPrice();
+                }
+                */
+            //----END code parse here.
+        } else {
+            $arr_data = [];
+        }
 
         return $arr_data;
     }
@@ -329,11 +312,12 @@ class OrderRepository extends ServiceEntityRepository
         $arr_detail = [];
 
         foreach ($public_order_detail as $rowD) {
-
             $obj_product = $rowD->getProduct();
 
+            $arr_detail[$rowD->getId()]['code'] = 'detail-' . $rowD->getId();
             $arr_detail[$rowD->getId()]['id'] = $rowD->getId();
-            $arr_detail[$rowD->getId()]['product'] = $rowD->getProduct();
+            $arr_detail[$rowD->getId()]['product'] = $obj_product;
+            $arr_detail[$rowD->getId()]['product_id'] = $obj_product->getId();
             $arr_detail[$rowD->getId()]['items'] = $rowD->getAmount();
 
             $arr_detail[$rowD->getId()]['description'] = $obj_product->getTranslateName(); //$rowD->getDescription();

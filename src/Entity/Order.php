@@ -48,6 +48,9 @@ class Order
     #[ORM\OneToMany(mappedBy: 'orderHead', targetEntity: OrderPayment::class)]
     private Collection $orderPayments;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nclose = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -211,6 +214,18 @@ class Order
                 $orderPayment->setOrderHead(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNclose(): ?int
+    {
+        return $this->nclose;
+    }
+
+    public function setNclose(?int $nclose): static
+    {
+        $this->nclose = $nclose;
 
         return $this;
     }

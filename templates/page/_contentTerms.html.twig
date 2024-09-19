@@ -2,13 +2,19 @@
 
 {% if company_translation %}
 
-	<div class="col-md-12">
-		<h2 class="my-3 text-center">{{'Terms and conditions'|trans|upper}}</h2>
+	<div
+		class="col-md-12">
+		{#
+										<h2 class="my-3 text-center">{{'Terms and conditions'|trans|upper}}</h2>
+											<h2 class="my-3 text-center">{{'Data protection'|trans|upper}}</h2>
+											#}
+
 		{{company_translation.terms|raw}}
 		{% if company_translation.dataProtection %}
-			<h2 class="my-3 text-center">{{'Data protection'|trans|upper}}</h2>
+
 			{{company_translation.dataProtection|raw}}
 		{% endif %}
+
 	</div>
 {% endif %}
 
@@ -16,10 +22,10 @@
 
 	<div class="row justify-content-between mt-5">
 		<div class="col-md-6 text-start">
-			<a href="javascript:void(0);" action="close" class="btn btn-primary btn-action-close">Close</a>
+			<a href="javascript:void(0);" action="close" class="btn btn-success btn-action-close">{{'Close'|trans}}</a>
 		</div>
 		<div class="col-md-6 text-end">
-			<a href="javascript:void(0);" action="closeAndContinue" class="btn btn-success btn-action-close">Accept and continue</a>
+			<a href="javascript:void(0);" action="closeAndContinue" class="btn btn-success btn-action-close">{{'Accept and continue'|trans}}</a>
 		</div>
 		<div>
 

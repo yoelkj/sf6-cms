@@ -56,6 +56,16 @@ export default class extends Controller{
 
     initialize(){
         this.fillCartData();
+
+        window.addEventListener( "pageshow", function ( event ) {
+            var historyTraversal = event.persisted || 
+                                   ( typeof window.performance != "undefined" && 
+                                        window.performance.navigation.type === 2 );
+            if ( historyTraversal ) {
+              // Handle page restore.
+              window.location.reload();
+            }
+          });
     }
 
     fillCartData(){
@@ -220,15 +230,12 @@ export default class extends Controller{
     async handleSend(e) {
 
         let $obj_send_btn = $(e.currentTarget);
-        let not_pay = 1;
 
         let obj_main = this;
 
         //Validate
         let $is_checked_granted_check = $('#privacyGranted')[0].checked;
         
-
-
         if($('#agencyAdditionalData').length){
 
             //this.validateField($('#reference'));
@@ -283,42 +290,35 @@ export default class extends Controller{
                 data: $('#frmCheckout, #agencyAdditionalData, #packsData').serialize(),
                 type: "POST",
                 beforeSend: function () {
-                    $obj_send_btn.addClass('disabled');
-                    $obj_send_btn.html('<strong>'+obj_main.transSendingdataValue+' <i class="fas fa-sync fa-spin"></i><strong>');
-                    $('#frmCheckout').hide();
+                    
                     $('#message').html('');
-
+                    $obj_send_btn.html('<strong>'+obj_main.transSendingdataValue+' <i class="fas fa-sync fa-spin"></i><strong>');
+                    //$obj_send_btn.addClass('disabled');
+                    $('.btn-pay-actions').addClass('disabled');
                     
                 },
                 success: function (data) {
 
-                    if (not_pay) {
+                    let url_redirect = '';
 
-                        $(location).attr('href', obj_main.uriRedirValue);
-                        return;
-                    
-                    } else {
+                    console.log(data.hasOwnProperty('access_payment_form'));
 
-                        if(data.status == 200){
-
-                            $('#frmPayment').html(data.response);
-                            $('#frmPayment input[name="submit"]').hide();
-                            
-                            $obj_send_btn.html('<strong>' + obj_main.transSendingdataValue + ' <i class="fas fa-sync fa-spin"></i> <strong>');
-                            
-                            $('#frmPayment form').each(function (idx, el) {
-                                $(el).submit();
-                            });
-                            
-                        }
+                    if(data.hasOwnProperty('access_payment_form') && data.hasOwnProperty('url')){
+                        url_redirect = data.url; 
+                    }else{
+                        url_redirect = obj_main.uriRedirValue;
                     }
+
+                    $(location).attr('href', url_redirect);
+                    return;
 
                 },
                 complete: function (data) {
-                    $('#orderButtons').hide();
-                    $('#frmCheckout').hide();
-                    $('#btn_send_order').removeClass('disabled')
+                    //$('#btn_send_order').removeClass('disabled')
+                    //$('#frmCheckout').hide();
+                    //$('#orderButtons').hide();
                     $('#btn_send_order').html( content_sent_btn);
+                    $('.btn-pay-actions').removeClass('disabled');
                 }
             });
 

@@ -8,6 +8,15 @@ parameters:
     doctrine_behaviors_translation_fetch_mode: "LAZY"
     app_company: '%env(APP_COMPANY)%'
 
+    url.tpv:  '%env(TPV_URL)%'
+    clave.tpv: '%env(TPV_CLAVE)%'
+    code.tpv: '%env(TPV_CODE)%'
+    terminal.tpv: '%env(TPV_TERMINAL)%'
+
+    openpay_merchant_id: '%env(OPENPAY_MERCHANT_ID)%'
+    openpay_api_key: '%env(OPENPAY_API_KEY)%'
+    openpay_sandbox: '%env(bool:OPENPAY_SANDBOX)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -32,3 +41,9 @@ services:
     App\EasyAdmin\TruncateLongTextConfigurator:
         tags:
             - { name: 'ea.field_configurator', priority: -1 }
+    
+    App\Service\OpenpayService:
+        arguments:
+            $merchantId: '%openpay_merchant_id%'
+            $apiKey: '%openpay_api_key%'
+            $sandboxMode: '%openpay_sandbox%'

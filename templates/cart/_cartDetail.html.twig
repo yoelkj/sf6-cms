@@ -65,33 +65,36 @@
 				{% endif %}
 			</tbody>
 
-			<thead>
+			<tfoot>
 				<tr>
 					<td colspan="2">Total</td>
 					<td id="totalOrder">{{total|format_currency(cart_header.currency|replace({'PEN': 'S/.'}))}}</td>
+					{% if useActions == false %}
+						<td>&nbsp;</td>
+					{% endif %}
 				</tr>
-			</thead>
+			</tfoot>
 
 		</table>
 
 
-		<input id="summaryTarget" type="hidden" data-cart-show-target="summary" total="{{total}}" totalmask="{{total | format_currency(cart_header.currency)|replace({'PEN': 'S/.'})}}" currency="{{cart_header.currency}}" totalitems="{{items}}" status="{{(obj_order is defined and obj_order) ? obj_order.status : null}}" orderid="{{ (obj_order is defined and obj_order) ? obj_order.id : null }}" ordermask="{{ (obj_order is defined and obj_order) ? maskNumberOrder(obj_order.id, 6, 0) : null }}" {#ordermask="{{ (obj_order is defined and obj_order) ? maskNumberOrder(obj_order.id, 6, 0) : null }}"#}>
+		<input id="summaryTarget" type="hidden" data-cart-show-target="summary" total="{{total}}" totalmask="{{total | format_currency(cart_header.currency)|replace({'PEN': 'S/.'})}}" currency="{{cart_header.currency}}" totalitems="{{items}}" status="{{(cart_header.status is defined) ? cart_header.status : null}}" orderid="{{ (cart_header.cart is defined and cart_header.cart) ? cart_header.cart : null }}" ordermask="{{ (cart_header.cart is defined and cart_header.cart) ? maskNumberLocalOrder(cart_header.cart, 8, 0) : null }}">
 
 	</div>
 
 	{% if useActions %}
 
 		<div class="d-grid gap-2 mb-5">
-			<a class="btn btn-primary" href="{{path('app_cart_show')}}">{{'Request order confirmation' |trans}}</a>
+			<a class="btn btn-success" href="{{path('app_cart_show')}}">{{'Request order confirmation' |trans}}</a>
 
 
 			{#
-																		<a class="btn btn-primary" href="javascript:window.location.reload();">{{'Continue buying'|trans}}</a>
-															
-																																																									        {% if catalog_uri %}
-																																																									        <a href="{{ path(catalog_uri) }}" class="btn btn-primary">{{'Continue buying'|trans}}</a>
-																																																									        {% endif %}
-																																																									        #}
+																																													<a class="btn btn-primary" href="javascript:window.location.reload();">{{'Continue buying'|trans}}</a>
+																																										
+																																																																																				        {% if catalog_uri %}
+																																																																																				        <a href="{{ path(catalog_uri) }}" class="btn btn-primary">{{'Continue buying'|trans}}</a>
+																																																																																				        {% endif %}
+																																																																																				        #}
 
 		</div>
 		{#<div class="cart-detail"></div>#}

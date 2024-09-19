@@ -14,8 +14,9 @@
 
 				<div class="row">
 					<div class="col-md">
-
-						<h2>{{'Cart detail'|trans}}</h2>
+						<h2>{{'Cart detail'|trans}}
+							{{ (data.head.cart is defined and data.head.cart) ? maskNumberLocalOrder(data.head.cart, 8, 0):''  }}
+						</h2>
 
 						{{ include('cart/_cartDetail.html.twig', { data: data, agency: null, useActions: false}) }}
 
@@ -28,6 +29,7 @@
 
 							<h2>{{'Payment resume'|trans}}</h2>
 							{{ include('cart/_paymentType.html.twig', { 
+								'order': (data.head.cart is defined and data.head.cart) ? data.head.cart : null,
                         'default_payment_method': default_payment_method,
                         'obj_payment_methods': obj_payment_methods, 'arr_taxes': {'vat': 0, 're':0} }) }}
 
@@ -36,7 +38,7 @@
 
 						{% if catalog_uri %}
 							<div class="text-center">
-								<a href="{{ path(catalog_uri) }}" class="btn btn-primary">{{'Continue buying'|trans}}</a>
+								<a href="{{ path(catalog_uri) }}" class="btn btn-success">{{'Continue buying'|trans}}</a>
 							</div>
 						{% endif %}
 					{% endif %}

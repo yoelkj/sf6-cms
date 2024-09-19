@@ -33,17 +33,17 @@
 				</div>
 
 				{#
-				            <div class="col-md">
-				                <label class="form-label">Agency</label>
-				                <select {{ stimulus_controller('select2-simple', {
-				                        urlget: path('admin_ajax_get_agencies'),
-				                        } ) }}
-				                        
-				                        name="agency" class="form-control">
-				                    <option value="">{{'SELECT'|trans}}</option>
-				                </select>
-				            </div>
-				            #}
+								            <div class="col-md">
+								                <label class="form-label">Agency</label>
+								                <select {{ stimulus_controller('select2-simple', {
+								                        urlget: path('admin_ajax_get_agencies'),
+								                        } ) }}
+								                        
+								                        name="agency" class="form-control">
+								                    <option value="">{{'SELECT'|trans}}</option>
+								                </select>
+								            </div>
+								            #}
 
 				<div class="col-md-3">
 					<label class="form-label">{{'Status'|trans}}</label>
@@ -137,11 +137,11 @@
 					<td class="text-end">{{total_order | format_currency(row.currency)|replace({'PEN': 'S/.'})}}</td>
 
 					{#
-					            {% if is_admin or is_super_agency %}
-					            {% else %}
-					                <td class="text-end">{{row.total | format_currency(row.currency)}}</td>
-					            {% endif %}
-					            #}
+										            {% if is_admin or is_super_agency %}
+										            {% else %}
+										                <td class="text-end">{{row.total | format_currency(row.currency)}}</td>
+										            {% endif %}
+										            #}
 
 					<td class="text-center">
 						{{ (arr_status[row.status] is defined) ? arr_status[row.status].name : row.status}}
@@ -157,13 +157,13 @@
 							<div class="dropdown-menu dropdown-menu-right" style="">
 
 								<a class="dropdown-item action-detail" href="{{ea_url().setRoute('app_order_show', { id: row.id }) }}}}" data-action-name="detail">
-									<span class="action-label">Ver</span>
+									<span class="action-label">{{'Show'|trans}}</span>
 								</a>
 
 								{#
-								                        <a class="dropdown-item action-edit" href="" data-action-name="edit"><span class="action-label">Modificar</span></a>
-								                        <a class="dropdown-item action-delete text-danger" href="" data-action-name="delete" formaction="" data-bs-toggle="modal" data-bs-target="#modal-delete"><span class="action-label">Borrar</span></a>
-								                        #}
+																                        <a class="dropdown-item action-edit" href="" data-action-name="edit"><span class="action-label">Modificar</span></a>
+																                        <a class="dropdown-item action-delete text-danger" href="" data-action-name="delete" formaction="" data-bs-toggle="modal" data-bs-target="#modal-delete"><span class="action-label">Borrar</span></a>
+																                        #}
 							</div>
 						</div>
 

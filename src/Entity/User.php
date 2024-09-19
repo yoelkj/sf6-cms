@@ -21,7 +21,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements TimestampableInterface, UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
-{   
+{
     use TimestampableTrait;
 
     #[ORM\Id]
@@ -41,7 +41,7 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
     #[ORM\Column(type: 'string', length: 255)]
     private $password;
 
-    #[ORM\Column(type: 'string', length: 255, nullable:true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $totpSecret;
 
     private $plainPassword;
@@ -59,6 +59,7 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
     private $profile;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
+    #[ORM\OrderBy(['id' => 'DESC'])]
     private Collection $orders;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -86,7 +87,7 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
 
     public function __toString(): string
     {
-        return ($this->name)?$this->name:$this->email;
+        return ($this->name) ? $this->name : $this->email;
     }
 
     public function getId(): ?int
@@ -106,14 +107,15 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
         return $this;
     }
 
-    public function getRoles(): array{
-        
+    public function getRoles(): array
+    {
+
         $arr_roles = [];
         $obj_role = $this->getProfile();
-        
-        if($obj_role){
-            if($obj_role->isRoleUser()) $arr_roles[] = 'ROLE_USER'; 
-            if($obj_role->isRoleAdmin()) $arr_roles[] = 'ROLE_ADMIN'; 
+
+        if ($obj_role) {
+            if ($obj_role->isRoleUser()) $arr_roles[] = 'ROLE_USER';
+            if ($obj_role->isRoleAdmin()) $arr_roles[] = 'ROLE_ADMIN';
         }
         return array_unique($arr_roles);
     }
@@ -156,7 +158,7 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
     {
         return $this->password;
     }
-    
+
     public function setPassword($password): self
     {
 
@@ -206,7 +208,7 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
         return $this;
     }
 
-    
+
     public function isTotpAuthenticationEnabled(): bool
     {
         return $this->totpSecret ? true : false;
@@ -219,7 +221,7 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
     {
         return new TotpConfiguration($this->totpSecret, TotpConfiguration::ALGORITHM_SHA1, 30, 6);
     }
-    
+
 
     public function getTotpSecret(): ?string
     {
@@ -401,5 +403,4 @@ class User implements TimestampableInterface, UserInterface, PasswordAuthenticat
 
         return $this;
     }
-
 }

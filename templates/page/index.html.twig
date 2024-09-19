@@ -59,10 +59,10 @@
 												{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
 
 												{#
-																																																																																																																																																                                    {% set obj_category = chilMenuItem.getcategory() %}
-																																																																																																																																																                                    {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
-																																																																																																																																																                                    {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
-																																																																																																																																																                                    #}
+																																																																																																																																																																																																																																																																																				                                    {% set obj_category = chilMenuItem.getcategory() %}
+																																																																																																																																																																																																																																																																																				                                    {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+																																																																																																																																																																																																																																																																																				                                    {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+																																																																																																																																																																																																																																																																																				                                    #}
 
 												{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug }) : '' %}
 
@@ -248,6 +248,7 @@
 									{{obj_row_translation.body|raw}}
 								</div>
 							{% endif %}
+
 						</div>
 						<!--END BODY-->
 
@@ -302,6 +303,24 @@
 
 
 					</div>
+
+
+					<div {{ stimulus_controller('confirm', { urlget: path('app_terms', {content: 'company'} ), }) }} class="my-5">
+						<a data-confirm-target="openbtn" data-action="click->confirm#handleClick" href="javascript:void(0);">
+							{{'Privacy policy'|trans}}
+							/
+							{{'Terms and conditions'|trans}}
+							/
+							{{'Data protection'|trans}}
+						</a>
+					</div>
+
+					{{ include('modal/_modal.html.twig', {
+                            name: 'confirm',
+                            title: 'Legal content title'|trans,
+                            sendLabel: 'Accept and continue'|trans,
+                            size: 'lg'
+                        }) }}
 
 					<!--end content-->
 

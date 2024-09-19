@@ -27,7 +27,7 @@ class DummyAuthenticator extends AbstractAuthenticator implements Authentication
     use TargetPathTrait;
     private UserRepository $user_repo;
     private RouterInterface $router;
-    
+
     public function __construct(UserRepository $user_repo, RouterInterface $router)
     {
         $this->user_repo = $user_repo;

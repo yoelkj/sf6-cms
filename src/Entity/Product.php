@@ -90,21 +90,22 @@ class Product implements TimestampableInterface,  TranslatableInterface
 
     public function __toString(): string
     {
-       return $this->getTranslateName();
+        return $this->getTranslateName();
     }
-    
+
     public function getTranslateName(): ?string
     {
         $translate = $this->translate(Locale::getDefault())->getName();
-        return ($translate) ? $translate : 'Translation not available for '.Locale::getDefault();
+        return ($translate) ? $translate : 'Translation not available for ' . Locale::getDefault();
     }
 
-    public function getTranslation(){
+    public function getTranslation()
+    {
         $translate = $this->translate(Locale::getDefault());
         return ($translate) ? $translate : null;
     }
 
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -230,29 +231,31 @@ class Product implements TimestampableInterface,  TranslatableInterface
         return $this;
     }
 
+
     public function getCreated(): ?\DateTimeInterface
     {
-        return $this->created;
+        return $this->createdAt;
     }
 
     public function setCreated(?\DateTimeInterface $created): self
     {
-        $this->created = $created;
+        $this->createdAt = $created;
 
         return $this;
     }
 
     public function getUpdated(): ?\DateTimeInterface
     {
-        return $this->updated;
+        return $this->updatedAt;
     }
 
     public function setUpdated(?\DateTimeInterface $updated): self
     {
-        $this->updated = $updated;
+        $this->updatedAt = $updated;
 
         return $this;
     }
+
 
     public function getPresentation(): ?Presentation
     {
@@ -406,5 +409,4 @@ class Product implements TimestampableInterface,  TranslatableInterface
 
         return $this;
     }
-    
 }

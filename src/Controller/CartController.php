@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
+use App\Entity\OrderDetail;
+use App\Entity\Product;
+use App\Repository\OrderDetailRepository;
 use App\Repository\OrderRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +21,11 @@ use Pagerfanta\Pagerfanta;
 
 class CartController extends AbstractController
 {
+
+    public function __construct(private EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
 
     #[Route(path: '/{_locale}/app/cart', name: 'app_cart')]
     public function index(Request $request, OrderRepository $order_repo): Response
@@ -68,7 +78,12 @@ class CartController extends AbstractController
             //$request->getSession()->set('cart', null);
 
             //get session order data
-            $arr_data = ($request->getSession()->get('cart')) ? $request->getSession()->get('cart') : [];
+
+            $arr_data = $repo_order->getOrderActiveView();
+
+            if (!$arr_data || !isset($arr_data['head']['cart'])) {
+                $arr_data = ($request->getSession()->get('cart')) ? $request->getSession()->get('cart') : [];
+            }
 
             //Params
             $request_params = $request->request->all();
@@ -91,36 +106,71 @@ class CartController extends AbstractController
 
             $product_id = (isset($arr_prod_code[1]) && $arr_prod_code[1]) ? $arr_prod_code[1] : '';
 
-            //Clear session message
-            if (isset($arr_data['message'])) $arr_data['message'] = '';
+            if (isset($arr_data['head']['cart']) && $arr_data['head']['cart']) {
+                if ($product_id) {
 
-            //Fill data
-            if (!isset($arr_data['head'])) {
-                $arr_data['message'] = '';
-                $arr_data['head']['cart'] = $cart_id;
-                $arr_data['head']['user'] = $logued_user;
-                $arr_data['head']['currency'] = $currency;
-            }
+                    $obj_product = $this->em->getRepository(Product::class)->find($product_id);
+                    $obj_order_head = $this->em->getRepository(Order::class)->find($arr_data['head']['cart']);
 
-            if (isset($arr_data['detail'][$code])) {
-                $arr_data['detail'][$code]['items'] += ($items) ? $items : 1;
-                $arr_data['detail'][$code]['currency'] = $currency;
+                    $obj_new_order_detail = $this->em->getRepository(OrderDetail::class)->findOneBy(['orderHead' => $obj_order_head, 'product' => $obj_product]);
+
+                    if (!$obj_new_order_detail) {
+                        $obj_new_order_detail = new OrderDetail();
+                        $obj_new_order_detail->setOrderHead($obj_order_head);
+                        $obj_new_order_detail->setAmount($items);
+                        $obj_new_order_detail->setPrice($price);
+                        $obj_new_order_detail->setProduct($obj_product);
+                    } else {
+                        $obj_new_order_detail->setAmount($obj_new_order_detail->getAmount() + $items);
+                    }
+
+                    //Create or update order detail.
+                    $this->em->persist($obj_new_order_detail);
+                    $this->em->flush();
+
+                    $code = $obj_new_order_detail->getId();
+                }
+
+                //recalcule order
+                $arr_data = $repo_order->getOrderActiveView();
             } else {
 
-                $arr_data['detail'][$code]['code'] = $code;
-                $arr_data['detail'][$code]['product_id'] = $product_id;
-                $arr_data['detail'][$code]['description'] = $description;
-                $arr_data['detail'][$code]['items'] = ($items) ? $items : 1;
-                $arr_data['detail'][$code]['price'] = $price;
-                $arr_data['detail'][$code]['currency'] = $currency;
-                $arr_data['detail'][$code]['pricemask'] = $pricemask;
+                //Clear session message
+                if (isset($arr_data['message'])) $arr_data['message'] = '';
+
+                //Fill data
+                if (!isset($arr_data['head'])) {
+                    $arr_data['message'] = '';
+                    $arr_data['head']['cart'] = $cart_id;
+                    $arr_data['head']['user'] = $logued_user;
+                    $arr_data['head']['currency'] = $currency;
+                }
+
+                if (isset($arr_data['detail'][$code])) {
+                    $arr_data['detail'][$code]['items'] += ($items) ? $items : 1;
+                    $arr_data['detail'][$code]['currency'] = $currency;
+                } else {
+
+                    $arr_data['detail'][$code]['code'] = $code;
+                    $arr_data['detail'][$code]['product_id'] = $product_id;
+                    $arr_data['detail'][$code]['description'] = $description;
+                    $arr_data['detail'][$code]['items'] = ($items) ? $items : 1;
+                    $arr_data['detail'][$code]['price'] = $price;
+                    $arr_data['detail'][$code]['currency'] = $currency;
+                    $arr_data['detail'][$code]['pricemask'] = $pricemask;
+                }
+
+                $request->getSession()->set('cart', $arr_data);
             }
 
-            $request->getSession()->set('cart', $arr_data);
-
-            //Count cart elements
+            //Parse and count detail order. 
             $counter = 0;
-            if (isset($arr_data['detail'])) foreach ($arr_data['detail'] as $keyd => $rowd) $counter += $rowd['items'];
+            if (isset($arr_data['detail'])) {
+                foreach ($arr_data['detail'] as $keyd => $rowd) {
+                    unset($arr_data['detail'][$keyd]['product']);
+                    $counter += $rowd['items'];
+                }
+            }
 
             return $this->json(['data' => $arr_data['detail'][$code], 'counter' => $counter], 200, []);
         }
@@ -141,7 +191,7 @@ class CartController extends AbstractController
             return $this->render('cart/_cartDetail.html.twig', [
                 'data' => $request->getSession()->get('cart'),
                 'useActions' => true,
-                'catalog_uri' => 'app_homepage_local'
+                'catalog_uri' => 'app_catalog'
             ]);
         }
     }
@@ -157,13 +207,15 @@ class CartController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function cartShow(
         Request $request,
+        OrderRepository $repo_order
     ) {
 
         $default_payment_method = 1; //$repo_pay_type->find(1);
-        $catalog_uri = 'app_homepage_local';
+        $catalog_uri = 'app_catalog'; //'app_homepage_local';
 
-        $arr_data = $request->getSession()->get('cart');
+        $arr_data = $repo_order->getOrderActiveView();
 
+        $arr_data = ($arr_data) ? $arr_data :  $request->getSession()->get('cart');
 
         return $this->render('cart/show.html.twig', [
             'data' => $arr_data,
@@ -203,20 +255,32 @@ class CartController extends AbstractController
             '_locale' => 'en|es|ch|it',
         ],
     )]
-    public function ajaxRemoveCartItem(Request $request)
+    public function ajaxRemoveCartItem(Request $request, OrderDetailRepository $repo_order_detail)
     {
         if ($request->isXmlHttpRequest()) {
 
             $arr_cart = $request->getSession()->get('cart');
             $params = $request->request->all();
 
+            if (isset($params['code']) && $params['code']) {
+                $pos = strpos($params['code'], 'detail-');
 
-            //$params['code'];
-            if ($params['code'] && isset($arr_cart['detail'][$params['code']])) {
-                unset($arr_cart['detail'][$params['code']]);
+                if ($pos !== false) {
+                    $arr_code = explode('-', $params['code']);
+                    if (isset($arr_code[1]) && (int)$arr_code[1]) {
+                        $obj_detail = $repo_order_detail->find((int)$arr_code[1]);
+                        $this->em->remove($obj_detail);
+                        $this->em->flush();
+                    }
+                } else {
+
+                    if (isset($params['code']) && $params['code'] && isset($arr_cart['detail'][$params['code']])) {
+                        unset($arr_cart['detail'][$params['code']]);
+                    }
+
+                    $request->getSession()->set('cart', $arr_cart);
+                }
             }
-
-            $request->getSession()->set('cart', $arr_cart);
 
             $arr_result = [];
 

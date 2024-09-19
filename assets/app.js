@@ -64,6 +64,6 @@ const cc = new CookieConsent(options);
 
 if(!cc.status){
     cc.open();
-}else{
-console.log(cc.status);
 }
+
+//else{console.log(cc.status);}
