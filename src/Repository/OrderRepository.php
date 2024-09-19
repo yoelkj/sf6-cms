@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 use App\Service\CommonHelper;
+use DateTimeImmutable;
 
 /**
  * @extends ServiceEntityRepository<Order>
@@ -124,7 +125,9 @@ class OrderRepository extends ServiceEntityRepository
             $obj_new_order_payment->setPaymentMethod(3);
             $obj_new_order_payment->setPaymentCode($autorization_code);
             $obj_new_order_payment->setStatus(1);
+            $obj_new_order_payment->setTotal(($total) ? number_format($total, 2, '.', '') : 0);
             $obj_new_order_payment->setIsActive(1);
+            $obj_new_order_payment->setCreatedAt(new DateTimeImmutable('now'));
             $this->_em->persist($obj_new_order_payment);
             $this->_em->flush();
 
