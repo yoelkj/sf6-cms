@@ -152,8 +152,11 @@ class AppExtension extends AbstractExtension
     {
         $arr_data = $this->em->getRepository(Order::class)->getOrderActiveView();
         $items = 0;
-        foreach ($arr_data['detail'] as $key => $det) {
-            $items += $det['items'];
+
+        if (isset($arr_data['detail'])) {
+            foreach ($arr_data['detail'] as $key => $det) {
+                $items += $det['items'];
+            }
         }
 
         return $items;
