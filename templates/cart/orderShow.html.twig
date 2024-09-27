@@ -19,16 +19,16 @@
 {% block body %}
 
 	{#
-															{% else %}
-																<div class="row">
-																	<div class="col">
-																		<div class="alert text-center alert-warning mb-5 mt-5">
-																			{{'No records found'|trans|upper}}
+																{% else %}
+																	<div class="row">
+																		<div class="col">
+																			<div class="alert text-center alert-warning mb-5 mt-5">
+																				{{'No records found'|trans|upper}}
+																			</div>
 																		</div>
 																	</div>
-																</div>
-															{% endif %}
-															#}
+																{% endif %}
+																#}
 
 	<div class="container">
 		<div
@@ -69,20 +69,20 @@
 									{% for row in cart_detail %}
 
 										{#
-																																																																																																																										
-																																																																																									{% if app.user.email is defined and  (  app.user.email == agency_user_detail.email or  app.user.email == user_detail.email  ) %}
-																																																																																						
-																																																																																										{% set row_price = row.price %}
-																																																																																						
-																																																																																										{% if app.user is instanceof('Agency') %}
-																																																																																											{% set info_prices = '<div class="alert alert-info">' ~ 'Check if the supplier is giving net or commissionable prices'|trans ~'</div>' %}
-																																																																																										{% else %}
-																																																																																											{% set info_prices = '' %}
-																																																																																										{% endif %}
-																																																																																						
-																																																																																									{% else %}
-																																																																																									{% endif %}
-																																																																																									#}
+																																																																																																																																				
+																																																																																																			{% if app.user.email is defined and  (  app.user.email == agency_user_detail.email or  app.user.email == user_detail.email  ) %}
+																																																																																																
+																																																																																																				{% set row_price = row.price %}
+																																																																																																
+																																																																																																				{% if app.user is instanceof('Agency') %}
+																																																																																																					{% set info_prices = '<div class="alert alert-info">' ~ 'Check if the supplier is giving net or commissionable prices'|trans ~'</div>' %}
+																																																																																																				{% else %}
+																																																																																																					{% set info_prices = '' %}
+																																																																																																				{% endif %}
+																																																																																																
+																																																																																																			{% else %}
+																																																																																																			{% endif %}
+																																																																																																			#}
 
 										{% set row_price = row.price %}
 										{% set info_prices = '' %}
@@ -142,7 +142,7 @@
 								<tr>
 									<td class="text-end">Email:
 									</td>
-									<td class="text-end">info@coesa.com</td>
+									<td class="text-end">ventas@coesac.net</td>
 								</tr>
 
 								<tr>
@@ -150,16 +150,16 @@
 									<td class="text-end">&nbsp;</td>
 								</tr>
 								{#
-																																																																																																																																			{% if tour_operator_view is defined and cart_header.cartReference is defined and cart_header.cartReference %}
-																																																																																																																																				<tr>
-																																																																																																																																					<td class="text-end">Reference order:</td>
-																																																																																																																																					<td class="text-end">
-																																																																																																																																						<strong>{{cart_header.cartReference}}</strong>
-																																																																																																																																					</td>
-																																																																																																																																				</tr>
-																																																																																																																																			{% else %}
-																																																																																																																												
-																																																																																																																																			#}
+																																																																																																																																											{% if tour_operator_view is defined and cart_header.cartReference is defined and cart_header.cartReference %}
+																																																																																																																																												<tr>
+																																																																																																																																													<td class="text-end">Reference order:</td>
+																																																																																																																																													<td class="text-end">
+																																																																																																																																														<strong>{{cart_header.cartReference}}</strong>
+																																																																																																																																													</td>
+																																																																																																																																												</tr>
+																																																																																																																																											{% else %}
+																																																																																																																																				
+																																																																																																																																											#}
 
 
 							{% endif %}
