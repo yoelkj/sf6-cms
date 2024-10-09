@@ -27,9 +27,9 @@
 			{{ include('widget/_oneFluidImage.html.twig', {obj_widget: obj_widget, container: container}) }}
 
 			{#
-																																																																								    {% elseif obj_widget.template == 'TEMPLATE_ONLY_COMPONENT' %}
-																																																																								      {{ include('widget/_onlyComponent.html.twig', {obj_widget: obj_widget, product: main_product.id}) }}
-																																																																								    #}
+																																																																											    {% elseif obj_widget.template == 'TEMPLATE_ONLY_COMPONENT' %}
+																																																																											      {{ include('widget/_onlyComponent.html.twig', {obj_widget: obj_widget, product: main_product.id}) }}
+																																																																											    #}
 
 		{% elseif obj_widget.template == 'TEMPLATE_OFFICE' %}
 			{{ include('widget/_office.html.twig', {obj_widget: obj_widget, container: container}) }}
@@ -47,7 +47,7 @@
 
 	{% endfor %}
 
-	{{ dump(obj_row.linkToStore) }}
+	{{ dump(obj_row.linkToStore, obj_row.id) }}
 	{% if obj_row is defined and obj_row.linkToStore %}
 		<div class="text-center my-3">
 			<a class="btn btn-success btn-big text-center" href="{{path('app_catalog')}}">
