@@ -69,7 +69,7 @@ class Page implements TimestampableInterface,  TranslatableInterface
     private ?bool $pullRightImage = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $linkToStore = false;
+    private ?bool $linkToStore = null;
 
     public function __construct()
     {
