@@ -59,10 +59,10 @@
 												{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
 
 												{#
-																																																																																																																																																																																																																																																																																				                                    {% set obj_category = chilMenuItem.getcategory() %}
-																																																																																																																																																																																																																																																																																				                                    {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
-																																																																																																																																																																																																																																																																																				                                    {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
-																																																																																																																																																																																																																																																																																				                                    #}
+																																																																																																																																																																																																																																																																																																																																																																																																																																				                                    {% set obj_category = chilMenuItem.getcategory() %}
+																																																																																																																																																																																																																																																																																																																																																																																																																																				                                    {% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+																																																																																																																																																																																																																																																																																																																																																																																																																																				                                    {% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+																																																																																																																																																																																																																																																																																																																																																																																																																																				                                    #}
 
 												{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug }) : '' %}
 
@@ -171,10 +171,10 @@
 
 										<form {{stimulus_controller('form')}} class="needs-validation" action="{{path('app_proccess_form')}}" method="POST" novalidate>
 											<div class="form-group has-validation my-3">
-												<label for="name">Name:</label>
+												<label for="name">{{'Name'|trans}}:</label>
 												<input id="name" minlength="5" class="form-control" name="name" type="text" placeholder="Complete name" required>
 												<div class="invalid-feedback">
-													Please provide a name.
+													{{'Please provide a name'|trans}}.
 												</div>
 											</div>
 
@@ -184,30 +184,30 @@
 														<label for="email">Email:</label>
 														<input id="email" class="form-control" name="email" type="email" placeholder="E-mail" required>
 														<div class="invalid-feedback">
-															Please provide a email.
+															{{'Please provide a email'|trans}}.
 														</div>
 													</div>
 												</div>
 
 												<div class="col-md">
 													<div class="form-group has-validation my-3">
-														<label for="phone">Phone:</label>
+														<label for="phone">{{'Phone'|trans}}:</label>
 														<input id="phone" class="form-control" name="phone" type="text" placeholder="Phone" required>
 														<div class="invalid-feedback">
-															Please provide a phone number.
+															{{'Please provide a phone number'|trans}}.
 														</div>
 													</div>
 												</div>
 											</div>
 
 											<div class="form-group has-validation my-3">
-												<label for="comment">Mensaje:</label>
+												<label for="comment">{{'Mensaje'|trans}}:</label>
 												<textarea minlength="10" class="form-control" name="comment" id="comment" placeholder="Write a message" required cols="30" rows="10"></textarea>
 											</div>
 
 											<div class="d-grid gap-2 my-3">
 												<input name="proccess" type="hidden" value="contact">
-												<button class="btn btn-success btn-block btn-lg" type="submit">Send message</button>
+												<button class="btn btn-success btn-block btn-lg" type="submit">{{'Send message'|trans}}</button>
 											</div>
 										</form>
 
@@ -304,28 +304,10 @@
 
 					</div>
 
-
-					<div {{ stimulus_controller('confirm', { urlget: path('app_terms', {content: 'company'} ), }) }} class="my-5">
-						<a data-confirm-target="openbtn" data-action="click->confirm#handleClick" href="javascript:void(0);">
-							{{'Privacy policy'|trans}}
-							/
-							{{'Terms and conditions'|trans}}
-							/
-							{{'Data protection'|trans}}
-						</a>
-					</div>
-
-					{{ include('modal/_modal.html.twig', {
-                            name: 'confirm',
-                            title: 'Legal content title'|trans,
-                            sendLabel: 'Accept and continue'|trans,
-                            size: 'lg'
-                        }) }}
-
 					<!--end content-->
 
 					{% if obj_row.menu and chilItems %}
-						{{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets, container: false}) }}
+						{{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets, obj_row: obj_row, container: false}) }}
 					{% endif %}
 
 				</div>
@@ -340,5 +322,6 @@
 		{% if chilItems is defined and chilItems == 0 %}
 			{{ include('page/_widgets.html.twig', {obj_widgets: obj_widgets, container: true}) }}
 		{% endif %}
+
 	</div>
 {% endblock %}

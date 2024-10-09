@@ -26,63 +26,62 @@ class PageCrudController extends AbstractCrudController
     {
 
         yield IdField::new('id')->onlyOnIndex();
-            //->hideOnForm();
-            
-        yield FormField::addTab('General')->setIcon('cog');    
-            
-            yield CollectionField::new('translations')
-                ->useEntryCrudForm()
-                ->setColumns(12)
-                ->formatValue(static function ($value, ?Page $page): ?string {
+        //->hideOnForm();
 
-                    $name = $page?->getTranslateName();
-                    $num_translations = $page?->getTranslations()->count();
-                    return sprintf('%s - %s translation(s)', $name, $num_translations);
-                
-                });
+        yield FormField::addTab('General')->setIcon('cog');
 
-            yield FormField::addRow();
-            yield BooleanField::new('pullRightImage')->onlyOnForms()->setColumns(12);
-            yield IntegerField::new('orderRow')->onlyOnForms()->setColumns(2);
-            
-            //yield BooleanField::new('isCatalog');
- 
-            yield BooleanField::new('useContactForm')->onlyOnForms();
-            
-            yield BooleanField::new('isHomepage')->onlyOnForms()->hideOnForm();
-            yield BooleanField::new('isLocalHomepage')->onlyOnForms()->hideOnForm();
+        yield CollectionField::new('translations')
+            ->useEntryCrudForm()
+            ->setColumns(12)
+            ->formatValue(static function ($value, ?Page $page): ?string {
 
-            yield BooleanField::new('isActive');
-            
-            yield BooleanField::new('isCore')->onlyOnForms();
+                $name = $page?->getTranslateName();
+                $num_translations = $page?->getTranslations()->count();
+                return sprintf('%s - %s translation(s)', $name, $num_translations);
+            });
+
+        yield FormField::addRow();
+        yield BooleanField::new('pullRightImage')->onlyOnForms()->setColumns(12);
+        yield IntegerField::new('orderRow')->onlyOnForms()->setColumns(2);
+
+        //yield BooleanField::new('isCatalog');
+
+        yield BooleanField::new('linkToStore')->onlyOnForms();
+
+        yield BooleanField::new('useContactForm')->onlyOnForms();
+
+        yield BooleanField::new('isHomepage')->onlyOnForms()->hideOnForm();
+        yield BooleanField::new('isLocalHomepage')->onlyOnForms()->hideOnForm();
+
+        yield BooleanField::new('isActive');
+
+        yield BooleanField::new('isCore')->onlyOnForms();
 
 
         yield FormField::addTab('Content')->setIcon('cogs');
-            yield AssociationField::new('menu')
-            ;
+        yield AssociationField::new('menu');
 
-            yield ImageField::new('bgImage')
-                ->setBasePath('uploads/pages/bg')
-                ->setUploadDir('public/uploads/pages/bg')
-                ->setUploadedFileNamePattern('[slug]-bg-[timestamp].[extension]')
-                //->setFormTypeOption('upload_new', function(){})
-                ->onlyOnForms()
-                ->setColumns(6);
+        yield ImageField::new('bgImage')
+            ->setBasePath('uploads/pages/bg')
+            ->setUploadDir('public/uploads/pages/bg')
+            ->setUploadedFileNamePattern('[slug]-bg-[timestamp].[extension]')
+            //->setFormTypeOption('upload_new', function(){})
+            ->onlyOnForms()
+            ->setColumns(6);
 
-            yield FormField::addRow();
-            yield AssociationField::new('gallery')
-                ->setCrudController(GalleryCrudController::class)
-                ->onlyOnForms()
-                ->setColumns(6);
+        yield FormField::addRow();
+        yield AssociationField::new('gallery')
+            ->setCrudController(GalleryCrudController::class)
+            ->onlyOnForms()
+            ->setColumns(6);
 
-            
-            yield AssociationField::new('widgets')
-                //->autocomplete()
-                //->setFormTypeOption('by_reference', false)
-                ;
+
+        yield AssociationField::new('widgets')
+            //->autocomplete()
+            //->setFormTypeOption('by_reference', false)
+        ;
 
         yield DateField::new('createdAt')->hideOnForm();
         yield DateField::new('updatedAt')->onlyOnForms()->hideOnForm();
     }
-    
 }

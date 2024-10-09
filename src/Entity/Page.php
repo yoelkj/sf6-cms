@@ -36,7 +36,7 @@ class Page implements TimestampableInterface,  TranslatableInterface
 
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $isActive = false;
-    
+
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $isCatalog;
 
@@ -44,7 +44,7 @@ class Page implements TimestampableInterface,  TranslatableInterface
     private $gallery;
 
     #[ORM\ManyToMany(targetEntity: Widget::class, inversedBy: 'pages')]
-    #[ORM\OrderBy(['orderRow'=> "ASC"])]
+    #[ORM\OrderBy(['orderRow' => "ASC"])]
     private $widgets;
 
     #[ORM\ManyToMany(targetEntity: Menu::class, mappedBy: 'pages')]
@@ -68,6 +68,9 @@ class Page implements TimestampableInterface,  TranslatableInterface
     #[ORM\Column(nullable: true)]
     private ?bool $pullRightImage = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $linkToStore = false;
+
     public function __construct()
     {
         $this->widgets = new ArrayCollection();
@@ -77,16 +80,17 @@ class Page implements TimestampableInterface,  TranslatableInterface
 
     public function __toString(): string
     {
-       return $this->getTranslateName();
+        return $this->getTranslateName();
     }
-    
+
     public function getTranslateName(): ?string
     {
         $translate = $this->translate(Locale::getDefault())->getName();
-        return ($translate) ? $translate : 'Translation not available for '.Locale::getDefault();
+        return ($translate) ? $translate : 'Translation not available for ' . Locale::getDefault();
     }
 
-    public function getTranslation(){
+    public function getTranslation()
+    {
         $translate = $this->translate(Locale::getDefault());
         return ($translate) ? $translate : null;
     }
@@ -316,5 +320,15 @@ class Page implements TimestampableInterface,  TranslatableInterface
         return $this;
     }
 
-    
+    public function isLinkToStore(): ?bool
+    {
+        return $this->linkToStore;
+    }
+
+    public function setLinkToStore(?bool $linkToStore): static
+    {
+        $this->linkToStore = $linkToStore;
+
+        return $this;
+    }
 }

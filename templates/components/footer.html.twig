@@ -13,27 +13,27 @@
 				{% set first_element = first_element + 1 %}
 
 				{#
-					{% set obj_page = menu.getPage() %}
-					{% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
-					{% set page_slug = (obj_page_translation) ? obj_page_translation.slug : null %}
-					{% set page_name = (obj_page_translation) ? obj_page_translation.name : null %}
-				
-					{% if page_slug %}
-						{% if obj_page.isCatalog == true %}
-							{% set obj_brand = menu.getBrand() %}
-							{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
-							{% set obj_category = menu.getcategory() %}
-							{% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
-							{% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
-							{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug, category: category_slug }) : '' %}
-						{% else %}
-							{% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
-						{% endif %}
-				
-					{% else %}
-						{% set urlpage = '#' %}
-					{% endif %}
-					#}
+																																									{% set obj_page = menu.getPage() %}
+																																									{% set obj_page_translation = (obj_page) ? obj_page.getTranslation() : null %}
+																																									{% set page_slug = (obj_page_translation) ? obj_page_translation.slug : null %}
+																																									{% set page_name = (obj_page_translation) ? obj_page_translation.name : null %}
+																																								
+																																									{% if page_slug %}
+																																										{% if obj_page.isCatalog == true %}
+																																											{% set obj_brand = menu.getBrand() %}
+																																											{% set brand_slug = (obj_brand and obj_brand.slug) ? obj_brand.slug : ('all'|trans)%}
+																																											{% set obj_category = menu.getcategory() %}
+																																											{% set obj_category_translation = (obj_category) ? obj_category.getTranslation() : '' %}
+																																											{% set category_slug = (obj_category and obj_category_translation and bj_category_translation.slug) ? obj_category_translation.slug: ('all'|trans) %}
+																																											{% set urlpage = (page_slug) ? path('app_catalog', {slug: page_slug, brand: brand_slug, category: category_slug }) : '' %}
+																																										{% else %}
+																																											{% set urlpage = (page_slug) ? path('app_page', {slug: page_slug }) : '' %}
+																																										{% endif %}
+																																								
+																																									{% else %}
+																																										{% set urlpage = '#' %}
+																																									{% endif %}
+																																									#}
 
 
 				{% set urlpage = '#' %}
@@ -68,14 +68,16 @@
 								<a class="link-secondary" href="{{ urlpage }}">{{chilMenu.getTranslateName}}</a>
 							</li>
 
-							{% if first_element == 1 %}
-								<li class="link-secondary">
-									<a
-										href="{{path('app_terms', {agency: app.request.get('agency'), onlydata: 'comp'} )}}" target="_blank">
-										{#<i class="fa fa-book" aria-hidden="true"></i>#}
-										{{'Privacy policy'|trans}}</a>
-								</li>
-							{% endif %}
+							{#
+																					{% if first_element == 1 %}
+																						<li class="link-secondary">
+																							<a
+																								href="{{path('app_terms', {agency: app.request.get('agency'), onlydata: 'comp'} )}}" target="_blank">
+																								{{'Privacy policy'|trans}}</a>
+																						</li>
+																					{% endif %}
+														
+																					#}
 						{% endfor %}
 
 
@@ -102,14 +104,14 @@
 				</p>
 
 				{#
-																																																												{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and is_granted('ROLE_ADMIN') %}
-																																																													<div>
-																																																														<a class="btn btn-light btn-sm w-100" data-turbo="false" href="{{ path('admin') }}">
-																																																															Admin
-																																																														</a>
-																																																													</div>
-																																																												{% endif %}
-																																																								                #}
+																																																																																																{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and is_granted('ROLE_ADMIN') %}
+																																																																																																	<div>
+																																																																																																		<a class="btn btn-light btn-sm w-100" data-turbo="false" href="{{ path('admin') }}">
+																																																																																																			Admin
+																																																																																																		</a>
+																																																																																																	</div>
+																																																																																																{% endif %}
+																																																																																												                #}
 
 			</div>
 
@@ -120,17 +122,46 @@
 		<div class="row my-3">
 
 			<div class="col-4 col-md">
-				<a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+				<a href="/" class="">
 					<img width="80" alt="logo-footer" src="/uploads/logo/{{ company.logoSecondary }}">
-				</a>
-			</div>
-
-			<div class="col-4 col-md d-flex align-items-center justify-content-center">
+				</a><br>
 
 				<small>&copy;
 					{{company.name |upper}}
 					{{"now"|date("Y")}}.
 					{{'All rights reserved'| trans }}</small>
+			</div>
+
+			<div class="col-4 col-md d-flex align-items-center justify-content-center">
+
+
+				<a class="text-center" href="{{path('app_terms', {agency: app.request.get('agency'), onlydata: 'comp'} )}}">
+					{{'Privacy policy'|trans}}
+					<br>
+					{{'Terms and conditions'|trans}}
+					<br>
+					{{'Data protection'|trans}}
+				</a>
+
+
+				{#
+								<div {{ stimulus_controller('confirm', { urlget: path('app_terms', {content: 'company'} ), }) }} class="text-center">
+									<a class="text-center" data-confirm-target="openbtn" data-action="click->confirm#handleClick" href="javascript:void(0);">
+										{{'Privacy policy'|trans}}
+										<br>
+										{{'Terms and conditions'|trans}}
+										<br>
+										{{'Data protection'|trans}}
+									</a>
+								</div>
+								{{ include('modal/_modal.html.twig', {
+				                            name: 'confirm',
+				                            title: 'Legal content title'|trans,
+				                            sendLabel: 'Accept and continue'|trans,
+				                            size: 'lg'
+				                        }) }}
+								#}
+
 			</div>
 
 			<div class="col-4 col-md  d-flex align-items-center justify-content-end">

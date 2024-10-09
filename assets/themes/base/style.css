@@ -36,13 +36,6 @@
     max-width: 960px;
 }
 
-
-
-
-
-
-
-
 body{
     background-color: #fcfcfc;
     color: #009746;
@@ -52,6 +45,11 @@ body{
 #footer p{
     color: #fcfcfc;
 }
+
+#footer .modal p{
+    color: #009746!important;
+}
+
 
 h1, h2, h3, h4, h5, h6{
     font-family: 'FuturaMdBTBlack';
@@ -95,6 +93,10 @@ a:hover{
     color: #fff;
     background-color: #009746;
     border-color: #009746;
+}
+
+.btn-big{
+    font-size: 1.5em!important;
 }
 
 .btn-light {
@@ -248,6 +250,10 @@ div.fluid-content iframe{
 
 #footer{
     color: #fcfcfc;
+}
+
+#footer .modal{
+    color: #009746!important;
 }
 
 #footer a {   
