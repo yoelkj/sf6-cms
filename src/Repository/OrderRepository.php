@@ -152,6 +152,11 @@ class OrderRepository extends ServiceEntityRepository
                 //-----------------------------------------ORDER EMAILS---------------------------------------------------------------
                 $arr_recipients = $arr_emails = $arr_hidden_emails = array();
 
+
+                //reducestock
+                $this->updateStock($obj_order);
+
+
                 /*
               if($obj_order->getUser()){
                 $obj_user_order = $obj_order->getUser();
@@ -332,7 +337,20 @@ class OrderRepository extends ServiceEntityRepository
         return $arr_detail;
     }
 
-
+    public function updateStock($obj_order)
+    {
+        try {
+            $detail = $this->_em->getRepository('App\\Entity\\OrderDetail')->getRows($obj_order);
+            foreach ($detail as $rowD) {
+                $obj_product = $rowD->getProduct();
+                $obj_product->setStock($obj_product->getStock() - $rowD->getAmount());
+                $this->_em->persist($obj_product);
+                $flush_order = $this->_em->flush();
+            }
+        } catch (\Exception $e) {
+            //dd($e->getMessage());
+        }
+    }
 
 
     //    /**

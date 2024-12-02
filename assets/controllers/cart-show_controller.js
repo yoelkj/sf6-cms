@@ -206,7 +206,7 @@ export default class extends Controller{
             error: function(jqXHR, exception){}
             })
         } catch (e) {
-            $body.html('<div class="alert alert-danger">Error! please try again<div>');
+            $body.html('<div class="alert alert-danger">Error! please try again</div>');
         }
 
     }
@@ -323,7 +323,7 @@ export default class extends Controller{
             });
 
         } catch (e) {
-            $('#message').html('<div class="alert alert-danger">Error! please try again<div>');
+            $('#message').html('<div class="alert alert-danger">Error! please try again</div>');
         }
     }
 
@@ -388,9 +388,7 @@ export default class extends Controller{
             error: function(jqXHR, exception){}
             })
         } catch (e) {
-            
             console.log(e);
-            //$body.html('<div class="alert alert-danger">Error! please try again<div>');
         }
 
     }
