@@ -442,7 +442,7 @@ ul.dropdown-menu .dropdown-item:hover{
 }
 
 #entries a.btn-dark:hover{
-    color: #fcfcfc;
+    color: #fcfcfc!important;
 }
 
 
@@ -594,10 +594,14 @@ ul.dropdown-menu .dropdown-item:hover{
     bottom: 3.25rem;
 }
 
+.btn{
+    text-transform: uppercase!important;
+}
+
 .content-widgets i{
-    color: #009746;
+    color: #fcfcfc;
     font-weight: bold;
-    font-size: 2em;
+    font-size: 1.3em;
 }
 
 .rounded-3 {
