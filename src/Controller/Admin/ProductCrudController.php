@@ -85,9 +85,10 @@ class ProductCrudController extends AbstractCrudController
         yield AssociationField::new('presentation')->onlyOnForms()->setColumns(4);
 
         yield FormField::addRow();
-        yield NumberField::new('weightGrammage')->onlyOnForms()->setColumns(4);
-        yield IntegerField::new('quantityPerBox')->onlyOnForms()->setColumns(4);
-        yield IntegerField::new('storageLifeMonths')->onlyOnForms()->setColumns(4);
+        yield NumberField::new('weightGrammage')->onlyOnForms()->setColumns(3);
+        yield IntegerField::new('quantityPerBox')->onlyOnForms()->setColumns(3);
+        yield IntegerField::new('storageLifeMonths')->onlyOnForms()->setColumns(3);
+        yield IntegerField::new('stock')->onlyOnForms()->setColumns(3);
 
         yield FormField::addRow();
         yield AssociationField::new('gallery')

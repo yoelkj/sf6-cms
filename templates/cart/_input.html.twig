@@ -1,15 +1,15 @@
 <div class="wrapper_input" iden="code-{{id}}" description="{{description }}" currency="{{currency}}">
 	<div class="d-grid gap-2">
 		<div class="input-group" id="price_product_{{id}}" step="{{step}}">
-			<button data-action="click->cart-add#handleInputValue" push="down" class="btn btn-outline-secondary" type="button">
+			<button data-action="click->cart-add#handleInputValue" push="down" class="btn btn-outline-secondary  {{(stock) ? '': 'disabled'}}" type="button">
 				<i class="fa fa-minus"></i>
 			</button>
-			<input type="text" data-action="focusout->cart-add#handleChangeInputValue" class="form-control text-end" placeholder="" aria-label="{{description}}" value="{{step}}">
-			<button data-action="click->cart-add#handleInputValue" push="up" class="btn btn-outline-secondary" type="button">
+			<input type="text" data-action="focusout->cart-add#handleChangeInputValue" class="form-control text-end {{(stock) ? '': 'disabled'}}" placeholder="" aria-label="{{description}}" value="{{step}}">
+			<button data-action="click->cart-add#handleInputValue" push="up" class="btn btn-outline-secondary {{(stock) ? '': 'disabled'}}" type="button">
 				<i class="fa fa-plus"></i>
 			</button>
 		</div>
-		<a class="btn btn-dark btn-add-cart btn-sm" href="javascript:void(0);" price="{{price}}" pricemask={{price|format_currency(currency)}} code="{{code}}" data-action="click->cart-add#handleAddToCart">
+		<a class="btn btn-dark btn-add-cart btn-sm {{(stock) ? '': 'disabled'}}" href="javascript:void(0);" price="{{price}}" pricemask={{price|format_currency(currency)}} code="{{code}}" data-action="click->cart-add#handleAddToCart">
 			<i class="fas fa-shopping-cart"></i>
 			{{'Add'|trans}}</a>
 	</div>

@@ -80,6 +80,9 @@ class Product implements TimestampableInterface,  TranslatableInterface
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $price = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $stock = null;
+
     public function __construct()
     {
         $this->widgets = new ArrayCollection();
@@ -406,6 +409,18 @@ class Product implements TimestampableInterface,  TranslatableInterface
     public function setPrice(?string $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?int $stock): static
+    {
+        $this->stock = $stock;
 
         return $this;
     }
