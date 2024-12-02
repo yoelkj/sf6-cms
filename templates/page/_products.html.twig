@@ -1,9 +1,9 @@
+{% set currency = 'PEN' %}
 {% for row in data %}
 
 	{% set gallery = row.gallery %}
 	{% set images = (gallery) ? gallery.getGalleryImagesByLanguage(app.request.getLocale()) : null %}
 	{% set row_translation = row.getTranslation() %}
-	{% set currency = 'PEN' %}
 
 	<!--Product item-->
 	<div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-5">
@@ -11,18 +11,18 @@
 			data-aos="fade-up" class="product border rounded p-3 position-relative">
 
 			{#
-																																																																														<div class="position-absolute top-0 left-0 w-100 pt-3">
-																																																																														    {% if row.isNew %}
-																																																																														        <span class="badge bg-success col-md-6 p-2 mb-1">{{'New'|trans}}</span>
-																																																																														    {% endif %}
-																																																																														    {% if row.isBestSeller %}
-																																																																														        <span class="badge bg-warning col-md-6 p-2 mb-1">{{'Bestseller'|trans}}</span>
-																																																																														    {% endif %}
-																																																																														    {% if row.isRecommended %}
-																																																																														        <span class="badge bg-secondary col-md-6 p-2 mb-1">{{'Recommended'|trans}}</span>
-																																																																														    {% endif %}
-																																																																														</div>
-																																																																														#}
+																																																																																				<div class="position-absolute top-0 left-0 w-100 pt-3">
+																																																																																				    {% if row.isNew %}
+																																																																																				        <span class="badge bg-success col-md-6 p-2 mb-1">{{'New'|trans}}</span>
+																																																																																				    {% endif %}
+																																																																																				    {% if row.isBestSeller %}
+																																																																																				        <span class="badge bg-warning col-md-6 p-2 mb-1">{{'Bestseller'|trans}}</span>
+																																																																																				    {% endif %}
+																																																																																				    {% if row.isRecommended %}
+																																																																																				        <span class="badge bg-secondary col-md-6 p-2 mb-1">{{'Recommended'|trans}}</span>
+																																																																																				    {% endif %}
+																																																																																				</div>
+																																																																																				#}
 
 			<div class="wrapper-img">
 				{% set image_name = '' %}
@@ -59,7 +59,7 @@
                         description: row_translation.name, 
                         step: 1,
                         price: row.price,
-						stock: row.stock
+						stock: row.stock,
                         currency: currency
                     }) }}
 

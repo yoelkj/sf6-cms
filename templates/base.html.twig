@@ -22,7 +22,7 @@ gtag('config', '{{ google_analytics_id }}');
 			{% endblock %}
 		</title>
 		{#
-												        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">#}
+														        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">#}
 		<link rel="icon" href="/uploads/favicon/{{ app.session.get('appParam').favicon }}">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> {% block meta %}{% endblock %}
@@ -66,11 +66,11 @@ gtag('config', '{{ google_analytics_id }}');
 		data-turbo="false" {{stimulus_controller('load')}} id="base-theme" class="bg_color_main" {# {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %} {{ stimulus_controller('user-api', { url: path('app_ajax_user_detail') } ) }} {% endif %} #}>
 
 		{#
-							<div class="bg-image" 
-								style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
-									height: 100vh">
-							</div>
-							#}
+									<div class="bg-image" 
+										style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
+											height: 100vh">
+									</div>
+									#}
 
 		{{ component('menuSecondary') }}
 
