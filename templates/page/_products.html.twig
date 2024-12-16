@@ -1,5 +1,6 @@
 {% set currency = 'PEN' %}
 
+
 {% for row in data %}
 
 	{% set gallery = row.gallery %}
@@ -8,23 +9,23 @@
 
 
 	<!--Product item-->
-	<div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-5">
+	<div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-5" {{ stimulus_controller('modalchild') }}>
 		<div
 			data-aos="fade-up" class="product border rounded p-3 position-relative">
 
 			{#
-																																													<div class="position-absolute top-0 left-0 w-100 pt-3">
-																																													{% if row.isNew %}
-																																													<span class="badge bg-success col-md-6 p-2 mb-1">{{'New'|trans}}</span>
-																																													{% endif %}
-																																													{% if row.isBestSeller %}
-																																													<span class="badge bg-warning col-md-6 p-2 mb-1">{{'Bestseller'|trans}}</span>
-																																													{% endif %}
-																																													{% if row.isRecommended %}
-																																													<span class="badge bg-secondary col-md-6 p-2 mb-1">{{'Recommended'|trans}}</span>
-																																													{% endif %}
-																																													</div>
-																																													#}
+																																																																									<div class="position-absolute top-0 left-0 w-100 pt-3">
+																																																																									{% if row.isNew %}
+																																																																									<span class="badge bg-success col-md-6 p-2 mb-1">{{'New'|trans}}</span>
+																																																																									{% endif %}
+																																																																									{% if row.isBestSeller %}
+																																																																									<span class="badge bg-warning col-md-6 p-2 mb-1">{{'Bestseller'|trans}}</span>
+																																																																									{% endif %}
+																																																																									{% if row.isRecommended %}
+																																																																									<span class="badge bg-secondary col-md-6 p-2 mb-1">{{'Recommended'|trans}}</span>
+																																																																									{% endif %}
+																																																																									</div>
+																																																																									#}
 
 			<div class="wrapper-img">
 				{% set image_name = '' %}
@@ -33,7 +34,12 @@
 					{% for image in images|slice(0, 1) %}
 
 						{% set selected_image = image.getImageUrl() %}
-						<img alt="product-name" class="img-fluid mb-3" src="{{selected_image}}">
+
+						<a data-modalchild-target="openbtn" data-action="click->modalchild#handleClick" href="javascript:void(0);">
+							<img alt="product-name" class="img-fluid mb-3" src="{{selected_image}}">
+						</a>
+
+
 						{% if image.body %}
 							{% set image_name = image.body %}
 						{% endif %}
@@ -45,37 +51,9 @@
 
 			<div class="caption">
 
-				<div {{ stimulus_controller('modalchild') }}>
-					<a data-modalchild-target="openbtn" data-action="click->modalchild#handleClick" href="javascript:void(0);">
-						<h3 class="text-center">{{ (image_name) ? image_name|striptags|raw|upper : row_translation.name}}</h3>
-					</a>
-					<div class="modal fade" id="miModal{{row.id}}" tabindex="-1" aria-labelledby="miModal{{row.id}}Label" aria-hidden="true">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="miModal{{row.id}}Label">{{ (image_name) ? image_name|striptags|raw|upper : row_translation.name}}</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-
-									<div class="row text-left">
-										<div class="col-md">
-											{% if selected_image %}
-												<img alt="product-name" class="img-fluid mb-3" src="{{selected_image}}">
-											{% endif %}
-										</div>
-										<div class="col-md">
-											{{row_translation.body|raw}}
-											<p>{{ 'Weight'|trans }}:{{row.weightGrammage|round(1, 'floor')}}g</p>
-											<p>{{ 'Price'|trans }}:{{row.price}}{{currency}}</p>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-					</div>
-				</div>
+				<a data-modalchild-target="openbtn" data-action="click->modalchild#handleClick" href="javascript:void(0);">
+					<h3 class="text-center">{{ (image_name) ? image_name|striptags|raw|upper : row_translation.name}}</h3>
+				</a>
 
 				<p class="text-center">{{ 'Price'|trans }}:
 					{{row.price}}
@@ -96,6 +74,34 @@
                         currency: currency
                     }) }}
 
+				</div>
+
+
+				<div class="modal fade" id="miModal{{row.id}}" tabindex="-1" aria-labelledby="miModal{{row.id}}Label" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="miModal{{row.id}}Label">{{ (image_name) ? image_name|striptags|raw|upper : row_translation.name}}</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+
+								<div class="row text-left">
+									<div class="col-md">
+										{% if selected_image %}
+											<img alt="product-name" class="img-fluid mb-3" src="{{selected_image}}">
+										{% endif %}
+									</div>
+									<div class="col-md">
+										{{row_translation.body|raw}}
+										<p>{{ 'Weight'|trans }}:{{row.weightGrammage|round(1, 'floor')}}g</p>
+										<p>{{ 'Price'|trans }}:{{row.price}}{{currency}}</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
 				</div>
 
 			</div>

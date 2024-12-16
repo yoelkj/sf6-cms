@@ -15,7 +15,7 @@ export default class extends Controller{
     handleClick(e){
         
         const btn = $(e.currentTarget);
-        const modal_target = btn.closest('.caption').find('.modal').eq(0);
+        const modal_target = btn.closest('.product').find('.modal').eq(0);
 
         let obj_modal = document.getElementById(modal_target.attr('id'));
         this.modal = new Modal('#'+modal_target.attr('id'));        
