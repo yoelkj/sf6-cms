@@ -6,8 +6,8 @@
 
 {% block body %}
 
-	{% set data = arr_catalog_data.data %}
 
+	{% set data = arr_catalog_data.data %}
 
 	<div {{ stimulus_controller('catalog', { url: path('ajax_app_products') } ) }} data-action="scroll@window->catalog#handleScroll" id="page" class="catalog">
 

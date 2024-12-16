@@ -27,7 +27,7 @@ export default class extends Controller {
         //console.log(window.pageYOffset,  (height - window.innerHeight) , footer_height  );
         if(window.pageYOffset > height - (window.innerHeight + footer_height)){
             
-            console.log(this.hasPaginationTarget);
+            //console.log(this.hasPaginationTarget);
             
             if(this.hasPaginationTarget){    
                 this.loadMore();
