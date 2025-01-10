@@ -154,7 +154,7 @@ class OrderRepository extends ServiceEntityRepository
 
 
                 //reducestock
-                $this->updateStock($obj_order);
+                //$this->updateStock($obj_order);
 
 
                 /*
