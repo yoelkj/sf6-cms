@@ -83,6 +83,9 @@ class Product implements TimestampableInterface,  TranslatableInterface
     #[ORM\Column(nullable: true)]
     private ?int $stock = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?GalleryImages $galleryImage = null;
+
     public function __construct()
     {
         $this->widgets = new ArrayCollection();
@@ -421,6 +424,30 @@ class Product implements TimestampableInterface,  TranslatableInterface
     public function setStock(?int $stock): static
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getGalleryImage(): ?GalleryImages
+    {
+
+        if ($this->galleryImage) {
+            // Devuelve la imagen directamente relacionada
+            return $this->galleryImage;
+        }
+
+        if ($this->gallery && $this->gallery->getGalleryImages()->count() > 0) {
+            // Devuelve la primera imagen de la galería si no hay imagen relacionada directamente
+            return $this->gallery->getGalleryImages()->first();
+        }
+
+        // Si no hay imagen ni galería, devuelve null
+        return null;
+    }
+
+    public function setGalleryImage(?GalleryImages $galleryImage): static
+    {
+        $this->galleryImage = $galleryImage;
 
         return $this;
     }

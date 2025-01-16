@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GalleryImagesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -43,6 +45,14 @@ class GalleryImages implements TimestampableInterface
     #[ORM\Column(type: 'integer', nullable: true)]
     private $orderRow;
 
+    #[ORM\OneToMany(mappedBy: 'galleryImage', targetEntity: Product::class)]
+    private Collection $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -50,7 +60,7 @@ class GalleryImages implements TimestampableInterface
 
     public function __toString(): string
     {
-        return 'Imagen - ' . ($this->language) ?? $this->language->getName();
+        return $this->getImage() . ' ' . ($this->language) ?? $this->getImage() . ' ' . $this->language->getName();
     }
 
     public function getLanguage(): ?Language
@@ -178,6 +188,36 @@ class GalleryImages implements TimestampableInterface
     public function setBody(?string $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setGalleryImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): static
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getGalleryImage() === $this) {
+                $product->setGalleryImage(null);
+            }
+        }
 
         return $this;
     }

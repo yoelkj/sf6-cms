@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -47,6 +48,12 @@ class ProductCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new('id')->onlyOnIndex();
+
+        yield ImageField::new('galleryImage.image', 'Thumbnail')
+            ->setBasePath('uploads/gallery')
+            ->setUploadDir('public/uploads/gallery')
+            ->setRequired(false)
+            ->onlyOnIndex();
 
         yield FormField::addTab('General')->setIcon('cog');
         yield FormField::addRow();
@@ -92,6 +99,11 @@ class ProductCrudController extends AbstractCrudController
 
         yield FormField::addRow();
         yield AssociationField::new('gallery')
+            ->setCrudController(GalleryCrudController::class)
+            ->setColumns(12);
+
+        yield FormField::addRow();
+        yield AssociationField::new('galleryImage')
             ->setCrudController(GalleryCrudController::class)
             ->setColumns(12);
 
