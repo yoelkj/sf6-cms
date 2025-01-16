@@ -47,3 +47,10 @@ services:
             $merchantId: '%openpay_merchant_id%'
             $apiKey: '%openpay_api_key%'
             $sandboxMode: '%openpay_sandbox%'
+    
+    App\EventListener\SaveTargetPathListener:
+        arguments:
+            $firewallName: 'main'
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 5 }
+

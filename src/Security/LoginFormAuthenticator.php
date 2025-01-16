@@ -40,6 +40,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email');
         $password = $request->request->get('password');
 
+        $session = $request->getSession();
+
         return new Passport(
             new UserBadge($email, function ($user_ident) {
                 $user = $this->user_repo->findOneBy([
@@ -68,12 +70,15 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $session = $request->getSession();
+
         $target = $this->getTargetPath($request->getSession(), $firewallName);
+
+        $target = $session->get('previous_security_page');
+
         $is_login_route = strpos($target, 'login');
 
-        //dd($session->all());
 
-        if ($is_login_route === false) {
+        if ($target && $is_login_route === false) {
             return new RedirectResponse($target);
         }
 

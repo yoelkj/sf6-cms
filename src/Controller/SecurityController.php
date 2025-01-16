@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SecurityController extends BaseController
 {
-    #[Route('/{_locale}/login1507', name: 'app_login')]
+    #[Route('/{_locale}/login', name: 'app_login')]
     public function login(Request $request, AuthenticationUtils $auth_utils): Response
     {
         //dd($request->headers->get('referer'));
