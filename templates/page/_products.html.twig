@@ -14,18 +14,18 @@
 			data-aos="fade-up" class="product border rounded p-3 position-relative">
 
 			{#
-																																																																									<div class="position-absolute top-0 left-0 w-100 pt-3">
-																																																																									{% if row.isNew %}
-																																																																									<span class="badge bg-success col-md-6 p-2 mb-1">{{'New'|trans}}</span>
-																																																																									{% endif %}
-																																																																									{% if row.isBestSeller %}
-																																																																									<span class="badge bg-warning col-md-6 p-2 mb-1">{{'Bestseller'|trans}}</span>
-																																																																									{% endif %}
-																																																																									{% if row.isRecommended %}
-																																																																									<span class="badge bg-secondary col-md-6 p-2 mb-1">{{'Recommended'|trans}}</span>
-																																																																									{% endif %}
-																																																																									</div>
-																																																																									#}
+																																																																																					<div class="position-absolute top-0 left-0 w-100 pt-3">
+																																																																																					{% if row.isNew %}
+																																																																																					<span class="badge bg-success col-md-6 p-2 mb-1">{{'New'|trans}}</span>
+																																																																																					{% endif %}
+																																																																																					{% if row.isBestSeller %}
+																																																																																					<span class="badge bg-warning col-md-6 p-2 mb-1">{{'Bestseller'|trans}}</span>
+																																																																																					{% endif %}
+																																																																																					{% if row.isRecommended %}
+																																																																																					<span class="badge bg-secondary col-md-6 p-2 mb-1">{{'Recommended'|trans}}</span>
+																																																																																					{% endif %}
+																																																																																					</div>
+																																																																																					#}
 
 			<div class="wrapper-img">
 				{% set image_name = '' %}
@@ -61,17 +61,17 @@
 
 				{#{{ component('addToCart', {pdata: row,pdata_trans: row_translation})}}#}
 
-
 				<div {{stimulus_controller('cart-add' , { i18nMsgAddedProduct: 'Added product'|trans, i18nMsgViewCart: 'View cart'|trans, i18nMsgRequestConfirmation: 'Request order confirmation'|trans, i18nMsgItems: 'Items'|trans, i18nMsgPrice: 'Price'|trans, url: path('app_ajax_user_save_cart'), urlGoToCart: path('app_cart_show') } )}} class="add-to-cart">
 
 					{{ include("cart/_input.html.twig", {
                         id: row.id, 
                         code: row.code, 
-                        description: row_translation.name, 
+                        description: (image_name) ? image_name|striptags|raw|upper : row_translation.name, 
                         step: 1,
                         price: row.price,
 						stock: row.stock,
-                        currency: currency
+                        currency: currency,
+						image: (selected_image is defined) ? selected_image : null
                     }) }}
 
 				</div>

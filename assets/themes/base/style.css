@@ -434,14 +434,14 @@ ul.dropdown-menu .dropdown-item:hover{
     min-height: 50vh;;
 }
 
-#entries a.btn-dark{
+#entries a.btn-dark, #btnPayNow{
     color: #fcfcfc;
     text-decoration: none;
     background-color: #009746;
     border-color: #009746;
 }
 
-#entries a.btn-dark:hover{
+#entries a.btn-dark:hover,#btnPayNow:hover{
     color: #fcfcfc!important;
 }
 

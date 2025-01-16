@@ -90,6 +90,10 @@ export default class extends Controller{
                 data.currency = $obj_tr.attr('currency');
                 data.items = items;
 
+                let before_data = data;
+
+                console.log(before_data);
+
                 await $.ajax({
 
                     url: this.urlValue,
@@ -104,28 +108,47 @@ export default class extends Controller{
         
                     success: function (rdata) {
 
-                        window.location.href = url_go_to_pay;
-
-                        /*
                         let data = rdata.data;
                         let counter = rdata.counter;
                         let subtotal = parseInt(data.items) * parseFloat(data.price);
                         let round_subtotal =  Math.round((subtotal + Number.EPSILON) * 100) / 100;
-                        
-                        if (data.currency == 'EUR'){
+                        let pricemask = ''
+
+                        if (before_data.currency == 'EUR'){
                             round_subtotal = new Intl.NumberFormat('es-ES', {
                                 style: 'currency',
                                 currency: 'EUR',
                               }).format(round_subtotal);
-                        }else if(data.currency == 'USD'){
+
+                            pricemask = new Intl.NumberFormat('es-ES', {
+                                style: 'currency',
+                                currency: 'EUR',
+                              }).format(data.price);
+
+                        }else if(before_data.currency == 'USD'){
                             round_subtotal = new Intl.NumberFormat('en-US', {
                                 style: 'currency',
                                 currency: 'USD',
                               }).format(round_subtotal);
+
+                              pricemask = new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                              }).format(data.price);
+                        }else if(before_data.currency == 'PEN'){
+                            round_subtotal = new Intl.NumberFormat('es-PE', {
+                                style: 'currency',
+                                currency: 'PEN',
+                              }).format(round_subtotal);
+                            
+                              pricemask = new Intl.NumberFormat('es-PE', {
+                                style: 'currency',
+                                currency: 'PEN',
+                              }).format(data.price);
                         }
 
 
-                        //console.log(data.currency, round_subtotal, data);
+                        console.log(data);
                         
                         let mySelectedModal = document.getElementById('generalModal')
                         let obj_modal_body = document.getElementById('generalModalBody');
@@ -137,25 +160,25 @@ export default class extends Controller{
                         $obj_modal.find('div.modal-footer').hide();
 
                         str_html += '<div class="row">';
-                        str_html += '    <div class="col"><div class="alert alert-info">'+data.description+'</div></div>';
+                        str_html += '    <div class="col"><div class="alert alert-success tex-center"><h4 class="alert-heading">'+before_data.description+'</h4></div></div>';
                         str_html += '</div>';
 
                         str_html += '<div class="row">';
                         str_html += '    <div class="col text-end">'+main.i18nMsgItemsValue+':<br>'+data.items+'</div>';
-                        str_html += '    <div class="col text-end">'+main.i18nMsgPriceValue+':<br> '+data.pricemask+'</div>';
+                        str_html += '    <div class="col text-end">'+main.i18nMsgPriceValue+':<br> '+pricemask+'</div>';
                         str_html += '    <div class="col text-end">Total:<br>'+round_subtotal+'</div>';
                         str_html += '</div>';
                         
                         str_html += '<div class="d-grid gap-2 my-3">';
                             //str_html += '    <a id="btnModalGoToCart" class="btn btn-dark btn-lg" href="javascript:void(0);">'+main.i18nMsgViewCartValue+'</a>';
-                            str_html += '    <a id="btnPayNow" class="btn btn-dark btn-lg" href="'+url_go_to_pay+'">'+main.i18nMsgRequestConfirmationValue+'</a>';
+                            str_html += '    <a id="btnPayNow" class="btn btn-dark" href="'+url_go_to_pay+'">'+main.i18nMsgRequestConfirmationValue+'</a>';
                         str_html += '</div>';
 
                         // data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" aria-controls="offcanvasCart"
                         $(obj_modal_body).html(str_html);
-                        
+
                         //Initialize components
-                        const canvas = new Offcanvas(document.getElementById('offcanvasCart'));
+                        //const canvas = new Offcanvas(document.getElementById('offcanvasCart'));
                         const modal = new Modal(mySelectedModal);
                         
                         //----Show modal
@@ -164,13 +187,12 @@ export default class extends Controller{
                         //Update n items
                         $('#counterCart span').text(counter);
                         
-
                         $('#btnModalGoToCart').on('click', function(){
                             modal.hide();
-                            canvas.show();
+                            //canvas.show();
+
+                            window.location.href = url_go_to_pay;
                         });
-                        */
-                        
 
                     },
                     complete: function(data){
