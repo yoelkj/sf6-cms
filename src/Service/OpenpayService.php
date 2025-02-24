@@ -12,7 +12,7 @@ class OpenpayService
 {
     private $openpay;
 
-    public function __construct(private UrlGeneratorInterface $router, string $merchantId, string $apiKey, bool $sandboxMode = true)
+    public function __construct(private UrlGeneratorInterface $router, string $merchantId, string $apiKey, bool $sandboxMode = false)
     {
 
         Openpay::setSandboxMode($sandboxMode); // Usa `false` para el modo de producción
