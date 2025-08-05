@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /
+Allow: /es/
+Allow: /en/
+
+Disallow: /es/admin
+Disallow: /en/admin
+Disallow: /es/login
+Disallow: /en/login
+Disallow: /es/user
+Disallow: /en/user
+Disallow: /es/app-cart-show
+Disallow: /en/app-cart-show
+
+Sitemap: https://coesapack.com/sitemap.xml

@@ -17,6 +17,8 @@ parameters:
     openpay_api_key: '%env(OPENPAY_API_KEY)%'
     openpay_sandbox: '%env(bool:OPENPAY_SANDBOX)%'
 
+    app.site_url: '%env(APP_SITE_URL)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -53,4 +55,7 @@ services:
             $firewallName: 'main'
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.request', priority: 5 }
+    
+    App\EventSubscriber\ForceSeoIndexSubscriber:
+        tags: ['kernel.event_subscriber']
 
